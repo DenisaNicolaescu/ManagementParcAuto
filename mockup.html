@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <title>Parc Auto - Sistem de Gestiune</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --panel: #ffffff;
+      --accent: #235fa7;
+      --accent2: #42a5f5;
+      --text: #223244;
+      --muted: #5f6d7a;
+      --border: #dce3eb;
+      --error: #e53935;
+      --success: #43a047;
+    }
+
+    * { box-sizing: border-box; }
+    
+    body {
+      margin: 0;
+      font-family: Segoe UI, Arial, sans-serif;
+      background: #f0f2f5;
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .container-comparison {
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+      max-width: 100%;
+      margin: 0 auto;
+      min-height: calc(100vh - 40px);
+    }
+
+    .view-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .view-label {
+      background: var(--accent);
+      color: white;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: bold;
+      text-align: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .device-frame {
+      background: #333;
+      border-radius: 24px;
+      padding: 8px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Mobile Frame */
+    .mobile-frame {
+      max-width: 375px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .mobile-frame .device-screen {
+      width: 100%;
+      flex: 1;
+      min-height: 600px;
+      max-height: 812px;
+      border-radius: 18px;
+      overflow-y: auto;
+      background: var(--bg);
+    }
+
+    /* Desktop Frame */
+    .desktop-frame {
+      flex: 1;
+      display: flex;
+    }
+
+    .desktop-frame .device-screen {
+      width: 100%;
+      flex: 1;
+      min-height: 600px;
+      border-radius: 8px;
+      overflow-y: auto;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* App Content */
+    .app-content {
+      background: var(--bg);
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    /* Mobile Layout */
+    .mobile-layout {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    /* Desktop Layout */
+    .desktop-layout {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      grid-template-rows: auto 1fr;
+      height: 100%;
+      width: 100%;
+    }
+
+    /* Header */
+    .app-header {
+      background: linear-gradient(135deg, #235fa7, #42a5f5);
+      color: white;
+      padding: 16px 12px;
+      text-align: center;
+    }
+
+    .app-header h1 {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .app-header p {
+      margin: 4px 0 0;
+      font-size: 0.75rem;
+      opacity: 0.9;
+    }
+
+    /* Navigation */
+    .app-nav {
+      background: var(--panel);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      min-width: 200px;
+      overflow-y: auto;
+    }
+
+    .app-nav a {
+      display: block;
+      padding: 12px 16px;
+      text-decoration: none;
+      color: var(--text);
+      border-left: 4px solid transparent;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+
+    .app-nav a:hover,
+    .app-nav a.active {
+      background: rgba(66, 165, 245, 0.1);
+      color: var(--accent);
+      border-left-color: var(--accent2);
+    }
+
+    /* Main Content */
+    .app-main {
+      flex: 1;
+      padding: 16px 12px;
+      overflow-y: auto;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 0 0 12px;
+      color: var(--text);
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      box-shadow: 0 2px 8px rgba(34, 50, 68, 0.06);
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 0.95rem;
+      color: var(--accent);
+    }
+
+    .card p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+
+    .badge-active {
+      background: rgba(67, 160, 71, 0.15);
+      color: #43a047;
+    }
+
+    .badge-pending {
+      background: rgba(251, 188, 5, 0.15);
+      color: #fbbc05;
+    }
+
+    .badge-expired {
+      background: rgba(229, 57, 53, 0.15);
+      color: #e53935;
+    }
+
+    /* Tables */
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      font-size: 0.85rem;
+      border-collapse: collapse;
+    }
+
+    th {
+      background: rgba(66, 165, 245, 0.1);
+      padding: 10px 8px;
+      text-align: left;
+      font-weight: 600;
+      color: var(--accent);
+      border-bottom: 2px solid var(--border);
+    }
+
+    td {
+      padding: 10px 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Button */
+    .btn {
+      display: inline-block;
+      padding: 8px 12px;
+      background: var(--accent2);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      margin-top: 8px;
+    }
+
+    .btn:hover {
+      background: var(--accent);
+    }
+
+    /* Footer */
+    .app-footer {
+      background: var(--panel);
+      border-top: 1px solid var(--border);
+      padding: 12px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    /* Scrollbar styling */
+    .device-screen::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .device-screen::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+
+    .device-screen::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 3px;
+    }
+
+    /* Desktop specific */
+    .desktop-layout .app-header {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      flex-shrink: 0;
+    }
+
+    .desktop-layout .app-nav {
+      grid-column: 1;
+      grid-row: 2;
+      min-width: 180px;
+      border-right: 1px solid var(--border);
+      border-bottom: none;
+      flex-shrink: 0;
+      overflow-y: auto;
+    }
+
+    .desktop-layout .app-main {
+      grid-column: 2;
+      grid-row: 2;
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+    }
+
+    .desktop-layout .card-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 1400px) {
+      .container-comparison {
+        flex-direction: column;
+        min-height: auto;
+      }
+
+      .mobile-frame,
+      .desktop-frame {
+        max-width: 100%;
+        width: 100%;
+      }
+
+      .desktop-frame {
+        min-width: 100%;
+      }
+
+      .mobile-frame .device-screen,
+      .desktop-frame .device-screen {
+        min-height: 600px;
+        max-height: none;
+        height: auto;
+      }
+    }
+
+    /* Responsive typography */
+    @media (max-width: 768px) {
+      .container-comparison {
+        padding: 10px;
+        gap: 10px;
+        min-height: auto;
+      }
+
+      .device-frame {
+        padding: 4px;
+      }
+
+      .mobile-frame .device-screen,
+      .desktop-frame .device-screen {
+        min-height: 500px;
+      }
+
+      .view-label {
+        font-size: 0.8rem;
+      }
+    }
+
+    /* LOGIN PAGE STYLES */
+    .login-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #235fa7, #42a5f5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .login-box {
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .login-box h1 {
+      text-align: center;
+      color: var(--accent);
+      margin: 0 0 10px;
+      font-size: 1.8rem;
+    }
+
+    .login-box p {
+      text-align: center;
+      color: var(--muted);
+      margin: 0 0 30px;
+      font-size: 0.95rem;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: border-color 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--accent2);
+      box-shadow: 0 0 0 3px rgba(66, 165, 245, 0.1);
+    }
+
+    .form-group.role-selection {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .role-option {
+      position: relative;
+    }
+
+    .role-option input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .role-label {
+      display: block;
+      padding: 16px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      background: var(--bg);
+    }
+
+    .role-label:hover {
+      border-color: var(--accent2);
+      background: rgba(66, 165, 245, 0.05);
+    }
+
+    .role-option input[type="radio"]:checked + .role-label {
+      border-color: var(--accent);
+      background: rgba(35, 95, 167, 0.1);
+      font-weight: 600;
+    }
+
+    .role-label-text {
+      display: block;
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+    }
+
+    .role-label-icon {
+      font-size: 1.8rem;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #235fa7, #42a5f5);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(35, 95, 167, 0.3);
+    }
+
+    .login-btn:active {
+      transform: translateY(0);
+    }
+
+    .demo-credentials {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      background: #f8fbff;
+      border-radius: 8px;
+      padding: 15px;
+    }
+
+    .demo-credentials p {
+      margin: 0 0 10px;
+      font-size: 0.85rem;
+      color: var(--text);
+      text-align: left;
+    }
+
+    .demo-credentials strong {
+      color: var(--accent);
+    }
+
+    .demo-btn {
+      display: block;
+      margin-top: 10px;
+      padding: 8px 12px;
+      background: white;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-align: center;
+      transition: all 0.3s;
+    }
+
+    .demo-btn:hover {
+      background: var(--accent);
+      color: white;
+    }
+
+    .logout-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 10px 16px;
+      background: var(--error);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      z-index: 999;
+      display: none;
+    }
+
+    .logout-btn.visible {
+      display: block;
+    }
+
+    .user-info {
+      position: fixed;
+      top: 20px;
+      right: 120px;
+      background: var(--panel);
+      padding: 10px 16px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      display: none;
+      z-index: 999;
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
+    .user-info.visible {
+      display: block;
+    }
+
+    .role-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+
+    .role-badge.manager {
+      background: rgba(229, 57, 53, 0.15);
+      color: #e53935;
+    }
+
+    .role-badge.user {
+      background: rgba(66, 165, 245, 0.15);
+      color: #235fa7;
+    }
+
+    .hidden-content {
+      display: none !important;
+    }
+
+    .admin-only {
+      position: relative;
+    }
+
+    .admin-only.restricted {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .admin-only.restricted::after {
+      content: "🔒 Admin Only";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--error);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .user-only {
+      position: relative;
+    }
+
+    .user-only.restricted {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .user-only.restricted::after {
+      content: "👤 User Content";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--accent);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+  <!-- LOGIN PAGE -->
+  <div class="login-container" id="loginContainer">
+    <div class="login-box">
+      <h1>🚗 Parc Auto</h1>
+      <p>Sistem de Gestiune</p>
+
+      <form id="loginForm">
+        <div class="form-group role-selection">
+          <div class="role-option">
+            <input type="radio" id="roleManager" name="role" value="manager" checked>
+            <label for="roleManager" class="role-label">
+              <span class="role-label-icon">👨‍💼</span>
+              <span class="role-label-text">Manager</span>
+              <small>(Admin)</small>
+            </label>
+          </div>
+          <div class="role-option">
+            <input type="radio" id="roleUser" name="role" value="user">
+            <label for="roleUser" class="role-label">
+              <span class="role-label-icon">👤</span>
+              <span class="role-label-text">Utilizator</span>
+              <small>(User)</small>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="username">Nume utilizator sau Email</label>
+          <input type="text" id="username" name="username" placeholder="ex: admin@company.ro" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Parolă</label>
+          <input type="password" id="password" name="password" placeholder="••••••••" required>
+        </div>
+
+        <button type="submit" class="login-btn">Conectare</button>
+      </form>
+
+      <div class="demo-credentials">
+        <p><strong>🎯 Conturi Demo disponibile:</strong></p>
+        <p>
+          <strong>Manager:</strong><br>
+          Email: admin@company.ro<br>
+          Parolă: admin123
+        </p>
+        <p style="margin-top: 10px;">
+          <strong>User:</strong><br>
+          Email: user@company.ro<br>
+          Parolă: user123
+        </p>
+        <button type="button" class="demo-btn" onclick="autofillManager()">Demo: Manager</button>
+        <button type="button" class="demo-btn" onclick="autofillUser()" style="margin-top: 5px;">Demo: User</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- USER INFO & LOGOUT -->
+  <div class="user-info" id="userInfo"></div>
+  <button class="logout-btn" id="logoutBtn" onclick="logout()">Logout</button>
+
+  <!-- MAIN APP -->
+  <div id="appContainer" class="hidden-content">
+    <!-- MOBILE VIEW -->
+    <div class="view-wrapper">
+      <div class="view-label">📱 MOBILE VIEW (375px)</div>
+      <div class="device-frame mobile-frame">
+        <div class="device-screen">
+          <div class="app-content mobile-layout">
+            <!-- Header -->
+            <div class="app-header">
+              <h1>Parc Auto</h1>
+              <p>Gestiune Flota</p>
+            </div>
+
+            <!-- Navigation -->
+            <div class="app-nav">
+              <a href="#" class="active">📊 Dashboard</a>
+              <a href="#">🚗 Mașini</a>
+              <a href="#">👤 Șoferi</a>
+              <a href="#">🔧 Service</a>
+              <a href="#">📋 Asigurări</a>
+              <a href="#">🛞 Anvelope</a>
+            </div>
+
+            <!-- Main Content - Dashboard -->
+            <div class="app-main">
+              <h2 class="section-title">Dashboard Principal</h2>
+
+              <!-- Stats Cards -->
+              <div class="card-grid">
+                <div class="card">
+                  <h3>Vehicule Active</h3>
+                  <p style="font-size: 1.4rem; margin: 10px 0; color: var(--accent);">
+                    <strong>24</strong>
+                  </p>
+                  <p>Din 25 în parc</p>
+                </div>
+              </div>
+
+              <div class="card-grid">
+                <div class="card">
+                  <h3>🔴 În Service</h3>
+                  <p style="font-size: 0.9rem; color: var(--error);">
+                    <strong>1 vehicul</strong>
+                  </p>
+                  <p>Audi A4 - Întreținere periodică</p>
+                </div>
+              </div>
+
+              <div class="card-grid">
+                <div class="card">
+                  <h3>⚠️ Documente Expirate</h3>
+                  <p style="font-size: 0.9rem; color: var(--error);">
+                    <strong>2 neclarități</strong>
+                  </p>
+                  <p>RCA - BMW X5 (Exp. 15 mai)</p>
+                  <p>Vinieta - VW Golf (Exp. 20 mai)</p>
+                </div>
+              </div>
+
+              <h2 class="section-title" style="margin-top: 20px;">Mașini Recent Adăugate</h2>
+              <div class="card-grid">
+                <div class="card">
+                  <h3>Dacia Logan MCV</h3>
+                  <p>
+                    <strong>CJ 48 ABC</strong><br>
+                    <span style="color: var(--muted); font-size: 0.85rem;">
+                      Km: 12,540
+                    </span>
+                  </p>
+                  <span class="badge badge-active">✓ Activ</span>
+                </div>
+              </div>
+
+              <div class="card-grid">
+                <div class="card">
+                  <h3>BMW 320i</h3>
+                  <p>
+                    <strong>CJ 49 XYZ</strong><br>
+                    <span style="color: var(--muted); font-size: 0.85rem;">
+                      Km: 89,200
+                    </span>
+                  </p>
+                  <span class="badge badge-pending">⚠ Revizie</span>
+                </div>
+              </div>
+
+              <button class="btn">+ Adaugă Mașină</button>
+
+              <h2 class="section-title" style="margin-top: 20px;">Șoferi Activi</h2>
+              <div class="card-grid">
+                <div class="card">
+                  <h3>Ioan Popescu</h3>
+                  <p>Permis B - Valid până 2027</p>
+                  <span class="badge badge-active">✓ Activ</span>
+                </div>
+              </div>
+
+              <div class="card-grid">
+                <div class="card">
+                  <h3>Maria Ionescu</h3>
+                  <p>Permis B+E - Valid până 2026</p>
+                  <span class="badge badge-active">✓ Activ</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="app-footer">
+              v1.0 | Parc Auto Management
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESKTOP VIEW -->
+    <div class="view-wrapper">
+      <div class="view-label">🖥️ DESKTOP VIEW (Full Width)</div>
+      <div class="device-frame desktop-frame">
+        <div class="device-screen">
+          <div class="app-content desktop-layout">
+            <!-- Header -->
+            <div class="app-header" style="grid-column: 1/-1; width: 100%;">
+              <h1>Parc Auto - Sistem de Gestiune</h1>
+              <p>Administrare completă a flotei de vehicule, șoferi, service și documente</p>
+            </div>
+
+            <!-- Navigation -->
+            <div class="app-nav">
+              <a href="#" class="active">📊 Dashboard</a>
+              <a href="#">🚗 Gestiune Mașini</a>
+              <a href="#">👤 Gestiune Șoferi</a>
+              <a href="#">🔧 Service</a>
+              <a href="#">📋 Asigurări/Viniete</a>
+              <a href="#">🛞 Anvelope</a>
+              <a href="#">📊 Rapoarte</a>
+              <a href="#">⚙️ Setări</a>
+            </div>
+
+            <!-- Main Content -->
+            <div class="app-main">
+              <h2 class="section-title">Dashboard - Vizualizare Generală</h2>
+
+              <!-- Top Stats -->
+              <div class="card-grid">
+                <div class="card">
+                  <h3>Vehicule în Parc</h3>
+                  <p style="font-size: 1.8rem; margin: 15px 0; color: var(--accent);">
+                    <strong>25</strong>
+                  </p>
+                  <p>24 active, 1 în service</p>
+                </div>
+                <div class="card">
+                  <h3>Șoferi Activi</h3>
+                  <p style="font-size: 1.8rem; margin: 15px 0; color: var(--success);">
+                    <strong>18</strong>
+                  </p>
+                  <p>Atestaturi la zi</p>
+                </div>
+                <div class="card">
+                  <h3>Servicii Programate</h3>
+                  <p style="font-size: 1.8rem; margin: 15px 0; color: var(--accent2);">
+                    <strong>3</strong>
+                  </p>
+                  <p>Săptămâna aceasta</p>
+                </div>
+                <div class="card">
+                  <h3>Documente Expirate</h3>
+                  <p style="font-size: 1.8rem; margin: 15px 0; color: var(--error);">
+                    <strong>2</strong>
+                  </p>
+                  <p>Acțiune urgentă!</p>
+                </div>
+              </div>
+
+              <!-- User Only Section -->
+              <article style="background: rgba(67, 160, 71, 0.08); border: 1px solid rgba(67, 160, 71, 0.3); border-radius: 12px; padding: 16px; margin-top: 24px; user-only;">
+                <h2 class="section-title" style="margin-top: 0; color: #43a047;">📊 Raportul Tău Personal</h2>
+                <p>Bienvenue! Aceasta este o secțiune accesibilă doar pentru utilizatorii obișnuiți.</p>
+                <div class="card-grid">
+                  <div class="card">
+                    <h3>Traseele Tale</h3>
+                    <p>Vizionare informații personale despre vehicule asignate</p>
+                    <button class="btn">Vezi Detalii</button>
+                  </div>
+                </div>
+              </article>
+
+              <h2 class="section-title" style="margin-top: 24px;">Mașini - Ultimele 6 Înregistrări</h2>
+              <div class="table-responsive admin-only">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Număr Înmatriculare</th>
+                      <th>Marcă/Model</th>
+                      <th>Km</th>
+                      <th>Status</th>
+                      <th>RCA</th>
+                      <th>Revizie</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>CJ 48 ABC</strong></td>
+                      <td>Dacia Logan MCV</td>
+                      <td>12,540</td>
+                      <td><span class="badge badge-active">✓ Activ</span></td>
+                      <td>Valid</td>
+                      <td>Iulie 2026</td>
+                    </tr>
+                    <tr>
+                      <td><strong>CJ 49 XYZ</strong></td>
+                      <td>BMW 320i</td>
+                      <td>89,200</td>
+                      <td><span class="badge badge-pending">⚠ Revizie</span></td>
+                      <td>Valid</td>
+                      <td>aprilie 2026</td>
+                    </tr>
+                    <tr>
+                      <td><strong>CJ 50 DEF</strong></td>
+                      <td>Mercedes C300</td>
+                      <td>45,320</td>
+                      <td><span class="badge badge-active">✓ Activ</span></td>
+                      <td>Valid</td>
+                      <td>Ianuarie 2027</td>
+                    </tr>
+                    <tr>
+                      <td><strong>CJ 51 GHI</strong></td>
+                      <td>Audi A4</td>
+                      <td>67,890</td>
+                      <td><span class="badge" style="background: rgba(229, 57, 53, 0.15); color: #e53935;">🔧 Service</span></td>
+                      <td style="color: var(--error);">Exp. 15 mai</td>
+                      <td>Martie 2026</td>
+                    </tr>
+                    <tr>
+                      <td><strong>CJ 52 JKL</strong></td>
+                      <td>VW Golf</td>
+                      <td>52,100</td>
+                      <td><span class="badge badge-active">✓ Activ</span></td>
+                      <td>Valid</td>
+                      <td style="color: var(--error);">Vinieta Exp.</td>
+                    </tr>
+                    <tr>
+                      <td><strong>CJ 53 MNO</strong></td>
+                      <td>Ford Transit</td>
+                      <td>108,340</td>
+                      <td><span class="badge badge-active">✓ Activ</span></td>
+                      <td>Valid</td>
+                      <td>Septembrie 2026</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h2 class="section-title" style="margin-top: 24px;">Servicii Programate</h2>
+              <div class="card-grid admin-only">
+                <div class="card">
+                  <h3>Audi A4 - RCA</h3>
+                  <p>Data: <strong>7 mai 2026</strong></p>
+                  <p>Service: Agenție RCA</p>
+                  <span class="badge badge-pending">⏳ Așteptare</span>
+                </div>
+                <div class="card">
+                  <h3>BMW 320i - Revizie</h3>
+                  <p>Data: <strong>12 mai 2026</strong></p>
+                  <p>Service: Service BMW</p>
+                  <span class="badge badge-pending">⏳ Confirmat</span>
+                </div>
+                <div class="card">
+                  <h3>VW Golf - Vinieta</h3>
+                  <p>Data: <strong>20 mai 2026</strong></p>
+                  <p>Service: Poliție Locală</p>
+                  <span class="badge badge-active">✓ Programat</span>
+                </div>
+                <div class="card">
+                  <h3>Dacia Logan - Revizie</h3>
+                  <p>Data: <strong>25 mai 2026</strong></p>
+                  <p>Service: Service Dacia</p>
+                  <span class="badge badge-active">✓ Confirmat</span>
+                </div>
+              </div>
+
+              <button class="btn">+ Nou Service</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div> <!-- End appContainer -->
+
+  <script>
+    // Login system
+    const users = {
+      manager: {
+        email: 'admin@company.ro',
+        password: 'admin123',
+        role: 'manager',
+        name: 'Admin Manager'
+      },
+      user: {
+        email: 'user@company.ro',
+        password: 'user123',
+        role: 'user',
+        name: 'Regular User'
+      }
+    };
+
+    let currentUser = null;
+
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const role = document.querySelector('input[name="role"]:checked').value;
+
+      const user = users[role];
+      
+      if ((username === user.email || username === role) && password === user.password) {
+        currentUser = {
+          name: user.name,
+          email: user.email,
+          role: user.role
+        };
+        loginSuccess();
+      } else {
+        alert('❌ Credențiale invalide! Verifică email-ul și parola.');
+      }
+    });
+
+    function autofillManager() {
+      document.getElementById('roleManager').checked = true;
+      document.getElementById('username').value = users.manager.email;
+      document.getElementById('password').value = users.manager.password;
+      document.getElementById('username').focus();
+    }
+
+    function autofillUser() {
+      document.getElementById('roleUser').checked = true;
+      document.getElementById('username').value = users.user.email;
+      document.getElementById('password').value = users.user.password;
+      document.getElementById('username').focus();
+    }
+
+    function loginSuccess() {
+      // Hide login, show app
+      document.getElementById('loginContainer').classList.add('hidden-content');
+      document.getElementById('appContainer').classList.remove('hidden-content');
+      document.getElementById('userInfo').classList.add('visible');
+      document.getElementById('logoutBtn').classList.add('visible');
+
+      // Update user info
+      const badgeClass = currentUser.role === 'manager' ? 'manager' : 'user';
+      const roleText = currentUser.role === 'manager' ? 'MANAGER' : 'USER';
+      document.getElementById('userInfo').innerHTML = `
+        👤 ${currentUser.name}
+        <span class="role-badge ${badgeClass}">${roleText}</span>
+      `;
+
+      // Apply access restrictions based on role
+      applyRoleRestrictions();
+    }
+
+    function logout() {
+      currentUser = null;
+      document.getElementById('loginContainer').classList.remove('hidden-content');
+      document.getElementById('appContainer').classList.add('hidden-content');
+      document.getElementById('userInfo').classList.remove('visible');
+      document.getElementById('logoutBtn').classList.remove('visible');
+      document.getElementById('loginForm').reset();
+      document.getElementById('roleManager').checked = true;
+    }
+
+    function applyRoleRestrictions() {
+      if (currentUser.role === 'manager') {
+        // Manager has full access
+        document.querySelectorAll('.admin-only').forEach(el => {
+          el.classList.remove('restricted');
+        });
+        document.querySelectorAll('[user-only]').forEach(el => {
+          el.style.display = 'none';
+        });
+      } else if (currentUser.role === 'user') {
+        // User has limited access
+        document.querySelectorAll('.admin-only').forEach(el => {
+          el.classList.add('restricted');
+        });
+        document.querySelectorAll('[user-only]').forEach(el => {
+          el.style.display = 'block';
+        });
+        // Hide some navigation items for user
+        const userNav = document.querySelectorAll('.app-nav a');
+        userNav.forEach(link => {
+          const text = link.textContent;
+          if (text.includes('Setări') || text.includes('Rapoarte')) {
+            link.style.opacity = '0.5';
+            link.style.pointerEvents = 'none';
+          }
+        });
+      }
+    }
+
+    // Navigation highlighting
+    document.querySelectorAll('.app-nav a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.querySelectorAll('.app-nav a').forEach(a => a.classList.remove('active'));
+        link.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
