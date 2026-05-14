@@ -1463,19 +1463,30 @@
     function applyRoleRestrictions() {
       const isManager = currentUser.role === 'manager';
 
-      // Restricții pe butoane și formulare
+      // Curață toate restricțiile mai vechi
       document.querySelectorAll('.admin-only').forEach(el => {
-        if (!isManager) {
-          el.classList.add('restricted');
-        }
+        el.classList.remove('restricted');
       });
 
-      // Restricții pe navigație
       document.querySelectorAll('.nav-item.admin-only').forEach(item => {
-        if (!isManager) {
-          item.classList.add('restricted');
-        }
+        item.classList.remove('restricted');
+        item.style.opacity = '1';
+        item.style.pointerEvents = 'auto';
       });
+
+      // Aplică restricții noi în funcție de rol
+      if (!isManager) {
+        // User - restricții
+        document.querySelectorAll('.admin-only').forEach(el => {
+          el.classList.add('restricted');
+        });
+
+        document.querySelectorAll('.nav-item.admin-only').forEach(item => {
+          item.classList.add('restricted');
+          item.style.opacity = '0.5';
+          item.style.pointerEvents = 'none';
+        });
+      }
     }
 
     function showPage(pageId) {
