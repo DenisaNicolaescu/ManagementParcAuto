@@ -748,33 +748,33 @@
         <div>
           <h3>📊 General</h3>
           <div class="nav-section">
-            <a class="nav-item active" onclick="showPage('dashboard')">Dashboard</a>
-            <a class="nav-item" onclick="showPage('search')">Căutare & Filtre</a>
+            <a class="nav-item active" onclick="showPage('dashboard', this)">Dashboard</a>
+            <a class="nav-item" onclick="showPage('search', this)">Căutare & Filtre</a>
           </div>
         </div>
 
         <div>
           <h3>🚗 Operații</h3>
           <div class="nav-section">
-            <a class="nav-item" onclick="showPage('masini')">Gestiune Mașini</a>
-            <a class="nav-item" onclick="showPage('soferi')">Gestiune Șoferi</a>
-            <a class="nav-item" onclick="showPage('service')">Service</a>
+            <a class="nav-item" onclick="showPage('masini', this)">Gestiune Mașini</a>
+            <a class="nav-item" onclick="showPage('soferi', this)">Gestiune Șoferi</a>
+            <a class="nav-item" onclick="showPage('service', this)">Service</a>
           </div>
         </div>
 
         <div>
           <h3>📋 Documente</h3>
           <div class="nav-section">
-            <a class="nav-item" onclick="showPage('asigurari')">Asigurări & Viniete</a>
-            <a class="nav-item" onclick="showPage('anvelope')">Anvelope</a>
+            <a class="nav-item" onclick="showPage('asigurari', this)">Asigurări & Viniete</a>
+            <a class="nav-item" onclick="showPage('anvelope', this)">Anvelope</a>
           </div>
         </div>
 
         <div>
           <h3>⚙️ Configurare</h3>
           <div class="nav-section">
-            <a class="nav-item admin-only" onclick="showPage('rapoarte')">Rapoarte 📊</a>
-            <a class="nav-item admin-only" onclick="showPage('setari')">Setări ⚙️</a>
+            <a class="nav-item admin-only" onclick="showPage('rapoarte', this)">Rapoarte 📊</a>
+            <a class="nav-item admin-only" onclick="showPage('setari', this)">Setări ⚙️</a>
           </div>
         </div>
       </div>
@@ -853,6 +853,15 @@
 
           <div style="margin-bottom: 16px;">
             <button class="btn btn-primary admin-only" onclick="toggleForm('addMachineForm')">+ Adaugă Mașină</button>
+            <div style="margin-top:12px; display:flex; gap:8px;">
+              <input id="searchMasiniInput" type="text" class="search-input" placeholder="Caută mașină (nr., marcă, model, șofer)" oninput="filterMasini()">
+              <select id="filterStatus" onchange="filterMasini()" style="padding:12px;border:1px solid var(--border);border-radius:8px;">
+                <option value="">Toate statusurile</option>
+                <option value="Activă">Activă</option>
+                <option value="În service">În service</option>
+                <option value="Indisponibilă">Indisponibilă</option>
+              </select>
+            </div>
           </div>
 
           <!-- FORM ADAUGARE MASINA -->
@@ -908,7 +917,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
+                <tr data-car-id="cj48abc" class="car-row">
                   <td><strong>CJ 48 ABC</strong></td>
                   <td>Dacia Logan MCV</td>
                   <td>2019</td>
@@ -917,9 +926,40 @@
                   <td class="admin-only">
                     <button class="btn btn-sm btn-secondary">Editează</button>
                     <button class="btn btn-sm btn-secondary">Șterge</button>
+                    <button class="btn btn-sm btn-primary" onclick="toggleCarDetails('cj48abc')">Documente</button>
                   </td>
                 </tr>
-                <tr>
+                <tr class="car-details hidden" id="details-cj48abc">
+                  <td colspan="6">
+                    <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start;">
+                      <div style="min-width:220px;">
+                        <h4>Asigurări</h4>
+                        <div class="card">
+                          <strong>RCA</strong><br>
+                          <small>Start: 07 mai 2025</small><br>
+                          <small>Expirare: 07 mai 2026</small>
+                        </div>
+                      </div>
+                      <div style="min-width:220px;">
+                        <h4>Viniete</h4>
+                        <div class="card">
+                          <strong>Vinieta națională</strong><br>
+                          <small>Start: 01 martie 2026</small><br>
+                          <small>Expirare: 01 iunie 2026</small>
+                        </div>
+                      </div>
+                      <div style="min-width:220px;">
+                        <h4>Anvelope</h4>
+                        <div class="card">
+                          <strong>Michelin Energy</strong><br>
+                          <small>Tip: Vară</small><br>
+                          <small>Uzură: 80%</small>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr data-car-id="cj49xyz" class="car-row">
                   <td><strong>CJ 49 XYZ</strong></td>
                   <td>BMW 320i</td>
                   <td>2017</td>
@@ -928,9 +968,32 @@
                   <td class="admin-only">
                     <button class="btn btn-sm btn-secondary">Editează</button>
                     <button class="btn btn-sm btn-secondary">Șterge</button>
+                    <button class="btn btn-sm btn-primary" onclick="toggleCarDetails('cj49xyz')">Documente</button>
                   </td>
                 </tr>
-                <tr>
+                <tr class="car-details hidden" id="details-cj49xyz">
+                  <td colspan="6">
+                    <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start;">
+                      <div style="min-width:220px;">
+                        <h4>Asigurări</h4>
+                        <div class="card">
+                          <strong>RCA</strong><br>
+                          <small>Start: 15 martie 2025</small><br>
+                          <small>Expirare: 15 mai 2026</small>
+                        </div>
+                      </div>
+                      <div style="min-width:220px;">
+                        <h4>Anvelope</h4>
+                        <div class="card">
+                          <strong>Continental WinterContact</strong><br>
+                          <small>Tip: Iarnă</small><br>
+                          <small>Uzură: 45%</small>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr data-car-id="cj50def" class="car-row">
                   <td><strong>CJ 50 DEF</strong></td>
                   <td>Mercedes C300</td>
                   <td>2020</td>
@@ -939,6 +1002,21 @@
                   <td class="admin-only">
                     <button class="btn btn-sm btn-secondary">Editează</button>
                     <button class="btn btn-sm btn-secondary">Șterge</button>
+                    <button class="btn btn-sm btn-primary" onclick="toggleCarDetails('cj50def')">Documente</button>
+                  </td>
+                </tr>
+                <tr class="car-details hidden" id="details-cj50def">
+                  <td colspan="6">
+                    <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start;">
+                      <div style="min-width:220px;">
+                        <h4>Asigurări</h4>
+                        <div class="card">
+                          <strong>CASCO</strong><br>
+                          <small>Start: 01 ianuarie 2026</small><br>
+                          <small>Expirare: 01 ianuarie 2027</small>
+                        </div>
+                      </div>
+                    </div>
                   </td>
                 </tr>
                 <tr>
@@ -965,6 +1043,9 @@
           </div>
 
           <button class="btn btn-primary admin-only" onclick="toggleForm('addDriverForm')" style="margin-bottom: 16px;">+ Adaugă Șofer</button>
+          <div style="margin-top:8px; display:flex; gap:8px;">
+            <input id="searchSoferiInput" type="text" class="search-input" placeholder="Caută șofer (nume, prenume, mașină)" oninput="filterSoferi()">
+          </div>
 
           <!-- FORM ADAUGARE SOFER -->
           <div id="addDriverForm" class="form-container admin-only hidden" style="margin-bottom: 24px;">
@@ -1489,15 +1570,16 @@
       }
     }
 
-    function showPage(pageId) {
+    function showPage(pageId, elem) {
       // Hide all pages
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       // Show selected page
-      document.getElementById(pageId).classList.add('active');
+      const page = document.getElementById(pageId);
+      if (page) page.classList.add('active');
 
       // Update nav highlights
       document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-      event.target.classList.add('active');
+      if (elem) elem.classList.add('active');
     }
 
     function toggleForm(formId) {
@@ -1508,6 +1590,47 @@
     function submitMachine() {
       alert('✅ Mașină adăugată cu succes!');
       toggleForm('addMachineForm');
+    }
+
+    // Toggle document/details row for a car
+    function toggleCarDetails(carId) {
+      const el = document.getElementById('details-' + carId);
+      if (!el) return;
+      el.classList.toggle('hidden');
+      // scroll into view when opening
+      if (!el.classList.contains('hidden')) el.scrollIntoView({behavior:'smooth', block:'center'});
+    }
+
+    // Filter cars table by search term and status
+    function filterMasini() {
+      const q = (document.getElementById('searchMasiniInput')?.value || '').toLowerCase().trim();
+      const status = (document.getElementById('filterStatus')?.value || '').toLowerCase();
+      document.querySelectorAll('tr.car-row').forEach(row => {
+        const id = row.getAttribute('data-car-id');
+        const text = (row.textContent || '').toLowerCase();
+        const details = document.getElementById('details-' + id);
+        const detailsText = details ? details.textContent.toLowerCase() : '';
+        const matchesQuery = !q || text.includes(q) || detailsText.includes(q);
+        const statusCell = row.querySelector('td:nth-child(5)');
+        const rowStatus = statusCell ? statusCell.textContent.toLowerCase() : '';
+        const matchesStatus = !status || rowStatus.includes(status);
+        if (matchesQuery && matchesStatus) {
+          row.style.display = '';
+          if (details) details.style.display = details.classList.contains('hidden') ? 'none' : '';
+        } else {
+          row.style.display = 'none';
+          if (details) details.style.display = 'none';
+        }
+      });
+    }
+
+    // Filter drivers table
+    function filterSoferi() {
+      const q = (document.getElementById('searchSoferiInput')?.value || '').toLowerCase().trim();
+      document.querySelectorAll('#soferi table tbody tr').forEach(row => {
+        const text = (row.textContent || '').toLowerCase();
+        if (!q || text.includes(q)) row.style.display = ''; else row.style.display = 'none';
+      });
     }
   </script>
 </body>
