@@ -40,47 +40,78 @@
         </div>
 
         <div class="right-panel">
-            <h1>Welcome!</h1>
-            <div class="subtitle">Sign in to your account</div>
+            <h1>Create account</h1>
 
             <div class="role-selector">
-
-                <div id="btn-manager" class="role-btn">
+                <div id="btn-manager" class="role-btn active">
                     <span>Manager</span>
                 </div>
-
-                <div id="btn-user" class="role-btn">
+                <a href="create-acc-user.html" id="btn-user" class="role-btn" style="text-decoration: none;">
                     <span>User</span>
+                </a>
+            </div>
+
+            <div class="register-form">
+
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>First name</label>
+                        <input type="text">
+                    </div>
+                    <div class="input-group">
+                        <label>Last name</label>
+                        <input type="text">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Email</label>
+                        <input type="email">
+                    </div>
+                    <div class="input-group">
+                        <label>Username</label>
+                        <input type="text">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Company name</label>
+                    <input type="text">
+                </div>
+
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Password</label>
+                        <input type="password">
+                    </div>
+                    <div class="input-group">
+                        <label>Confirm password</label>
+                        <input type="password">
+                    </div>
+                </div>
+
+                <div class="terms-group">
+                    <label class="remember-me">
+                        <input type="checkbox"> I agree with Terms & Conditions and Privacy Policy
+                    </label>
+                </div>
+
+                <button class="signup-btn">Sign up</button>
+
+                <div class="redirect-link">
+                    <span>Already have an account?</span>
+                    <a href="welcome.html">Sign in</a>
                 </div>
 
             </div>
-
-
-            <form class="login-form">
-                <div class="input-group">
-                    <label>Username or Email:</label>
-                    <input type="text">
-                </div>
-                <div class="input-group">
-                    <label>Password:</label>
-                    <input type="password">
-                </div>
-
-                <div class="form-options">
-                    <label class="remember-me">
-                        <input type="checkbox"> Remember me
-                    </label>
-                    <a href="#" class="forgot-pwd">Forgot password?</a>
-                </div>
-
-                <button type="button" class="sign-in-btn">Sign in</button>
-                <button id="btn-create-acc" class="create-acc-btn">Create a new account</button>
-
-            </form>
-
         </div>
+
+
+
     </div>
-    <script src="script.js"></script>
+    </div>
+
 </body>
 
 </html>
