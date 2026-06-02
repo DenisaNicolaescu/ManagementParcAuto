@@ -29,32 +29,43 @@
 
 }
 
+
 .btn-nav-login,
 .btn-nav-register {
-    text-decoration: none;
-    padding: 8px 20px;
-    font-size: 14px;
-    margin-left: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     width: 146px;
-    height: 63;
-    top: 18px;
-    left: 1021px;
-    opacity: 1;
+    height: 50px;
     border-radius: 8px;
-    border-width: 3px;
-
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    margin-left: 15px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent; 
 }
+
 
 .btn-nav-login {
+    background-color: #844185; 
     color: white;
-    background-color: #844185;
+    border-color: #844185;
 }
+
 
 .btn-nav-register {
-    background-color: white;
-    color: #844185;
+    background-color: #ffffff !important; 
+    color: #844185 !important; 
+    border-color: #ffffff !important; 
+    opacity: 1 !important; 
 }
 
+
+.btn-nav-register:hover {
+    background-color: #f4ebf5 !important;
+    border-color: #f4ebf5 !important;
+}
 /* ================= SECȚIUNEA PRINCIPALĂ ================= */
 .hero-section {
     text-align: center;

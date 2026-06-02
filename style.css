@@ -61,9 +61,8 @@ body {
 }
 
 .logo-img {
-    max-width: 480px;
-    height: 309px;
-    left: 26px;
+    max-width: 400px; 
+    height: auto;
 }
 
 .tagline {
@@ -352,6 +351,8 @@ h1 {
 /* Forțează titlul să stea pe un singur rând */
 .right-panel h1 {
     white-space: nowrap;
+    margin-top: -60px; /* <--- Aceasta este magia care trage textul în sus */
+    margin-bottom: 30px; /* <--- Lasă un spațiu curat între titlu și butoane */
 }
 
 
