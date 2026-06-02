@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drivers - Autodock</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Calistoga&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="manager.css">
+</head>
+<body>
+
+    <!-- Bara de Navigație -->
+    <nav class="dash-navbar">
+        <a href="index.html">
+            <img src="images/logo.png" alt="Autodock Logo" class="dash-logo">
+        </a>
+        <ul class="dash-nav-links">
+            <li><a href="dashboard-manager.html">Dashboard</a></li>
+            <li><a href="cars-m.html">Cars</a></li>
+            <li><a href="drivers.html" class="active">Drivers</a></li>
+            <li><a href="services.html">Service</a></li>
+            <li><a href="calendar.html">Calendar</a></li>
+            <li><a href="documents-m.html">Documents</a></li>
+        </ul>
+    </nav>
+
+    <!-- Conținutul Paginii Drivers -->
+    <main class="dashboard-container">
+        
+        <!-- Header cu un singur buton aliniat la dreapta -->
+        <header class="page-header header-right">
+            <button class="btn-add-car">+ Add a new driver</button>
+        </header>
+
+        <!-- Containerul pentru "Tabelul" de șoferi -->
+        <div class="drivers-list">
+            
+            <!-- Rândul Gri Închis (Capul de tabel) -->
+            <div class="drivers-grid drivers-header-row">
+                <div>Driver</div>
+                <div>Assigned Vehicle</div>
+                <div>License Type</div>
+                <div>Phone</div>
+                <div>Actions</div>
+            </div>
+
+            <!-- Șofer 1 -->
+            <div class="drivers-grid driver-card">
+                <div class="driver-profile">
+                    <div class="avatar avatar-blue">DA</div>
+                    <div class="driver-info">
+                        <strong>Dan Adrian</strong>
+                        <span class="driver-email">dan.adrian@autodock.ro</span>
+                    </div>
+                </div>
+                <div class="vehicle-info">
+                    Ford Focus (2021)<br>
+                    <span class="license-plate">SB 07 DKY</span>
+                </div>
+                <div>B</div>
+                <div>+40 742 100 200</div>
+                <div class="table-actions">📝 🗑️</div>
+            </div>
+
+            <!-- Șofer 2 -->
+            <div class="drivers-grid driver-card">
+                <div class="driver-profile">
+                    <div class="avatar avatar-green">EV</div>
+                    <div class="driver-info">
+                        <strong>Enache Vlad</strong>
+                        <span class="driver-email">enache.vlad@autodock.ro</span>
+                    </div>
+                </div>
+                <div class="vehicle-info">
+                    Dacia Logan (2019)<br>
+                    <span class="license-plate">CJ 99 TNT</span>
+                </div>
+                <div>B+C</div>
+                <div>+40 756 300 401</div>
+                <div class="table-actions">📝 🗑️</div>
+            </div>
+
+            <!-- Șofer 3 -->
+            <div class="drivers-grid driver-card">
+                <div class="driver-profile">
+                    <div class="avatar avatar-orange">PI</div>
+                    <div class="driver-info">
+                        <strong>Popa Ioan</strong>
+                        <span class="driver-email">popa.ioan@autodock.ro</span>
+                    </div>
+                </div>
+                <div class="vehicle-info">
+                    Renault Megane (2022)<br>
+                    <span class="license-plate">CJ 92 CBL</span>
+                </div>
+                <div>B</div>
+                <div>+40 765 150 700</div>
+                <div class="table-actions">📝 🗑️</div>
+            </div>
+
+            <!-- Șofer 4 -->
+            <div class="drivers-grid driver-card">
+                <div class="driver-profile">
+                    <div class="avatar avatar-teal">DA</div>
+                    <div class="driver-info">
+                        <strong>Dumitru Alin</strong>
+                        <span class="driver-email">dumitru.alin@autodock.ro</span>
+                    </div>
+                </div>
+                <div class="vehicle-info">
+                    Skoda Octavia (2020)<br>
+                    <span class="license-plate">SB 23 ALX</span>
+                </div>
+                <div>B+E</div>
+                <div>+40 743 900 112</div>
+                <div class="table-actions">📝 🗑️</div>
+            </div>
+
+            <!-- Șofer 5 -->
+            <div class="drivers-grid driver-card">
+                <div class="driver-profile">
+                    <div class="avatar avatar-purple">PC</div>
+                    <div class="driver-info">
+                        <strong>Pop Cristina</strong>
+                        <span class="driver-email">pop.cristina@autodock.ro</span>
+                    </div>
+                </div>
+                <div class="vehicle-info">
+                    Unassigned
+                </div>
+                <div>B</div>
+                <div>+40 711 234 567</div>
+                <div class="table-actions">📝 🗑️</div>
+            </div>
+
+        </div>
+
+    </main>
+</body>
+</html>

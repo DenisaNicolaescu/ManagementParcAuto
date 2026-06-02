@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cars Inventory - Autodock</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Calistoga&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="manager.css">
+</head>
+
+<body>
+
+    <nav class="dash-navbar">
+        <a href="index.html">
+            <img src="images/logo.png" alt="Autodock Logo" class="dash-logo">
+        </a>
+        <ul class="dash-nav-links">
+            <li><a href="dashboard-manager.html">Dashboard</a></li>
+            <li><a href="cars-m.html" class="active">Cars</a></li>
+            <li><a href="drivers.html">Drivers</a></li>
+            <li><a href="services.html">Service</a></li>
+            <li><a href="calendar.html">Calendar</a></li>
+           <li><a href="documents-m.html">Documents</a></li>
+        </ul>
+    </nav>
+
+    <main class="dashboard-container">
+
+        <header class="page-header">
+            <h1>Cars inventory</h1>
+           <button id="btnOpenModal" class="btn-add-car">+ Add a new car</button>
+        </header>
+
+        <div class="filters-row">
+            <input type="text" placeholder="Search by ID, brand or driver...." class="search-wide">
+            <select class="status-dropdown">
+                <option value="all">All statuses</option>
+                <option value="active">Active</option>
+                <option value="warning">Warning</option>
+                <option value="service">In service</option>
+            </select>
+        </div>
+
+        <div class="panel inventory-panel">
+            <table class="inventory-table">
+                <thead>
+                    <tr>
+                        <th>Vehicle Details</th>
+                        <th>Assigned Driver</th>
+                        <th>Status</th>
+                        <th>Next Maintenance</th>
+                        <th>Documents</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <strong>Dacia Jogger (2023)</strong><br>
+                            <span class="license-plate">SB 42 BDP</span>
+                        </td>
+                        <td>Unassigned</td>
+                        <td class="text-yellow">Warning</td>
+                        <td>06 Jun 2026</td>
+                        <td>RCA: Valid</td>
+                        <td class="table-actions">📝 🗑️</td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <strong>Volkswagen Golf(2021)</strong><br>
+                            <span class="license-plate">B 200 ADK</span>
+                        </td>
+                        <td>Unassigned</td>
+                        <td class="text-yellow">Warning</td>
+                        <td>15 Jul 2026</td>
+                        <td>RCA: Valid</td>
+                        <td class="table-actions">📝 🗑️</td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <strong>Ford Focus (2021)</strong><br>
+                            <span class="license-plate">SB 07 DKY</span>
+                        </td>
+                        <td>Dan Adrian</td>
+                        <td class="text-red">In service</td>
+                        <td>Immediate</td>
+                        <td class="text-red">RCA: EXPIRED</td>
+                        <td class="table-actions">📝 🗑️</td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <strong>Renault Megane (2022)</strong><br>
+                            <span class="license-plate">CJ 92 CBL</span>
+                        </td>
+                        <td>Popa Ioan</td>
+                        <td class="text-green">Active</td>
+                        <td>08 Jun 2026</td>
+                        <td>RCA: Valid</td>
+                        <td class="table-actions">📝 🗑️</td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <strong>Skoda Octavia (2020)</strong><br>
+                            <span class="license-plate">SB 23 ALX</span>
+                        </td>
+                        <td>Dumitru Alin</td>
+                        <td class="text-green">Active</td>
+                        <td>11 Jun 2026</td>
+                        <td>ITP: Valid</td>
+                        <td class="table-actions">📝 🗑️</td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <strong>Dacia Logan (2019)</strong><br>
+                            <span class="license-plate">CJ 99 TNT</span>
+                        </td>
+                        <td>Enache Vlad</td>
+                        <td class="text-green">Active</td>
+                        <td>27 May 2026</td>
+                        <td>ITP: Due soon</td>
+                        <td class="table-actions">📝 🗑️</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+    <div id="addCarModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            
+            <h2>ADD NEW VEHICLE</h2>
+
+            <form class="add-car-form">
+                
+                <h3 class="section-title">General information</h3>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>Brand & Model</label>
+                        <input type="text" placeholder="e.g. Dacia Logan">
+                    </div>
+                    <div class="input-group">
+                        <label>License Plate</label>
+                        <input type="text" placeholder="e.g. SB 12 AAA">
+                    </div>
+                    <div class="input-group">
+                        <label>Year</label>
+                        <input type="number" value="2026">
+                    </div>
+                    <div class="input-group">
+                        <label>VIN (Chassis Number)</label>
+                        <input type="text" placeholder="17 characters">
+                    </div>
+                </div>
+
+                <h3 class="section-title">Document status</h3>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>RCA Expiration Date</label>
+                        <input type="date">
+                    </div>
+                    <div class="input-group">
+                        <label>ITP Expiration Date</label>
+                        <input type="date">
+                    </div>
+                </div>
+
+                <h3 class="section-title">Assignment</h3>
+                <div class="input-group full-width">
+                    <label>Assign Driver</label>
+                    <input type="text" placeholder="Unassigned">
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" id="btnCancel">Cancel</button>
+                    <button type="submit" class="btn-submit">Add to fleet</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Luăm elementele din pagină
+        const modal = document.getElementById("addCarModal");
+        const btnOpen = document.getElementById("btnOpenModal");
+        const btnClose = document.getElementById("closeModal");
+        const btnCancel = document.getElementById("btnCancel");
+
+        // Când apăsăm "Add a new car", afișăm modala
+        btnOpen.onclick = function() {
+            modal.style.display = "flex";
+        }
+
+        // Când apăsăm pe X, ascundem modala
+        btnClose.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // Când apăsăm pe Cancel, ascundem modala
+        btnCancel.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // Dacă dăm click pe fundalul gri închis, o ascundem
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+
+</html>

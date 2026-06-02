@@ -1,0 +1,670 @@
+/* ================= VARIABILE ȘI RESET ================= */
+:root {
+    --primary-purple: #9C6D9D;
+    --dark-purple: #844185;
+    --bg-white: #ffffff;
+    --bg-light: #F8F8F8;
+    --panel-gray: #EAEAEA;
+    --text-dark: #000000;
+    --text-gray: #555555;
+    
+    /* Culori de status */
+    --status-green: #67B067;
+    --status-yellow: #D1A93E;
+    --status-red: #D34141;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Calistoga', serif; /* Aplicăm fontul ales de tine */
+}
+
+body {
+    background-color: var(--bg-white);
+    color: var(--text-dark);
+}
+
+/* ================= NAVIGAȚIE ================= */
+.dash-navbar {
+    background-color: var(--primary-purple);
+    display: flex;
+    align-items: center;
+    padding: 10px 40px;
+}
+
+.dash-logo {
+    height: 40px;
+    margin-right: 40px;
+}
+
+.dash-nav-links {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.dash-nav-links a {
+    color: var(--bg-white);
+    text-decoration: none;
+    font-size: 18px;
+    padding: 8px 15px;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+}
+
+.dash-nav-links a.active, .dash-nav-links a:hover {
+    background-color: rgba(0, 0, 0, 0.15); /* Efect subtil pentru elementul activ/hover */
+}
+
+/* ================= CONTAINER PRINCIPAL ================= */
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+/* ================= HEADER (Top Bar) ================= */
+.dash-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.header-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.search-bar {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 250px;
+    font-size: 14px;
+    font-family: sans-serif; /* Păstrăm un font simplu pentru input-uri ca să fie lizibil */
+}
+
+.btn-add-car {
+    background-color: var(--primary-purple);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* ================= ROW-UL KPI (Statistici) ================= */
+.kpi-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.kpi-card {
+    background-color: var(--panel-gray);
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.kpi-card h3 {
+    font-size: 14px;
+    color: var(--text-gray);
+    margin-bottom: 10px;
+}
+
+.kpi-number {
+    font-size: 40px;
+}
+
+.kpi-number.black { color: var(--text-dark); }
+.kpi-number.green { color: var(--status-green); }
+.kpi-number.yellow { color: var(--status-yellow); }
+.kpi-number.red { color: var(--status-red); }
+
+/* ================= GRILA PRINCIPALĂ ================= */
+.main-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* Stânga e de 2 ori mai lată decât dreapta */
+    gap: 20px;
+}
+
+/* PANOURI (Mici containere gri) */
+.panel {
+    background-color: var(--panel-gray);
+    padding: 25px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.link-view-all {
+    color: var(--primary-purple);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* --- ALERTE --- */
+.alert-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    background-color: var(--bg-light);
+    border: 2px solid;
+}
+
+.alert-red { border-color: var(--status-red); }
+.alert-yellow { border-color: var(--status-yellow); }
+
+.alert-info { display: flex; align-items: center; gap: 15px; }
+.alert-icon { font-size: 24px; }
+.alert-info h4 { font-size: 18px; margin-bottom: 5px; }
+.alert-info p { font-size: 14px; color: var(--text-gray); font-family: sans-serif;}
+
+.btn-alert {
+    padding: 10px 20px;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.btn-red { background-color: var(--status-red); }
+.btn-yellow { background-color: var(--status-yellow); }
+
+/* --- TABEL FLOTĂ --- */
+.fleet-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: sans-serif; /* Font simplu pentru tabele */
+}
+
+.fleet-table th, .fleet-table td {
+    text-align: left;
+    padding: 12px 10px;
+    border-bottom: 1px solid #d5d5d5;
+}
+
+.fleet-table th {
+    font-size: 14px;
+    color: var(--text-dark);
+}
+
+.fleet-table td { font-size: 14px; }
+
+/* --- PROGRAMĂRI SERVICE --- */
+.schedule-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 15px;
+    background-color: #E2E2E2;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-top: 5px;
+}
+.dot-purple { background-color: var(--primary-purple); }
+.dot-yellow { background-color: var(--status-yellow); }
+
+.date-task { font-weight: bold; font-size: 16px; margin-bottom: 3px; }
+.car-details { font-size: 12px; color: var(--text-gray); font-family: sans-serif;}
+
+.btn-outline-purple {
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    border: 2px solid var(--primary-purple);
+    color: var(--primary-purple);
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* --- COSTURI --- */
+.costs-title { font-size: 16px; margin-bottom: 15px; }
+.costs-amount { font-size: 32px; margin-bottom: 5px; }
+.costs-trend { font-size: 14px; color: var(--status-green); margin-bottom: 20px; font-family: sans-serif;}
+
+.progress-container {
+    width: 100%;
+    height: 20px;
+    background-color: #d1d1d1;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    border: 1px solid #999;
+}
+
+.progress-bar {
+    width: 70%;
+    height: 100%;
+    background-color: var(--primary-purple);
+}
+
+.progress-text { font-size: 12px; color: var(--text-gray); font-family: sans-serif;}
+
+/* ================= PAGINA CARS INVENTORY ================= */
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Rândul cu filtre (Search și Dropdown) */
+.filters-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.search-wide {
+    flex: 1; /* Ocupă tot spațiul disponibil */
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    font-family: sans-serif;
+}
+
+.status-dropdown {
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    min-width: 150px;
+    font-family: sans-serif;
+    cursor: pointer;
+}
+
+/* Tabelul de inventar */
+.inventory-panel {
+    padding: 0; /* Scoatem padding-ul ca tabelul sa atinga marginile de sus/jos */
+    overflow: hidden;
+}
+
+.inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: sans-serif; /* Un font clar pentru tabele */
+}
+
+.inventory-table th, .inventory-table td {
+    padding: 18px 20px;
+    text-align: left;
+    border-bottom: 1px solid #d5d5d5;
+}
+
+.inventory-table th {
+    font-weight: bold;
+    font-size: 15px;
+    color: var(--text-dark);
+}
+
+.inventory-table td {
+    font-size: 14px;
+    color: #333;
+}
+
+/* Eliminăm linia de jos de la ultimul element */
+.inventory-table tbody tr:last-child td {
+    border-bottom: none; 
+}
+
+/* Stiluri specifice pentru textul din tabel */
+.inventory-table strong {
+    font-size: 15px;
+    color: var(--text-dark);
+}
+
+.license-plate {
+    color: var(--primary-purple);
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.table-actions {
+    font-size: 16px;
+    letter-spacing: 5px;
+    cursor: pointer;
+}
+
+/* Culorile pentru statusuri */
+.text-green { color: var(--status-green); }
+.text-yellow { color: var(--status-yellow); }
+.text-red { color: var(--status-red); }
+
+/* ================= PAGINA DRIVERS ================= */
+
+/* Aliniem butonul de add driver la dreapta */
+.header-right {
+    justify-content: flex-end; 
+}
+
+/* Setăm grila: proporțiile coloanelor (numele e mai lat, telefonul mai îngust, etc.) */
+.drivers-grid {
+    display: grid;
+    grid-template-columns: 2.5fr 2fr 1fr 1.5fr 0.8fr; /* Proporțiile lățimii fiecărei coloane */
+    align-items: center;
+    padding: 15px 25px;
+    font-family: sans-serif;
+}
+
+/* Rândul de sus, gri închis */
+.drivers-header-row {
+    background-color: #B5B5B5; /* Un gri mai închis */
+    border-radius: 8px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px; /* Spațiu între capul de tabel și primul șofer */
+}
+
+/* Cardurile cu șoferi */
+.driver-card {
+    background-color: #EAEAEA; /* Gri deschis */
+    border-radius: 8px;
+    margin-bottom: 12px; /* Spațiu între carduri */
+    font-size: 15px;
+    color: #222;
+}
+
+/* Profilul șoferului (Avatar + Text) */
+.driver-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Cum arată textul cu numele și emailul */
+.driver-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.driver-info strong {
+    font-family: 'Calistoga', serif; /* Fontul gros pentru nume */
+    font-size: 18px;
+    color: #000;
+}
+
+.driver-email {
+    font-size: 13px;
+    color: #555;
+    margin-top: 2px;
+}
+
+/* --- Stiluri pentru Avatare --- */
+.avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* Culorile pastelate pentru fiecare avatar */
+.avatar-blue   { background-color: #D2DDF0; color: #6282B9; }
+.avatar-green  { background-color: #D3EED4; color: #6EA972; }
+.avatar-orange { background-color: #F1DEC7; color: #BC8E5C; }
+.avatar-teal   { background-color: #CAEAE3; color: #6A9E94; }
+.avatar-purple { background-color: #EBD3EE; color: #A87CAE; }
+
+/* ================= PAGINA SERVICE ================= */
+
+/* Ajustare pentru header-ul care are și subtitlu */
+.align-start {
+    align-items: flex-start; /* Aliniază butonul cu partea de sus a textului */
+}
+
+.header-text h1 {
+    margin-bottom: 5px;
+}
+
+.header-text p {
+    font-family: sans-serif;
+    color: var(--text-gray);
+    font-size: 15px;
+}
+
+/* Modificăm grila KPI pentru a avea 3 coloane egale în loc de 4 */
+.kpi-3-cols {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+/* Facem fontul puțin mai mare pentru textul standard din acest tabel */
+.inventory-table td {
+    font-family: 'Calistoga', serif; /* Tabelul de service folosește fontul principal */
+    font-size: 15px;
+}
+
+/* Ne asigurăm că progresul și costul ies în evidență */
+.inventory-table td strong {
+    font-size: 16px;
+}
+
+/* ================= PAGINA CALENDAR ================= */
+
+.calendar-wrapper {
+    background-color: #F0EBF0; /* Fundalul ușor mov/gri al calendarului */
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    overflow: hidden; /* Păstrează colțurile rotunjite intacte */
+}
+
+/* Rândul cu Mon, Tue, Wed... */
+.calendar-header-row {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* 7 coloane egale */
+    background-color: #D3C3D9; /* Culoarea mov-gri pentru header */
+    text-align: center;
+    font-weight: bold;
+    padding: 12px 0;
+    font-size: 16px;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Grila cu zilele lunii */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    /* Setăm o înălțime minimă pentru fiecare rând ca să arate a calendar */
+    grid-auto-rows: minmax(110px, auto); 
+}
+
+/* O singură căsuță de zi */
+.cal-day {
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Spațiu între număr și evenimente */
+}
+
+/* Scoatem marginile din dreapta pentru ultima zi din săptămână (duminica) */
+.cal-day:nth-child(7n) {
+    border-right: none;
+}
+
+/* Scoatem marginile de jos pentru ultimul rând */
+.cal-day:nth-last-child(-n+7) {
+    border-bottom: none;
+}
+
+.day-number {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+/* Zilele din luna următoare (cenușii) */
+.day-number.inactive {
+    color: #a0a0a0;
+}
+
+/* Designul pentru evenimente (casetele colorate) */
+.event-pill {
+    font-family: sans-serif;
+    font-size: 11px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    color: #333;
+    line-height: 1.3;
+}
+
+/* Culorile evenimentelor */
+.event-green  { background-color: #D3EED4; }
+.event-grey   { background-color: #E2E2E2; }
+.event-yellow { background-color: #F0E3BC; }
+.event-red    { background-color: #EBB8B8; }
+
+
+
+/* ================= PAGINA DOCUMENTS ================= */
+
+/* Clasă utilitară pentru a centra textul în anumite coloane din tabel */
+.text-center {
+    text-align: center !important;
+}
+
+/* ================= FEREASTRA MODALĂ (POP-UP) ================= */
+
+/* Fundalul gri închis care acoperă tot ecranul */
+.modal-overlay {
+    display: none; /* Ascuns inițial */
+    position: fixed; /* Rămâne pe loc chiar dacă dai scroll */
+    z-index: 1000; /* Stă deasupra tuturor elementelor */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Negru cu transparență */
+    align-items: center;
+    justify-content: center;
+}
+
+/* Cutia albă a modalei */
+.modal-content {
+    background-color: #ffffff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    width: 500px;
+    max-width: 90%;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* Butonul X din dreapta sus */
+.close-modal {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    color: #999;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: sans-serif;
+}
+
+.close-modal:hover { color: #333; }
+
+.modal-content h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: var(--text-dark);
+}
+
+.section-title {
+    color: var(--primary-purple);
+    font-size: 16px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* Grila pentru formular (2 coloane) */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group.full-width {
+    width: 100%;
+}
+
+.input-group label {
+    font-family: sans-serif;
+    font-size: 13px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.input-group input {
+    font-family: sans-serif;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+/* Zona butoanelor de jos */
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.btn-cancel {
+    padding: 10px 30px;
+    background-color: white;
+    border: 2px solid #ccc;
+    color: #555;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-submit {
+    padding: 10px 30px;
+    background-color: var(--primary-purple);
+    border: 2px solid var(--primary-purple);
+    color: white;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-cancel:hover { background-color: #f5f5f5; }
+.btn-submit:hover { background-color: var(--dark-purple); }
+

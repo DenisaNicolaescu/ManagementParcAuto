@@ -67,7 +67,7 @@ body {
 
 .tagline {
     font-size: 25px;
-    font-family: Lao Muang Don;
+    font-family: Arial, sans-serif;
     font-style: normal;
     margin-bottom: 40px;
     margin-left: 50px;
@@ -95,6 +95,7 @@ body {
     align-items: center;
     margin-bottom: 20px;
     font-size: 25px;
+    font-family: Arial, sans-serif;
     font-weight: 300;
     line-height: 1.4;
 }
@@ -102,13 +103,11 @@ body {
 
 .features .material-symbols-outlined {
     font-size: 35px;
-    /* Mărimea iconiței */
     margin-right: 25px;
-    /* Spațiul până la text */
     width: 35px;
     text-align: center;
     color: #ffffff;
-    /* Asigură-te că sunt albe */
+    
 }
 
 .right-panel {
@@ -126,7 +125,7 @@ h1 {
     top: 105px;
     left: 706px;
     opacity: 1;
-    font-family: Lao Muang Khong;
+    font-family: Arial, sans-serif;
     font-weight: 400;
     font-style: Regular;
     font-size: 128px;

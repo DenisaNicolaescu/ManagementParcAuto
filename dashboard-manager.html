@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Autodock</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Calistoga&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="manager.css">
+</head>
+<body>
+
+    <nav class="dash-navbar">
+        <a href="index.html">
+            <img src="images/logo.png" alt="Autodock Logo" class="dash-logo">
+        </a>
+        <ul class="dash-nav-links">
+            <li><a href="#" class="active">Dashboard</a></li>
+            <li><a href="cars-m.html">Cars</a></li>
+            <li><a href="drivers.html">Drivers</a></li>
+            <li><a href="services.html">Service</a></li>
+            <li><a href="calendar.html">Calendar</a></li>
+            <li><a href="documents-m.html">Documents</a></li>
+        </ul>
+    </nav>
+
+    <main class="dashboard-container">
+        
+        <header class="dash-header">
+            <h1>Welcome back, manager!</h1>
+            <div class="header-actions">
+                <input type="text" placeholder="Search vehicle, driver or docs..." class="search-bar">
+                <button class="btn-add-car">+ Add a new car</button>
+            </div>
+        </header>
+
+        <section class="kpi-row">
+            <div class="kpi-card">
+                <h3>TOTAL FLEET</h3>
+                <p class="kpi-number black">48</p>
+            </div>
+            <div class="kpi-card">
+                <h3>ACTIVE VEHICLES</h3>
+                <p class="kpi-number green">39</p>
+            </div>
+            <div class="kpi-card">
+                <h3>IN MAINTENANCE</h3>
+                <p class="kpi-number yellow">7</p>
+            </div>
+            <div class="kpi-card">
+                <h3>CRITICAL ALERTS</h3>
+                <p class="kpi-number red">2</p>
+            </div>
+        </section>
+
+        <section class="main-grid">
+            
+            <div class="grid-left">
+                
+                <div class="panel">
+                    <div class="panel-header">
+                        <h2>Document Expiration Alerts</h2>
+                        <a href="#" class="link-view-all">View all →</a>
+                    </div>
+                    
+                    <div class="alert-box alert-red">
+                        <div class="alert-info">
+                            <span class="alert-icon">⚠️</span>
+                            <div>
+                                <h4>Insurance Expired - SB 42 BDP</h4>
+                                <p>Expired 2 days ago</p>
+                            </div>
+                        </div>
+                        <button class="btn-alert btn-red">Renew now</button>
+                    </div>
+
+                    <div class="alert-box alert-yellow">
+                        <div class="alert-info">
+                            <span class="alert-icon">📋</span>
+                            <div>
+                                <h4>Technical Inspection - SB 18 AMX</h4>
+                                <p>Expires in 5 days (May 30, 2026)</p>
+                            </div>
+                        </div>
+                        <button class="btn-alert btn-yellow">Schedule</button>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <h2>Live Fleet Status</h2>
+                        <a href="#" class="link-view-all">View full inventory →</a>
+                    </div>
+                    <table class="fleet-table">
+                        <thead>
+                            <tr>
+                                <th>VEHICLE</th>
+                                <th>DRIVER</th>
+                                <th>STATUS</th>
+                                <th>LAST SERVICE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ford Focus (SB 19 XAM)</td>
+                                <td>Dan Adrian</td>
+                                <td>ACTIVE</td>
+                                <td>

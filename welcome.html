@@ -58,7 +58,7 @@
             </div>
 
 
-            <form class="login-form">
+            <form class="login-form" action="dashboard-manager.html">
                 <div class="input-group">
                     <label>Username or Email:</label>
                     <input type="text">
@@ -75,14 +75,45 @@
                     <a href="#" class="forgot-pwd">Forgot password?</a>
                 </div>
 
-                <button type="button" class="sign-in-btn">Sign in</button>
-                <button id="btn-create-acc" class="create-acc-btn">Create a new account</button>
+                <button type="submit" class="sign-in-btn">Sign in</button>
 
+                <button type="button" id="btn-create-acc" class="create-acc-btn">Create a new account</button>
             </form>
 
         </div>
     </div>
-    <script src="script.js"></script>
+    <script>
+        const btnManager = document.getElementById('btn-manager');
+        const btnUser = document.getElementById('btn-user');
+        const btnCreateAcc = document.getElementById('btn-create-acc');
+
+        // Funcția de selectare a rolului (Manager sau User)
+        if (btnManager && btnUser) {
+            btnManager.addEventListener('click', function() {
+                btnManager.classList.add('active');
+                btnUser.classList.remove('active');
+            });
+
+            btnUser.addEventListener('click', function() {
+                btnUser.classList.add('active');
+                btnManager.classList.remove('active');
+            });
+        }
+
+        // Funcția care te trimite pe pagina corectă
+        if (btnCreateAcc) {
+            btnCreateAcc.addEventListener('click', function(event) {
+                event.preventDefault(); 
+                
+                if (btnManager.classList.contains('active')) {
+                    window.location.href = 'create-acc-manager.html';
+                } else if (btnUser.classList.contains('active')) {
+                    window.location.href = 'create-acc-user.html';
+                }
+            });
+        }
+    </script>
+</body>
 </body>
 
 </html>

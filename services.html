@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Management - Autodock</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Calistoga&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="manager.css">
+</head>
+<body>
+
+    <nav class="dash-navbar">
+        <a href="index.html">
+            <img src="images/logo.png" alt="Autodock Logo" class="dash-logo">
+        </a>
+        <ul class="dash-nav-links">
+            <li><a href="dashboard-manager.html">Dashboard</a></li>
+            <li><a href="cars-m.html">Cars</a></li>
+            <li><a href="drivers.html">Drivers</a></li>
+            <li><a href="services.html" class="active">Service</a></li>
+            <li><a href="calendar.html">Calendar</a></li>
+            <li><a href="documents-m.html">Documents</a></li>
+        </ul>
+    </nav>
+
+    <main class="dashboard-container">
+        
+        <header class="page-header align-start">
+            <div class="header-text">
+                <h1>Service Management</h1>
+                <p>Track repairs, costs and maintenance schedules</p>
+            </div>
+            <button class="btn-add-car">+ Add a new intervention</button>
+        </header>
+
+        <section class="kpi-row kpi-3-cols">
+            <div class="kpi-card">
+                <h3>Monthly Budget</h3>
+                <p class="kpi-number black">6.500 RON</p>
+            </div>
+            <div class="kpi-card">
+                <h3>Active Repairs</h3>
+                <p class="kpi-number black">3 Vehicles</p>
+            </div>
+            <div class="kpi-card">
+                <h3>Avg. Downtime</h3>
+                <p class="kpi-number black">1.2 Days</p>
+            </div>
+        </section>
+
+        <div class="panel inventory-panel">
+            <table class="inventory-table">
+                <thead>
+                    <tr>
+                        <th>Vehicle & ID</th>
+                        <th>Intervention Type</th>
+                        <th>Service Station</th>
+                        <th>Progress</th>
+                        <th>Estimated Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <strong>Dacia Jogger (2023)</strong><br>
+                            <span class="license-plate">SB 42 BDP</span>
+                        </td>
+                        <td>Insurance Renewal &<br>Safety Check</td>
+                        <td>Autoservice Sibiu</td>
+                        <td class="text-red">Pending Approval</td>
+                        <td><strong>1,100 RON</strong></td>
+                    </tr>
+                    
+                    <tr>
+                        <td>
+                            <strong>Volkswagen Golf</strong><br>
+                            <span class="license-plate">B 200 ADK</span>
+                        </td>
+                        <td>Technical Inspection (ITP)</td>
+                        <td>Autoservice Sibiu</td>
+                        <td>Scheduled</td>
+                        <td><strong>200 RON</strong></td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <strong>Ford Focus</strong><br>
+                            <span class="license-plate">SB 07 DKY</span>
+                        </td>
+                        <td>Oil & Filter Replacement</td>
+                        <td>YONI</td>
+                        <td class="text-yellow">In Progress</td>
+                        <td><strong>850 RON</strong></td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <strong>Renault Megane</strong><br>
+                            <span class="license-plate">SB 01 TRN</span>
+                        </td>
+                        <td>Summer Tire Change</td>
+                        <td>Performance Garage</td>
+                        <td>Scheduled</td>
+                        <td><strong>150 RON</strong></td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <strong>Toyota Yaris</strong><br>
+                            <span class="license-plate">SB 10 CAR</span>
+                        </td>
+                        <td>Brake Pads Overhaul</td>
+                        <td>YONI</td>
+                        <td class="text-green">Completed</td>
+                        <td><strong>1.200 RON</strong></td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <strong>Hyundai Tucson</strong><br>
+                            <span class="license-plate">CJ 99 TNT</span>
+                        </td>
+                        <td>Engine Diagnostics (Check<br>Engine)</td>
+                        <td>YONI</td>
+                        <td class="text-yellow">In Progress</td>
+                        <td><strong>3.000 RON</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+</body>
+</html>
