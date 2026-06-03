@@ -7,11 +7,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Calistoga&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <link rel="stylesheet" href="manager.css">
 </head>
 <body>
 
-    <nav class="dash-navbar">
+   <nav class="dash-navbar">
         <a href="index.html">
             <img src="images/logo.png" alt="Autodock Logo" class="dash-logo">
         </a>
@@ -20,11 +21,44 @@
             <li><a href="cars-m.html">Cars</a></li>
             <li><a href="drivers.html">Drivers</a></li>
             <li><a href="services.html" class="active">Service</a></li>
-            <li><a href="calendar.html">Calendar</a></li>
+            <li><a href="calendar.html" >Calendar</a></li>
             <li><a href="documents-m.html">Documents</a></li>
         </ul>
-    </nav>
 
+        <!-- Containerul pentru Profil și Dropdown -->
+        <div class="profile-dropdown-container">
+            <div class="profile-trigger" id="profileTrigger">
+                <div class="profile-avatar">AP</div>
+                <div class="profile-info">
+                    <span class="profile-name">Adrian Popescu</span>
+                    <span class="profile-role">Manager</span>
+                </div>
+                <span class="material-symbols-outlined arrow-icon">expand_more</span>
+            </div>
+
+            <div class="profile-menu" id="profileMenu">
+                <div class="profile-menu-header">
+                    <strong>Manager Central</strong>
+                    <span>manager@autodock.ro</span>
+                </div>
+                
+                <hr class="dropdown-divider">
+                
+                <a href="#" class="profile-menu-item">
+                    <span class="material-symbols-outlined">account_circle</span> My Profile
+                </a>
+                <a href="#" class="profile-menu-item">
+                    <span class="material-symbols-outlined">settings</span> Account Settings
+                </a>
+                
+                <hr class="dropdown-divider">
+                
+                <a href="index.html" class="profile-menu-item sign-out">
+                    <span class="material-symbols-outlined">logout</span> Sign Out
+                </a>
+            </div>
+        </div>
+    </nav>
     <main class="dashboard-container">
         
         <header class="page-header align-start">
@@ -32,7 +66,7 @@
                 <h1>Service Management</h1>
                 <p>Track repairs, costs and maintenance schedules</p>
             </div>
-            <button class="btn-add-car">+ Add a new intervention</button>
+            <button id="btnOpenServiceModal" class="btn-add-car">+ Add a new intervention</button>
         </header>
 
         <section class="kpi-row kpi-3-cols">
@@ -132,5 +166,103 @@
         </div>
 
     </main>
+
+    <div id="addServiceModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" id="closeServiceModal">&times;</span>
+            
+            <h2>ADD NEW INTERVENTION</h2>
+
+            <form class="add-car-form">
+                
+                <h3 class="section-title">Vehicle & Schedule</h3>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>Select Vehicle</label>
+                        <select>
+                            <option>SB 07 DKY - Ford Focus</option>
+                            <option>B 200 ADK - Volkswagen Golf</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Intervention Date</label>
+                        <input type="date" value="2026-09-06">
+                    </div>
+                </div>
+
+                <h3 class="section-title">Service Details</h3>
+                <div class="input-group full-width" style="margin-bottom: 15px;">
+                    <label>Type of Intervention</label>
+                    <select>
+                        <option>Engine/Transmission</option>
+                        <option>Technical Inspection (ITP)</option>
+                        <option>Routine Maintenance</option>
+                    </select>
+                </div>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>Service name</label>
+                        <input type="text" placeholder="e.g. YONI">
+                    </div>
+                    <div class="input-group">
+                        <label>Estimated Cost</label>
+                        <input type="text" placeholder="e.g. 500 RON">
+                    </div>
+                </div>
+
+                <h3 class="section-title">Description/Notes</h3>
+                <div class="input-group full-width">
+                    <textarea placeholder="Describe the maintenance or issue..." rows="3"></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" id="btnCancelService">Cancel</button>
+                    <button type="submit" class="btn-submit">Schedule intervention</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const serviceModal = document.getElementById("addServiceModal");
+        const btnOpenService = document.getElementById("btnOpenServiceModal");
+        const btnCloseService = document.getElementById("closeServiceModal");
+        const btnCancelService = document.getElementById("btnCancelService");
+
+        // Afișează modala
+        btnOpenService.onclick = function() {
+            serviceModal.style.display = "flex";
+        }
+
+        // Ascunde modala la X sau Cancel
+        btnCloseService.onclick = function() {
+            serviceModal.style.display = "none";
+        }
+        btnCancelService.onclick = function() {
+            serviceModal.style.display = "none";
+        }
+
+        // Ascunde modala dacă dai click pe fundal
+        window.onclick = function(event) {
+            if (event.target == serviceModal) {
+                serviceModal.style.display = "none";
+            }
+        }
+        // Meniu Profil Dropdown
+        const profileTrigger = document.getElementById('profileTrigger');
+        const profileMenu = document.getElementById('profileMenu');
+
+        profileTrigger.addEventListener('click', function(event) {
+            profileMenu.classList.toggle('show');
+            event.stopPropagation(); 
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!profileMenu.contains(event.target) && !profileTrigger.contains(event.target)) {
+                profileMenu.classList.remove('show');
+            }
+        });
+    </script>
 </body>
 </html>

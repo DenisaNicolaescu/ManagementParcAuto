@@ -75,7 +75,7 @@
                     <a href="#" class="forgot-pwd">Forgot password?</a>
                 </div>
 
-                <button type="submit" class="sign-in-btn">Sign in</button>
+               <button type="submit" class="sign-in-btn" id="btnSignIn">Sign in</button>
 
                 <button type="button" id="btn-create-acc" class="create-acc-btn">Create a new account</button>
             </form>
@@ -86,8 +86,9 @@
         const btnManager = document.getElementById('btn-manager');
         const btnUser = document.getElementById('btn-user');
         const btnCreateAcc = document.getElementById('btn-create-acc');
+        const btnSignIn = document.getElementById('btnSignIn'); // Aici am adăugat butonul de Sign In
 
-        // Funcția de selectare a rolului (Manager sau User)
+        // 1. Logica pentru selectarea rolului (rămâne exact a ta)
         if (btnManager && btnUser) {
             btnManager.addEventListener('click', function() {
                 btnManager.classList.add('active');
@@ -100,7 +101,7 @@
             });
         }
 
-        // Funcția care te trimite pe pagina corectă
+        // 2. Logica pentru Create Account (rămâne exact a ta)
         if (btnCreateAcc) {
             btnCreateAcc.addEventListener('click', function(event) {
                 event.preventDefault(); 
@@ -109,6 +110,19 @@
                     window.location.href = 'create-acc-manager.html';
                 } else if (btnUser.classList.contains('active')) {
                     window.location.href = 'create-acc-user.html';
+                }
+            });
+        }
+
+        // 3. Logica NOUĂ pentru Sign In
+        if (btnSignIn) {
+            btnSignIn.addEventListener('click', function(event) {
+                event.preventDefault(); 
+                
+                if (btnManager.classList.contains('active')) {
+                    window.location.href = 'dashboard-manager.html';
+                } else if (btnUser.classList.contains('active')) {
+                    window.location.href = 'cars-u.html';
                 }
             });
         }

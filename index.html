@@ -165,5 +165,19 @@
 
         </div>
     </section>
+    <script>
+        document.getElementById('butonSignIn').addEventListener('click', function(event) {
+    event.preventDefault(); // Oprește formularul să dea refresh la pagină
+
+    // Verificăm dacă tab-ul de User este cel selectat (are clasa 'active')
+    let isUserSelected = document.getElementById('tabUser').classList.contains('active');
+
+    if (isUserSelected) {
+        window.location.href = 'cars-u.html'; // Te trimite la contul de șofer
+    } else {
+        window.location.href = 'dashboard-manager.html'; // Te trimite la contul de manager
+    }
+});
+    </script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-/* ================= VARIABILE ȘI RESET ================= */
+
 :root {
     --primary-purple: #9C6D9D;
     --dark-purple: #844185;
@@ -7,8 +7,11 @@
     --panel-gray: #EAEAEA;
     --text-dark: #000000;
     --text-gray: #555555;
+     --text-gray: #9D9B9D;        
+    --text-light-gray: #777777;
+    --border-light: #DEDEDE;     
     
-    /* Culori de status */
+   
     --status-green: #67B067;
     --status-yellow: #D1A93E;
     --status-red: #D34141;
@@ -42,7 +45,10 @@ body {
 .dash-nav-links {
     display: flex;
     list-style: none;
-    gap: 30px;
+    gap: 30px; 
+    flex: 1; 
+    justify-content: center;
+    padding-right: 120px; 
 }
 
 .dash-nav-links a {
@@ -109,8 +115,13 @@ body {
     background-color: var(--panel-gray);
     padding: 20px;
     border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
+.kpi-card:hover {
+    transform: translateY(-6px); /* Ridică cardul în sus cu 6 pixeli */
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1); /* Creează o umbră difuză dedesubt */
+    cursor: default; /* Sau 'pointer' dacă vrei să arate ca un buton pe care poți da click */
+}
 .kpi-card h3 {
     font-size: 14px;
     color: var(--text-gray);
@@ -125,6 +136,7 @@ body {
 .kpi-number.green { color: var(--status-green); }
 .kpi-number.yellow { color: var(--status-yellow); }
 .kpi-number.red { color: var(--status-red); }
+
 
 /* ================= GRILA PRINCIPALĂ ================= */
 .main-grid {
@@ -152,6 +164,13 @@ body {
     color: var(--primary-purple);
     text-decoration: none;
     font-weight: bold;
+    transition: color 0.2s ease;
+}
+
+.link-view-all:hover {
+    color: #6C4A6D; /* O nuanță mai închisă a movului tău */
+    text-decoration: underline; /* Opțional: o mică subliniere la hover */
+    cursor: pointer;
 }
 
 /* --- ALERTE --- */
@@ -238,6 +257,13 @@ body {
     font-size: 16px;
     cursor: pointer;
     margin-top: 10px;
+    transition: all 0.3s ease;
+}
+.btn-outline-purple:hover {
+    background-color: #876288; /* Fundalul devine mov */
+    color: #FFFFFF; /* Textul devine alb */
+    border-color: #876288; /* Conturul rămâne sau se face același mov */
+    cursor: pointer;
 }
 
 /* --- COSTURI --- */
@@ -668,3 +694,619 @@ body {
 .btn-cancel:hover { background-color: #f5f5f5; }
 .btn-submit:hover { background-color: var(--dark-purple); }
 
+/* Adăugăm select și textarea la aceleași reguli de design ca input-urile */
+.input-group input, 
+.input-group select, 
+.input-group textarea {
+    font-family: sans-serif;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+/* Setăm textarea să poată fi mărit doar pe verticală */
+.input-group textarea {
+    resize: vertical;
+    font-family: sans-serif;
+}
+
+/* ================= BUTOANE SELECTIE EVENT TYPE ================= */
+
+.event-type-options {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.event-type-btn {
+    flex: 1; /* Le face pe toate egale ca lățime */
+    padding: 10px;
+    background-color: white;
+    border: 1px solid var(--primary-purple);
+    color: var(--primary-purple);
+    border-radius: 6px;
+    font-family: sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Efectul de Hover și când butonul este selectat (Activ) */
+.event-type-btn:hover, 
+.event-type-btn.active {
+    background-color: #f4ebf5; /* Un mov foarte deschis, la fel ca la butonul Register din home */
+    border-width: 2px;
+    font-weight: bold;
+}
+
+/* ================= ZONA DE UPLOAD DOCUMENT ================= */
+
+.upload-area {
+    /* 1. Aspectul vizual (Conturul și fundalul) */
+    border: 1px solid #C4C4C4; /* Conturul subțire și gri */
+    border-radius: 8px; /* Colțurile rotunjite */
+    background-color: #FFFFFF;
+    
+    /* 2. Dimensiuni și spațiere */
+    padding: 40px 20px; /* Dă înălțime cutiei (spațiu sus/jos) */
+    width: 100%; /* Să ocupe toată lățimea disponibilă */
+    box-sizing: border-box; /* Previne depășirea marginilor */
+    margin-bottom: 20px;
+    
+    /* 3. Alinierea elementelor din interior pe centru */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    
+    /* 4. Interactivitate */
+    cursor: pointer; /* Arată ca un buton la trecerea mouse-ului */
+    transition: background-color 0.2s ease;
+    position: relative;
+}
+
+#removeFileBtn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    color: #D9534F; /* Roșu */
+    font-size: 24px;
+    padding: 4px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    z-index: 10; /* Îl ține deasupra celorlalte elemente */
+}
+
+#removeFileBtn:hover {
+    background-color: rgba(217, 83, 79, 0.1); /* Un fundal roșu foarte transparent la hover */
+}
+
+/* Efectul de hover când ții mouse-ul pe ea */
+.upload-area:hover {
+    background-color: #F9F5F9; /* Un fundal ușor movuliu */
+    border-color: #9C6D9D; /* Opțional: conturul se face mov la hover */
+}
+.upload-area svg {
+    margin-bottom: 10px; /* Spațiu între iconiță și text */
+}
+
+.upload-area p {
+    font-family: sans-serif;
+    color: #888;
+    font-size: 14px;
+    margin: 0;
+}
+/* Efectul de hover când tragi un fișier deasupra cutiei */
+.upload-area.dragover {
+    background-color: #F9F5F9;
+    border: 2px dashed #9C6D9D; /* Transformăm conturul în linii întrerupte mov */
+}
+/* Containerul general */
+/* Containerul general */
+.profile-dropdown-container {
+    position: relative;
+    display: inline-block;
+    margin-left: auto;
+}
+
+/* Butonul (pill-ul) din bara mov */
+.profile-trigger {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    /* Padding asimetric: mai strâns lângă cerc, mai larg în dreapta */
+    padding: 4px 10px 4px 4px; 
+    border: 2px solid rgba(255, 255, 255, 0.7); /* Contur alb semi-transparent */
+    border-radius: 10px; /* Formă perfectă de pilulă */
+    background-color: rgba(0, 0, 0, 0.15);
+    transition: background-color 0.3s ease;
+}
+
+.profile-trigger:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Cercul cu inițiale */
+.profile-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.9);
+    font-family: var(--font-heading); /* Fontul elegant (Calistoga) */
+}
+
+/* Numele și funcția */
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+    text-align: left;
+}
+
+.profile-name {
+    font-size: 15px;
+    font-weight: 500;
+    color: #222222; /* Text închis la culoare ca în imagine */
+}
+
+.profile-role {
+    font-size: 14px;
+    font-weight: 800; /* Foarte îngroșat */
+    color: #000000;
+    font-family: var(--font-heading); /* Fontul elegant (Calistoga) */
+}
+
+/* Săgeata din dreapta */
+.arrow-icon {
+    font-size: 20px !important;
+    color: rgba(255, 255, 255, 0.8); /* Alb semi-transparent */
+}
+
+/* ------------------------------------- */
+/* CUTIA DROPDOWN ALBĂ */
+/* ------------------------------------- */
+
+.profile-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background-color: var(--bg-white);
+    min-width: 220px;
+    border-radius: 12px; /* Colțuri mai rotunjite ca în poză */
+    border: 3px solid var(--border-light); /* Conturul albastru specific */
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 0; /* Am scos paddingul general pentru a face marginile perfecte */
+    overflow: hidden; /* Păstrează colțurile rotunjite */
+}
+
+.profile-menu.show {
+    display: block;
+}
+
+.profile-menu-header {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background-color: #F8FAFC; /* Un fundal foarte, foarte ușor gri în antet */
+}
+
+.profile-menu-header strong {
+    font-size: 15px;
+    color: #334155;
+    font-weight: 700;
+}
+
+.profile-menu-header span {
+    font-size: 13px;
+    color: #94A3B8;
+}
+
+.dropdown-divider {
+    border: none;
+    border-top: 1px solid #F1F5F9; /* Linia foarte deschisă la culoare */
+    margin: 0;
+}
+
+.profile-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    text-decoration: none;
+    color: #475569;
+    font-size: 14px;
+    font-weight: 600; /* Text ușor îngroșat */
+    transition: background-color 0.2s;
+}
+
+.profile-menu-item:hover {
+    background-color: #F1F5F9;
+}
+
+/* Stilul iconițelor gri din interior */
+.profile-menu-item .material-symbols-outlined {
+    font-size: 20px;
+    color: #64748B; 
+}
+
+/* Stilul specific pentru Sign Out */
+.profile-menu-item.sign-out {
+    color: #E15B5B; /* Nuanța de roșu din imagine */
+}
+
+.profile-menu-item.sign-out .material-symbols-outlined {
+    color: #E15B5B; 
+}
+
+/* --- STILURI PENTRU PAGINA DOCUMENTS --- */
+
+.docs-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.docs-title {
+    font-family: var(--font-heading);
+    font-size: 24px;
+    color: #000;
+    margin-bottom: 5px;
+}
+
+.docs-subtitle {
+    font-size: 14px;
+    color: #333;
+}
+
+.btn-add-doc {
+    background-color: #9C6D9D;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: background-color 0.2s;
+}
+
+.btn-add-doc:hover {
+    background-color: #844185;
+}
+
+/* Acordeon Container */
+.accordion-list {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Header-ul Gri */
+.acc-header-row {
+    display: flex;
+    background-color: #B3B3B3;
+    padding: 12px 20px;
+    font-weight: bold;
+    color: #000;
+    font-size: 14px;
+}
+
+.acc-item {
+    border-bottom: 1px solid #E0E0E0;
+}
+
+.acc-main-row {
+    display: flex;
+    padding: 16px 20px;
+    align-items: center;
+    cursor: pointer;
+    background-color: #fff;
+    transition: background-color 0.2s;
+}
+
+.acc-main-row:hover {
+    background-color: #F9F9F9;
+}
+
+/* Coloanele din rânduri */
+.acc-col-vehicle { flex: 2; font-size: 14px; }
+.acc-col-status { flex: 1; text-align: center; font-size: 14px; }
+.acc-col-docs { flex: 1; text-align: right; font-size: 14px; }
+.acc-col-arrow { width: 40px; text-align: right; }
+
+.plate-text {
+    color: #9C6D9D;
+    margin-left: 5px;
+}
+
+/* Săgeata rotativă */
+.expand-icon {
+    transition: transform 0.3s ease;
+    color: #000;
+    font-weight: bold;
+}
+
+/* Rândul Ascuns cu Detalii */
+.acc-details-row {
+    display: none; /* Ascuns implicit */
+    padding: 20px 40px;
+    background-color: #FAFAFA;
+    border-top: 1px solid #E0E0E0;
+}
+
+/* Clasa adăugată de JS când e deschis */
+.acc-item.active .acc-details-row {
+    display: block;
+}
+
+.acc-item.active .expand-icon {
+    transform: rotate(180deg); /* Rotește săgeata în sus */
+}
+
+/* Tabelul din interior */
+.nested-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 13px;
+}
+
+.nested-table th {
+    color: #888;
+    font-weight: bold;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #E0E0E0;
+}
+
+.nested-table td {
+    padding: 12px 0;
+    color: #333;
+}
+
+.action-icon {
+    font-size: 18px;
+    color: #666;
+    cursor: pointer;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.action-icon:hover {
+    color: #000;
+}
+
+/* ==========================================================================
+   STILURI SPECIFICE PENTRU USER (ȘOFER)
+   Aceste clase se aplică pe paginile cars-u.html, documents-u.html, etc.
+   ========================================================================== */
+
+/* Așezarea 2 pe 2 a cardurilor */
+.user-dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 20px;
+}
+
+/* Aspectul cardurilor gri */
+.user-panel {
+    background-color: #E6E6E6;
+    padding: 24px;
+    border-radius: 8px;
+}
+
+.user-panel h2 {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #000;
+}
+
+/* Tabelele din interiorul cardurilor */
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.user-table th {
+    border-bottom: 1px solid #C4C4C4;
+    padding-bottom: 12px;
+    font-size: 13px;
+    font-weight: 800;
+    color: #000;
+}
+
+.user-table td {
+    padding: 14px 0;
+    font-size: 14px;
+    color: #333;
+}
+
+.user-table .align-left {
+    text-align: left;
+}
+
+/* Cardul alb de Suport din dreapta jos */
+.support-panel {
+    background-color: #FFFFFF;
+    border: 2px solid #876288;
+    padding: 24px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.support-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.support-header h2 {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    margin: 0;
+    color: #000;
+}
+
+.support-icon {
+    font-size: 28px !important;
+    color: #876288;
+}
+
+.support-text {
+    font-size: 18px;
+    color: #888;
+    line-height: 1.4;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.support-email {
+    font-size: 18px;
+    color: #000;
+    text-align: center;
+    font-family: var(--font-heading);
+}
+
+/* Clase de culori ajutătoare (se pot refolosi oriunde) */
+.text-green { color: #5CB85C; font-weight: 500; }
+.text-red { color: #D9534F; font-weight: 500; }
+.text-yellow { color: #D4AF37; font-weight: 500; }
+
+/* --- STILURI PENTRU DOCUMENTS USER (documents-u.html) --- */
+
+/* Subtitlul simplu de pe pagină */
+.user-subtitle {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Caseta orizontală de informații */
+.user-info-box {
+    display: flex;
+    align-items: center; /* Aliniază iconița și textul pe centru pe verticală */
+    gap: 16px; /* Spațiu între iconiță și text */
+    border: 2px solid #9C6D9D; /* Conturul mov */
+    border-radius: 8px;
+    padding: 20px 24px;
+    background-color: #FFFFFF;
+    margin-top: 40px; /* Spațiu față de tabelul de sus */
+    flex:1;
+}
+
+.user-info-box .material-symbols-outlined {
+    font-size: 32px;
+    color: #9C6D9D;
+}
+
+.user-info-box p {
+    margin: 0;
+    font-size: 18px;
+    color: #9C6D9D; /* Textul ușor movuliu conform imaginii */
+    line-height: 1.4;
+}
+
+/* --- STILURI PENTRU USER TIRES (tires-u.html) --- */
+
+.tires-grid {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap; /* Dacă adaugi mai multe mașini, trec pe rândul următor */
+}
+
+.tire-card {
+    background-color: #E6E6E6; /* Gri deschis */
+    padding: 24px;
+    border-radius: 8px;
+    width: 280px; /* Lățimea fixă a cardului */
+    box-sizing: border-box;
+}
+
+.tire-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.tire-plate {
+    color: #9C6D9D; /* Mov */
+    font-weight: 800;
+    font-size: 16px;
+}
+
+.tire-season {
+    font-size: 14px;
+    color: #333;
+}
+
+.tire-model {
+    font-family: var(--font-heading);
+    font-size: 16px;
+    color: #000;
+    margin-bottom: 16px;
+}
+
+/* Caseta gri mai închisă (Condition) */
+.tire-condition-box {
+    background-color: #D4D4D4;
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+.tire-label {
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 4px;
+}
+
+.tire-status {
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* Bara de progres */
+.tire-progress-wrapper {
+    margin-top: auto;
+}
+
+.tire-progress-track {
+    width: 100%;
+    height: 18px;
+    border: 1px solid #A0A0A0; /* Contur gri */
+    border-radius: 4px;
+    background-color: transparent;
+    overflow: hidden; /* Taie marginile umpluturii ca să respecte rotunjirea */
+    margin-bottom: 8px;
+}
+
+.tire-progress-fill {
+    height: 100%;
+    background-color: #9C6D9D; /* Culoarea mov a uzurii */
+    border-radius: 2px; /* Mică rotunjire în dreapta */
+}
+
+.tire-wear-text {
+    font-size: 13px;
+    color: #888;
+}

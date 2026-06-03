@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,11 +8,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Calistoga&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="manager.css">
 </head>
+
 <body>
 
-    <!-- Bara de Navigație -->
     <nav class="dash-navbar">
         <a href="index.html">
             <img src="images/logo.png" alt="Autodock Logo" class="dash-logo">
@@ -24,19 +26,52 @@
             <li><a href="calendar.html">Calendar</a></li>
             <li><a href="documents-m.html">Documents</a></li>
         </ul>
-    </nav>
 
+        <!-- Containerul pentru Profil și Dropdown -->
+        <div class="profile-dropdown-container">
+            <div class="profile-trigger" id="profileTrigger">
+                <div class="profile-avatar">AP</div>
+                <div class="profile-info">
+                    <span class="profile-name">Adrian Popescu</span>
+                    <span class="profile-role">Manager</span>
+                </div>
+                <span class="material-symbols-outlined arrow-icon">expand_more</span>
+            </div>
+
+            <div class="profile-menu" id="profileMenu">
+                <div class="profile-menu-header">
+                    <strong>Manager Central</strong>
+                    <span>manager@autodock.ro</span>
+                </div>
+                
+                <hr class="dropdown-divider">
+                
+                <a href="#" class="profile-menu-item">
+                    <span class="material-symbols-outlined">account_circle</span> My Profile
+                </a>
+                <a href="#" class="profile-menu-item">
+                    <span class="material-symbols-outlined">settings</span> Account Settings
+                </a>
+                
+                <hr class="dropdown-divider">
+                
+                <a href="index.html" class="profile-menu-item sign-out">
+                    <span class="material-symbols-outlined">logout</span> Sign Out
+                </a>
+            </div>
+        </div>
+    </nav>
     <!-- Conținutul Paginii Drivers -->
     <main class="dashboard-container">
-        
+
         <!-- Header cu un singur buton aliniat la dreapta -->
         <header class="page-header header-right">
-            <button class="btn-add-car">+ Add a new driver</button>
+            <button id="btnOpenDriverModal" class="btn-add-car">+ Add a new driver</button>
         </header>
 
         <!-- Containerul pentru "Tabelul" de șoferi -->
         <div class="drivers-list">
-            
+
             <!-- Rândul Gri Închis (Capul de tabel) -->
             <div class="drivers-grid drivers-header-row">
                 <div>Driver</div>
@@ -61,7 +96,10 @@
                 </div>
                 <div>B</div>
                 <div>+40 742 100 200</div>
-                <div class="table-actions">📝 🗑️</div>
+               <td class="table-actions" style="display: flex; justify-content: center; gap: 12px; border: none;">
+                            <span class="material-symbols-outlined action-icon edit-icon" title="Edit">edit_document</span>
+                            <span class="material-symbols-outlined action-icon delete-icon" title="Delete">delete</span>
+                        </td>
             </div>
 
             <!-- Șofer 2 -->
@@ -138,5 +176,101 @@
         </div>
 
     </main>
+    <div id="addDriverModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" id="closeDriverModal">&times;</span>
+
+            <h2>ADD NEW DRIVER</h2>
+
+            <form class="add-car-form">
+
+                <h3 class="section-title">Personal information</h3>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>Full name</label>
+                        <input type="text">
+                    </div>
+                    <div class="input-group">
+                        <label>ID</label>
+                        <input type="text">
+                    </div>
+                    <div class="input-group">
+                        <label>Email</label>
+                        <input type="email">
+                    </div>
+                    <div class="input-group">
+                        <label>Phone number</label>
+                        <input type="text">
+                    </div>
+                </div>
+
+                <h3 class="section-title">License Details</h3>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>License Category</label>
+                        <input type="text">
+                    </div>
+                    <div class="input-group">
+                        <label>Expiration Date</label>
+                        <input type="date">
+                    </div>
+                </div>
+
+                <h3 class="section-title">Vehicle Assignment</h3>
+                <div class="input-group full-width">
+                    <label>Select Vehicle to Assign</label>
+                    <input type="text" placeholder="None (Standby)">
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" id="btnCancelDriver">Cancel</button>
+                    <button type="submit" class="btn-submit">Register Driver</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const driverModal = document.getElementById("addDriverModal");
+        const btnOpenDriver = document.getElementById("btnOpenDriverModal");
+        const btnCloseDriver = document.getElementById("closeDriverModal");
+        const btnCancelDriver = document.getElementById("btnCancelDriver");
+
+        // Afișează modala
+        btnOpenDriver.onclick = function () {
+            driverModal.style.display = "flex";
+        }
+
+        // Ascunde modala la X sau Cancel
+        btnCloseDriver.onclick = function () {
+            driverModal.style.display = "none";
+        }
+        btnCancelDriver.onclick = function () {
+            driverModal.style.display = "none";
+        }
+
+        // Ascunde modala dacă dai click pe fundalul gri
+        window.onclick = function (event) {
+            if (event.target == driverModal) {
+                driverModal.style.display = "none";
+            }
+        }
+        // Meniu Profil Dropdown
+        const profileTrigger = document.getElementById('profileTrigger');
+        const profileMenu = document.getElementById('profileMenu');
+
+        profileTrigger.addEventListener('click', function(event) {
+            profileMenu.classList.toggle('show');
+            event.stopPropagation(); 
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!profileMenu.contains(event.target) && !profileTrigger.contains(event.target)) {
+                profileMenu.classList.remove('show');
+            }
+        });
+    </script>
 </body>
+
 </html>
