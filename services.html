@@ -32,7 +32,7 @@
                 <h1>Service Management</h1>
                 <p>Track repairs, costs and maintenance schedules</p>
             </div>
-            <button class="btn-add-car">+ Add a new intervention</button>
+            <button id="btnOpenServiceModal" class="btn-add-car">+ Add a new intervention</button>
         </header>
 
         <section class="kpi-row kpi-3-cols">
@@ -132,5 +132,89 @@
         </div>
 
     </main>
+
+    <div id="addServiceModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" id="closeServiceModal">&times;</span>
+            
+            <h2>ADD NEW INTERVENTION</h2>
+
+            <form class="add-car-form">
+                
+                <h3 class="section-title">Vehicle & Schedule</h3>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>Select Vehicle</label>
+                        <select>
+                            <option>SB 07 DKY - Ford Focus</option>
+                            <option>B 200 ADK - Volkswagen Golf</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Intervention Date</label>
+                        <input type="date" value="2026-09-06">
+                    </div>
+                </div>
+
+                <h3 class="section-title">Service Details</h3>
+                <div class="input-group full-width" style="margin-bottom: 15px;">
+                    <label>Type of Intervention</label>
+                    <select>
+                        <option>Engine/Transmission</option>
+                        <option>Technical Inspection (ITP)</option>
+                        <option>Routine Maintenance</option>
+                    </select>
+                </div>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>Service name</label>
+                        <input type="text" placeholder="e.g. YONI">
+                    </div>
+                    <div class="input-group">
+                        <label>Estimated Cost</label>
+                        <input type="text" placeholder="e.g. 500 RON">
+                    </div>
+                </div>
+
+                <h3 class="section-title">Description/Notes</h3>
+                <div class="input-group full-width">
+                    <textarea placeholder="Describe the maintenance or issue..." rows="3"></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" id="btnCancelService">Cancel</button>
+                    <button type="submit" class="btn-submit">Schedule intervention</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const serviceModal = document.getElementById("addServiceModal");
+        const btnOpenService = document.getElementById("btnOpenServiceModal");
+        const btnCloseService = document.getElementById("closeServiceModal");
+        const btnCancelService = document.getElementById("btnCancelService");
+
+        // Afișează modala
+        btnOpenService.onclick = function() {
+            serviceModal.style.display = "flex";
+        }
+
+        // Ascunde modala la X sau Cancel
+        btnCloseService.onclick = function() {
+            serviceModal.style.display = "none";
+        }
+        btnCancelService.onclick = function() {
+            serviceModal.style.display = "none";
+        }
+
+        // Ascunde modala dacă dai click pe fundal
+        window.onclick = function(event) {
+            if (event.target == serviceModal) {
+                serviceModal.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Calistoga&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="manager.css">
 </head>
+
 <body>
 
     <nav class="dash-navbar">
@@ -26,13 +28,13 @@
     </nav>
 
     <main class="dashboard-container">
-        
+
         <header class="page-header align-start">
             <div class="header-text">
                 <h1>Fleet Documents</h1>
                 <p>Provider & Series Management</p>
             </div>
-            <button class="btn-add-car">+ Add a new document</button>
+            <button id="btnOpenDocModal" class="btn-add-car">+ Add a new document</button>
         </header>
 
         <div class="panel inventory-panel">
@@ -59,7 +61,7 @@
                         <td class="text-center text-red">EXPIRED</td>
                         <td class="text-center table-actions">📝 🗑️</td>
                     </tr>
-                    
+
                     <tr>
                         <td>
                             <strong>Volkswagen Golf(2021)</strong><br>
@@ -124,5 +126,83 @@
         </div>
 
     </main>
+    <div id="addDocModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" id="closeDocModal">&times;</span>
+
+            <h2>ADD NEW DOCUMENT</h2>
+
+            <form class="add-car-form">
+
+                <h3 class="section-title">Document Details</h3>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>Select Vehicle</label>
+                        <select>
+                            <option>SB 07 DKY - Ford Focus</option>
+                            <option>CJ 92 CBL - Renault Megane</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Expiration Date</label>
+                        <input type="date" value="2026-09-06">
+                    </div>
+                    <div class="input-group">
+                        <label>Document Type</label>
+                        <select>
+                            <option>ITP</option>
+                            <option>RCA</option>
+                            <option>Vinietă RO</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Provider / Issuer</label>
+                        <input type="text" placeholder="e.g. Groupama">
+                    </div>
+                </div>
+
+                <h3 class="section-title">Digital Copy</h3>
+                <div class="upload-area">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none"
+                        stroke="var(--primary-purple)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"></path>
+                        <path d="M12 12v9"></path>
+                        <path d="m8 16 4-4 4 4"></path>
+                    </svg>
+                    <p>Click to upload or drag & drop PDF/Image of the document</p>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" id="btnCancelDoc">Cancel</button>
+                    <button type="submit" class="btn-submit">Save document</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const docModal = document.getElementById("addDocModal");
+        const btnOpenDoc = document.getElementById("btnOpenDocModal");
+        const btnCloseDoc = document.getElementById("closeDocModal");
+        const btnCancelDoc = document.getElementById("btnCancelDoc");
+
+        // Funcții deschidere/închidere
+        btnOpenDoc.onclick = function () {
+            docModal.style.display = "flex";
+        }
+        btnCloseDoc.onclick = function () {
+            docModal.style.display = "none";
+        }
+        btnCancelDoc.onclick = function () {
+            docModal.style.display = "none";
+        }
+        window.onclick = function (event) {
+            if (event.target == docModal) {
+                docModal.style.display = "none";
+            }
+        }
+    </script>
 </body>
+
 </html>

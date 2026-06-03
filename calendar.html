@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Calistoga&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="manager.css">
 </head>
+
 <body>
 
     <nav class="dash-navbar">
@@ -26,14 +28,14 @@
     </nav>
 
     <main class="dashboard-container">
-        
+
         <header class="page-header">
             <h1>Fleet Calendar - June 2026</h1>
-            <button class="btn-add-car">+ Add a new event</button>
+            <button id="btnOpenEventModal" class="btn-add-car">+ Add a new event</button>
         </header>
 
         <div class="calendar-wrapper">
-            
+
             <div class="calendar-header-row">
                 <div>MON</div>
                 <div>TUE</div>
@@ -45,7 +47,7 @@
             </div>
 
             <div class="calendar-grid">
-                
+
                 <div class="cal-day"><span class="day-number">1</span></div>
                 <div class="cal-day">
                     <span class="day-number">2</span>
@@ -105,5 +107,86 @@
         </div>
 
     </main>
+    <div id="addEventModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" id="closeEventModal">&times;</span>
+
+            <h2>ADD NEW EVENT</h2>
+
+            <form class="add-car-form">
+
+                <h3 class="section-title">Event type</h3>
+                <div class="event-type-options">
+                    <button type="button" class="event-type-btn active">Service</button>
+                    <button type="button" class="event-type-btn">Legal(ITP/RCA)</button>
+                    <button type="button" class="event-type-btn">Other</button>
+                </div>
+
+                <h3 class="section-title">Select vehicle</h3>
+                <div class="input-group full-width">
+                    <select>
+                        <option>SB 07 DKY - Ford Focus</option>
+                        <option>CJ 92 CBL - Renault Megane</option>
+                    </select>
+                </div>
+
+                <h3 class="section-title">Start date</h3>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <input type="date" value="2026-09-06">
+                    </div>
+                    <div class="input-group">
+                        <input type="text" placeholder="e.g. 500 RON">
+                    </div>
+                </div>
+
+                <h3 class="section-title">Description/Notes</h3>
+                <div class="input-group full-width">
+                    <textarea placeholder="Describe the maintenance or issue..." rows="3"></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" id="btnCancelEvent">Cancel</button>
+                    <button type="submit" class="btn-submit">Create event</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const eventModal = document.getElementById("addEventModal");
+        const btnOpenEvent = document.getElementById("btnOpenEventModal");
+        const btnCloseEvent = document.getElementById("closeEventModal");
+        const btnCancelEvent = document.getElementById("btnCancelEvent");
+
+        // Funcții deschidere/închidere
+        btnOpenEvent.onclick = function () {
+            eventModal.style.display = "flex";
+        }
+        btnCloseEvent.onclick = function () {
+            eventModal.style.display = "none";
+        }
+        btnCancelEvent.onclick = function () {
+            eventModal.style.display = "none";
+        }
+        window.onclick = function (event) {
+            if (event.target == eventModal) {
+                eventModal.style.display = "none";
+            }
+        }
+
+        // Un mic bonus JS: Facem butoanele de "Event type" să poată fi selectate
+        const typeButtons = document.querySelectorAll('.event-type-btn');
+        typeButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                // Scoatem clasa active de pe toate
+                typeButtons.forEach(btn => btn.classList.remove('active'));
+                // O adăugăm doar pe cel apăsat
+                this.classList.add('active');
+            });
+        });
+    </script>
 </body>
+
 </html>
