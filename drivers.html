@@ -8,7 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Calistoga&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="manager.css">
 </head>
 
@@ -27,7 +28,7 @@
             <li><a href="documents-m.html">Documents</a></li>
         </ul>
 
-       
+
         <div class="profile-dropdown-container">
             <div class="profile-trigger" id="profileTrigger">
                 <div class="profile-avatar">AP</div>
@@ -43,46 +44,46 @@
                     <strong>Manager Central</strong>
                     <span>manager@autodock.ro</span>
                 </div>
-                
+
                 <hr class="dropdown-divider">
-                
+
                 <a href="#" class="profile-menu-item">
                     <span class="material-symbols-outlined">account_circle</span> My Profile
                 </a>
                 <a href="#" class="profile-menu-item">
                     <span class="material-symbols-outlined">settings</span> Account Settings
                 </a>
-                
+
                 <hr class="dropdown-divider">
-                
+
                 <a href="index.html" class="profile-menu-item sign-out">
                     <span class="material-symbols-outlined">logout</span> Sign Out
                 </a>
             </div>
         </div>
     </nav>
-   
+
     <main class="dashboard-container">
 
-        
+
         <header class="page-header header-right">
             <button id="btnOpenDriverModal" class="btn-add-car">+ Add a new driver</button>
         </header>
 
-       
+
         <div class="drivers-list">
 
-            
+
             <div class="drivers-grid drivers-header-row">
                 <div>Driver</div>
                 <div>Assigned Vehicle</div>
                 <div>License Type</div>
                 <div>Phone</div>
-                <div>Actions</div>
+
             </div>
 
-            
-           <div class="drivers-grid driver-card">
+
+            <div class="drivers-grid driver-card">
                 <div class="driver-profile">
                     <div class="avatar avatar-blue">DA</div>
                     <div class="driver-info">
@@ -96,7 +97,8 @@
                 </div>
                 <div>B</div>
                 <div>+40 742 100 200</div>
-                <div class="table-actions" style="display: flex; gap: 12px; border: none; align-items: center; justify-content: flex-end;">
+                <div class="table-actions"
+                    style="display: flex; gap: 12px; border: none; align-items: center; justify-content: flex-end;">
                     <span class="material-symbols-outlined action-icon edit-icon" title="Edit">edit</span>
                     <span class="material-symbols-outlined action-icon delete-icon" title="Delete">delete</span>
                 </div>
@@ -116,7 +118,8 @@
                 </div>
                 <div>B+C</div>
                 <div>+40 756 300 401</div>
-                <div class="table-actions" style="display: flex; gap: 12px; border: none; align-items: center; justify-content: flex-end;">
+                <div class="table-actions"
+                    style="display: flex; gap: 12px; border: none; align-items: center; justify-content: flex-end;">
                     <span class="material-symbols-outlined action-icon edit-icon" title="Edit">edit</span>
                     <span class="material-symbols-outlined action-icon delete-icon" title="Delete">delete</span>
                 </div>
@@ -136,7 +139,8 @@
                 </div>
                 <div>B</div>
                 <div>+40 765 150 700</div>
-                <div class="table-actions" style="display: flex; gap: 12px; border: none; align-items: center; justify-content: flex-end;">
+                <div class="table-actions"
+                    style="display: flex; gap: 12px; border: none; align-items: center; justify-content: flex-end;">
                     <span class="material-symbols-outlined action-icon edit-icon" title="Edit">edit</span>
                     <span class="material-symbols-outlined action-icon delete-icon" title="Delete">delete</span>
                 </div>
@@ -156,7 +160,8 @@
                 </div>
                 <div>B+E</div>
                 <div>+40 743 900 112</div>
-                <div class="table-actions" style="display: flex; gap: 12px; border: none; align-items: center; justify-content: flex-end;">
+                <div class="table-actions"
+                    style="display: flex; gap: 12px; border: none; align-items: center; justify-content: flex-end;">
                     <span class="material-symbols-outlined action-icon edit-icon" title="Edit">edit</span>
                     <span class="material-symbols-outlined action-icon delete-icon" title="Delete">delete</span>
                 </div>
@@ -175,7 +180,8 @@
                 </div>
                 <div>B</div>
                 <div>+40 711 234 567</div>
-                <div class="table-actions" style="display: flex; gap: 12px; border: none; align-items: center; justify-content: flex-end;">
+                <div class="table-actions"
+                    style="display: flex; gap: 12px; border: none; align-items: center; justify-content: flex-end;">
                     <span class="material-symbols-outlined action-icon edit-icon" title="Edit">edit</span>
                     <span class="material-symbols-outlined action-icon delete-icon" title="Delete">delete</span>
                 </div>
@@ -235,47 +241,144 @@
             </form>
         </div>
     </div>
+    <div id="editDriverModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" id="closeEditModal">&times;</span>
 
+            <h2>EDIT DRIVER</h2>
+
+            <form class="edit-driver-form">
+                <h3 class="section-title">Personal information</h3>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>First Name</label>
+                        <input type="text" placeholder="">
+                    </div>
+                    <div class="input-group">
+                        <label>Last Name</label>
+                        <input type="text" placeholder="">
+                    </div>
+                    <div class="input-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="">
+                    </div>
+                    <div class="input-group">
+                        <label>Phone number</label>
+                        <input type="text" placeholder="">
+                    </div>
+                </div>
+
+                <h3 class="section-title">License Details</h3>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>License Category</label>
+                        <input type="text" placeholder="">
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" id="btnCancelEdit">Cancel</button>
+                    <button type="submit" class="btn-submit">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
     <script>
-        const driverModal = document.getElementById("addDriverModal");
-        const btnOpenDriver = document.getElementById("btnOpenDriverModal");
-        const btnCloseDriver = document.getElementById("closeDriverModal");
-        const btnCancelDriver = document.getElementById("btnCancelDriver");
+   
+    const driverModal = document.getElementById("addDriverModal");
+    const btnOpenDriver = document.getElementById("btnOpenDriverModal");
+    const btnCloseDriver = document.getElementById("closeDriverModal");
+    const btnCancelDriver = document.getElementById("btnCancelDriver");
 
-       
+    if (btnOpenDriver) {
         btnOpenDriver.onclick = function () {
             driverModal.style.display = "flex";
         }
-
-        
+    }
+    if (btnCloseDriver) {
         btnCloseDriver.onclick = function () {
             driverModal.style.display = "none";
         }
+    }
+    if (btnCancelDriver) {
         btnCancelDriver.onclick = function () {
             driverModal.style.display = "none";
         }
+    }
 
-       
-        window.onclick = function (event) {
-            if (event.target == driverModal) {
-                driverModal.style.display = "none";
-            }
+   
+    const editModal = document.getElementById("editDriverModal");
+    const closeEditBtn = document.getElementById("closeEditModal");
+    const cancelEditBtn = document.getElementById("btnCancelEdit");
+    const editIcons = document.querySelectorAll(".edit-icon");
+
+    editIcons.forEach(icon => {
+        icon.addEventListener("click", function(e) {
+            e.stopPropagation(); 
+            if (editModal) editModal.style.display = "flex";
+        });
+    });
+
+    if (closeEditBtn) {
+        closeEditBtn.onclick = function() {
+            editModal.style.display = "none";
         }
-       
-        const profileTrigger = document.getElementById('profileTrigger');
-        const profileMenu = document.getElementById('profileMenu');
+    }
+    if (cancelEditBtn) {
+        cancelEditBtn.onclick = function() {
+            editModal.style.display = "none";
+        }
+    }
 
-        profileTrigger.addEventListener('click', function(event) {
+    
+    window.onclick = function (event) {
+        if (event.target == driverModal) {
+            driverModal.style.display = "none";
+        }
+        if (event.target == editModal) {
+            editModal.style.display = "none";
+        }
+    }
+
+  
+    const profileTrigger = document.getElementById('profileTrigger');
+    const profileMenu = document.getElementById('profileMenu');
+
+    if (profileTrigger && profileMenu) {
+        profileTrigger.addEventListener('click', function (event) {
             profileMenu.classList.toggle('show');
-            event.stopPropagation(); 
+            event.stopPropagation();
         });
 
-        document.addEventListener('click', function(event) {
+        document.addEventListener('click', function (event) {
             if (!profileMenu.contains(event.target) && !profileTrigger.contains(event.target)) {
                 profileMenu.classList.remove('show');
             }
         });
-    </script>
+    }
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const driverCards = document.querySelectorAll('.driver-card');
+
+        driverCards.forEach(card => {
+            card.addEventListener('click', function (e) {
+               
+                if (e.target.closest('.action-icon')) return;
+
+              
+                driverCards.forEach(c => {
+                    if (c !== this) {
+                        c.classList.remove('show-actions');
+                    }
+                });
+
+               
+                this.classList.toggle('show-actions');
+            });
+        });
+    });
+</script>
 </body>
 
 </html>
