@@ -87,7 +87,7 @@
         const btnUser = document.getElementById('btn-user');
         const btnCreateAcc = document.getElementById('btn-create-acc');
 
-       
+        // Funcția de selectare a rolului (Manager sau User)
         if (btnManager && btnUser) {
             btnManager.addEventListener('click', function() {
                 btnManager.classList.add('active');
@@ -100,7 +100,7 @@
             });
         }
 
-        
+        // Funcția care te trimite pe pagina corectă
         if (btnCreateAcc) {
             btnCreateAcc.addEventListener('click', function(event) {
                 event.preventDefault(); 

@@ -1,3 +1,13 @@
+<?php
+include 'conexiune.php';
+$query="SELECT * FROM cars";
+$result=mysqli_query($conn, $query);
+
+//while($car=mysqli_fetch_assoc($result)){
+//echo $car['brand']." ".$car['model']."<br>";
+//}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -57,78 +67,32 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <?php while($car=mysqli_fetch_assoc($result)){ ?>
                     <tr>
                         <td>
-                            <strong>Dacia Jogger (2023)</strong><br>
-                            <span class="license-plate">SB 42 BDP</span>
+                            <strong>
+                                <?php echo $car['brand']." ".$car['model']." (".$car['year'].")";?>
+                            </strong><br>
+                            <span class="license_plate">
+                                <?php echo $car['license_plate']; ?>
+                            </span>
                         </td>
+
                         <td>Unassigned</td>
-                        <td class="text-yellow">Warning</td>
-                        <td>06 Jun 2026</td>
-                        <td>RCA: Valid</td>
-                        <td class="table-actions">📝 🗑️</td>
-                    </tr>
 
-                    <tr>
                         <td>
-                            <strong>Volkswagen Golf(2021)</strong><br>
-                            <span class="license-plate">B 200 ADK</span>
+                            <?php echo $car['status']; ?>
                         </td>
-                        <td>Unassigned</td>
-                        <td class="text-yellow">Warning</td>
-                        <td>15 Jul 2026</td>
-                        <td>RCA: Valid</td>
-                        <td class="table-actions">📝 🗑️</td>
-                    </tr>
 
-                    <tr>
-                        <td>
-                            <strong>Ford Focus (2021)</strong><br>
-                            <span class="license-plate">SB 07 DKY</span>
+                        <td><?php echo $car['next_service_date']; ?></td>
+                        <td><?php echo $car['documents']; ?></td>
+                        <td class="table-actions"> 
+                            <a href="edit_car.php?id=<?php echo $car['id']; ?>">📝</a>
+                            <a href="delete_car.php?id=<?php echo $car['id']; ?>">🗑️</a>
                         </td>
-                        <td>Dan Adrian</td>
-                        <td class="text-red">In service</td>
-                        <td>Immediate</td>
-                        <td class="text-red">RCA: EXPIRED</td>
-                        <td class="table-actions">📝 🗑️</td>
                     </tr>
-
-                    <tr>
-                        <td>
-                            <strong>Renault Megane (2022)</strong><br>
-                            <span class="license-plate">CJ 92 CBL</span>
-                        </td>
-                        <td>Popa Ioan</td>
-                        <td class="text-green">Active</td>
-                        <td>08 Jun 2026</td>
-                        <td>RCA: Valid</td>
-                        <td class="table-actions">📝 🗑️</td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <strong>Skoda Octavia (2020)</strong><br>
-                            <span class="license-plate">SB 23 ALX</span>
-                        </td>
-                        <td>Dumitru Alin</td>
-                        <td class="text-green">Active</td>
-                        <td>11 Jun 2026</td>
-                        <td>ITP: Valid</td>
-                        <td class="table-actions">📝 🗑️</td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <strong>Dacia Logan (2019)</strong><br>
-                            <span class="license-plate">CJ 99 TNT</span>
-                        </td>
-                        <td>Enache Vlad</td>
-                        <td class="text-green">Active</td>
-                        <td>27 May 2026</td>
-                        <td>ITP: Due soon</td>
-                        <td class="table-actions">📝 🗑️</td>
-                    </tr>
-                </tbody>
+                <?php } ?>
+                </tbody> 
             </table>
         </div>
 
@@ -140,26 +104,39 @@
             
             <h2>ADD NEW VEHICLE</h2>
 
-            <form class="add-car-form">
+            <form class="add-car-form" action="add_car.php" method="POST">
                 
                 <h3 class="section-title">General information</h3>
                 <div class="form-grid">
                     <div class="input-group">
-                        <label>Brand & Model</label>
-                        <input type="text" placeholder="e.g. Dacia Logan">
+                        <label>Brand </label>
+                        <input type="text" name="brand" placeholder="e.g. Dacia">
+                    </div>
+                    <div class="input-group">
+                        <label>Model </label>
+                        <input type="text" name="model" placeholder="e.g. Logan">
                     </div>
                     <div class="input-group">
                         <label>License Plate</label>
-                        <input type="text" placeholder="e.g. SB 12 AAA">
+                        <input type="text" name="license_plate" placeholder="e.g. SB 12 AAA">
                     </div>
                     <div class="input-group">
                         <label>Year</label>
-                        <input type="number" value="2026">
+                        <input type="number" name="year" value="2026">
                     </div>
                     <div class="input-group">
                         <label>VIN (Chassis Number)</label>
-                        <input type="text" placeholder="17 characters">
+                        <input type="text" name="vin" placeholder="17 characters">
                     </div>
+                     <div class="input-group">
+                        <label>Next Service Date</label>
+                        <input type="text" name="next_service_date">
+                    </div>
+                     <div class="input-group">
+                        <label>Documents</label>
+                        <input type="text" name="documents">
+                    </div>
+                    
                 </div>
 
                 <h3 class="section-title">Document status</h3>

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Calistoga&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="manager.css">
 </head>
-
 <body>
 
     <!-- Bara de Navigație -->
@@ -30,15 +28,15 @@
 
     <!-- Conținutul Paginii Drivers -->
     <main class="dashboard-container">
-
+        
         <!-- Header cu un singur buton aliniat la dreapta -->
         <header class="page-header header-right">
-            <button id="btnOpenDriverModal" class="btn-add-car">+ Add a new driver</button>
+            <button class="btn-add-car">+ Add a new driver</button>
         </header>
 
         <!-- Containerul pentru "Tabelul" de șoferi -->
         <div class="drivers-list">
-
+            
             <!-- Rândul Gri Închis (Capul de tabel) -->
             <div class="drivers-grid drivers-header-row">
                 <div>Driver</div>
@@ -140,87 +138,5 @@
         </div>
 
     </main>
-    <div id="addDriverModal" class="modal-overlay">
-        <div class="modal-content">
-            <span class="close-modal" id="closeDriverModal">&times;</span>
-
-            <h2>ADD NEW DRIVER</h2>
-
-            <form class="add-car-form">
-
-                <h3 class="section-title">Personal information</h3>
-                <div class="form-grid">
-                    <div class="input-group">
-                        <label>Full name</label>
-                        <input type="text">
-                    </div>
-                    <div class="input-group">
-                        <label>ID</label>
-                        <input type="text">
-                    </div>
-                    <div class="input-group">
-                        <label>Email</label>
-                        <input type="email">
-                    </div>
-                    <div class="input-group">
-                        <label>Phone number</label>
-                        <input type="text">
-                    </div>
-                </div>
-
-                <h3 class="section-title">License Details</h3>
-                <div class="form-grid">
-                    <div class="input-group">
-                        <label>License Category</label>
-                        <input type="text">
-                    </div>
-                    <div class="input-group">
-                        <label>Expiration Date</label>
-                        <input type="date">
-                    </div>
-                </div>
-
-                <h3 class="section-title">Vehicle Assignment</h3>
-                <div class="input-group full-width">
-                    <label>Select Vehicle to Assign</label>
-                    <input type="text" placeholder="None (Standby)">
-                </div>
-
-                <div class="modal-actions">
-                    <button type="button" class="btn-cancel" id="btnCancelDriver">Cancel</button>
-                    <button type="submit" class="btn-submit">Register Driver</button>
-                </div>
-
-            </form>
-        </div>
-    </div>
-
-    <script>
-        const driverModal = document.getElementById("addDriverModal");
-        const btnOpenDriver = document.getElementById("btnOpenDriverModal");
-        const btnCloseDriver = document.getElementById("closeDriverModal");
-        const btnCancelDriver = document.getElementById("btnCancelDriver");
-
-        // Afișează modala
-        btnOpenDriver.onclick = function () {
-            driverModal.style.display = "flex";
-        }
-
-        // Ascunde modala la X sau Cancel
-        btnCloseDriver.onclick = function () {
-            driverModal.style.display = "none";
-        }
-        btnCancelDriver.onclick = function () {
-            driverModal.style.display = "none";
-        }
-
-        // Ascunde modala dacă dai click pe fundalul gri
-        window.onclick = function (event) {
-            if (event.target == driverModal) {
-                driverModal.style.display = "none";
-            }
-        }
-    </script>
 </body>
-
 </html>
