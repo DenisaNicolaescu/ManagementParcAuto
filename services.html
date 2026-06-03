@@ -25,7 +25,7 @@
             <li><a href="documents-m.html">Documents</a></li>
         </ul>
 
-        <!-- Containerul pentru Profil și Dropdown -->
+        
         <div class="profile-dropdown-container">
             <div class="profile-trigger" id="profileTrigger">
                 <div class="profile-avatar">AP</div>
@@ -230,12 +230,12 @@
         const btnCloseService = document.getElementById("closeServiceModal");
         const btnCancelService = document.getElementById("btnCancelService");
 
-        // Afișează modala
+    
         btnOpenService.onclick = function() {
             serviceModal.style.display = "flex";
         }
 
-        // Ascunde modala la X sau Cancel
+        
         btnCloseService.onclick = function() {
             serviceModal.style.display = "none";
         }
@@ -243,13 +243,13 @@
             serviceModal.style.display = "none";
         }
 
-        // Ascunde modala dacă dai click pe fundal
+       
         window.onclick = function(event) {
             if (event.target == serviceModal) {
                 serviceModal.style.display = "none";
             }
         }
-        // Meniu Profil Dropdown
+       
         const profileTrigger = document.getElementById('profileTrigger');
         const profileMenu = document.getElementById('profileMenu');
 

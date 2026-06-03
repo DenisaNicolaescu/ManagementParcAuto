@@ -27,7 +27,7 @@
             <li><a href="documents-m.html">Documents</a></li>
         </ul>
 
-        <!-- Containerul pentru Profil și Dropdown -->
+       
         <div class="profile-dropdown-container">
             <div class="profile-trigger" id="profileTrigger">
                 <div class="profile-avatar">AP</div>
@@ -61,18 +61,18 @@
             </div>
         </div>
     </nav>
-    <!-- Conținutul Paginii Drivers -->
+   
     <main class="dashboard-container">
 
-        <!-- Header cu un singur buton aliniat la dreapta -->
+        
         <header class="page-header header-right">
             <button id="btnOpenDriverModal" class="btn-add-car">+ Add a new driver</button>
         </header>
 
-        <!-- Containerul pentru "Tabelul" de șoferi -->
+       
         <div class="drivers-list">
 
-            <!-- Rândul Gri Închis (Capul de tabel) -->
+            
             <div class="drivers-grid drivers-header-row">
                 <div>Driver</div>
                 <div>Assigned Vehicle</div>
@@ -81,8 +81,8 @@
                 <div>Actions</div>
             </div>
 
-            <!-- Șofer 1 -->
-            <div class="drivers-grid driver-card">
+            
+           <div class="drivers-grid driver-card">
                 <div class="driver-profile">
                     <div class="avatar avatar-blue">DA</div>
                     <div class="driver-info">
@@ -96,13 +96,12 @@
                 </div>
                 <div>B</div>
                 <div>+40 742 100 200</div>
-               <td class="table-actions" style="display: flex; justify-content: center; gap: 12px; border: none;">
-                            <span class="material-symbols-outlined action-icon edit-icon" title="Edit">edit_document</span>
-                            <span class="material-symbols-outlined action-icon delete-icon" title="Delete">delete</span>
-                        </td>
+                <div class="table-actions" style="display: flex; gap: 12px; border: none; align-items: center; justify-content: flex-end;">
+                    <span class="material-symbols-outlined action-icon edit-icon" title="Edit">edit</span>
+                    <span class="material-symbols-outlined action-icon delete-icon" title="Delete">delete</span>
+                </div>
             </div>
 
-            <!-- Șofer 2 -->
             <div class="drivers-grid driver-card">
                 <div class="driver-profile">
                     <div class="avatar avatar-green">EV</div>
@@ -117,10 +116,12 @@
                 </div>
                 <div>B+C</div>
                 <div>+40 756 300 401</div>
-                <div class="table-actions">📝 🗑️</div>
+                <div class="table-actions" style="display: flex; gap: 12px; border: none; align-items: center; justify-content: flex-end;">
+                    <span class="material-symbols-outlined action-icon edit-icon" title="Edit">edit</span>
+                    <span class="material-symbols-outlined action-icon delete-icon" title="Delete">delete</span>
+                </div>
             </div>
 
-            <!-- Șofer 3 -->
             <div class="drivers-grid driver-card">
                 <div class="driver-profile">
                     <div class="avatar avatar-orange">PI</div>
@@ -135,10 +136,12 @@
                 </div>
                 <div>B</div>
                 <div>+40 765 150 700</div>
-                <div class="table-actions">📝 🗑️</div>
+                <div class="table-actions" style="display: flex; gap: 12px; border: none; align-items: center; justify-content: flex-end;">
+                    <span class="material-symbols-outlined action-icon edit-icon" title="Edit">edit</span>
+                    <span class="material-symbols-outlined action-icon delete-icon" title="Delete">delete</span>
+                </div>
             </div>
 
-            <!-- Șofer 4 -->
             <div class="drivers-grid driver-card">
                 <div class="driver-profile">
                     <div class="avatar avatar-teal">DA</div>
@@ -153,10 +156,12 @@
                 </div>
                 <div>B+E</div>
                 <div>+40 743 900 112</div>
-                <div class="table-actions">📝 🗑️</div>
+                <div class="table-actions" style="display: flex; gap: 12px; border: none; align-items: center; justify-content: flex-end;">
+                    <span class="material-symbols-outlined action-icon edit-icon" title="Edit">edit</span>
+                    <span class="material-symbols-outlined action-icon delete-icon" title="Delete">delete</span>
+                </div>
             </div>
 
-            <!-- Șofer 5 -->
             <div class="drivers-grid driver-card">
                 <div class="driver-profile">
                     <div class="avatar avatar-purple">PC</div>
@@ -170,11 +175,11 @@
                 </div>
                 <div>B</div>
                 <div>+40 711 234 567</div>
-                <div class="table-actions">📝 🗑️</div>
+                <div class="table-actions" style="display: flex; gap: 12px; border: none; align-items: center; justify-content: flex-end;">
+                    <span class="material-symbols-outlined action-icon edit-icon" title="Edit">edit</span>
+                    <span class="material-symbols-outlined action-icon delete-icon" title="Delete">delete</span>
+                </div>
             </div>
-
-        </div>
-
     </main>
     <div id="addDriverModal" class="modal-overlay">
         <div class="modal-content">
@@ -237,12 +242,12 @@
         const btnCloseDriver = document.getElementById("closeDriverModal");
         const btnCancelDriver = document.getElementById("btnCancelDriver");
 
-        // Afișează modala
+       
         btnOpenDriver.onclick = function () {
             driverModal.style.display = "flex";
         }
 
-        // Ascunde modala la X sau Cancel
+        
         btnCloseDriver.onclick = function () {
             driverModal.style.display = "none";
         }
@@ -250,13 +255,13 @@
             driverModal.style.display = "none";
         }
 
-        // Ascunde modala dacă dai click pe fundalul gri
+       
         window.onclick = function (event) {
             if (event.target == driverModal) {
                 driverModal.style.display = "none";
             }
         }
-        // Meniu Profil Dropdown
+       
         const profileTrigger = document.getElementById('profileTrigger');
         const profileMenu = document.getElementById('profileMenu');
 

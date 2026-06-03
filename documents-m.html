@@ -234,7 +234,7 @@
     </div>
 
     <script>
-        // Modal logic (Securizat)
+
         const docModal = document.getElementById("addDocModal");
         const btnOpenDoc = document.getElementById("btnOpenDocModal");
         const btnCloseDoc = document.getElementById("closeDocModal");
@@ -261,7 +261,7 @@
             }
         }
 
-        // Dropdown Profile logic
+
         const profileTrigger = document.getElementById('profileTrigger');
         const profileMenu = document.getElementById('profileMenu');
 
@@ -278,7 +278,7 @@
             });
         }
 
-        // Accordion logic
+
         const accMainRows = document.querySelectorAll('.acc-main-row');
 
         accMainRows.forEach(row => {
@@ -288,17 +288,15 @@
             });
         });
 
-        // ==========================================
-        // UPLOAD, DRAG & DROP + REMOVE FILE LOGIC
-        // ==========================================
+
         const dropZone = document.getElementById('dropZone');
         const fileInput = document.getElementById('docUploadInput');
         const uploadText = document.getElementById('uploadText');
-        const removeFileBtn = document.getElementById('removeFileBtn'); // Găsim butonul de ștergere
+        const removeFileBtn = document.getElementById('removeFileBtn');
 
         if (dropZone && fileInput && uploadText) {
 
-            // Funcție pentru actualizarea textului, culorii și vizibilității coșului de gunoi
+
             function updateFileText(files) {
                 if (files && files.length > 0) {
                     uploadText.innerHTML = `<strong>File selected:</strong> ${files[0].name}`;
@@ -311,24 +309,22 @@
                 }
             }
 
-            // --- LOGICA NOUĂ PENTRU BUTONUL DE ȘTERGERE ---
+
             if (removeFileBtn) {
-                removeFileBtn.addEventListener('click', function(e) {
+                removeFileBtn.addEventListener('click', function (e) {
                     e.preventDefault();
                     e.stopPropagation(); // Oprește deschiderea ferestrei de Windows
-                    
+
                     fileInput.value = ''; // Ștergem fișierul
                     updateFileText(null); // Resetăm interfața
                 });
             }
-            // ----------------------------------------------
 
-            // 1. Când dai CLICK normal
             fileInput.addEventListener('change', function () {
                 updateFileText(this.files);
             });
 
-            // 2. Prevenim comportamentul normal al browserului
+
             ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
                 dropZone.addEventListener(eventName, preventDefaults, false);
             });
@@ -338,23 +334,23 @@
                 e.stopPropagation();
             }
 
-            // 3. Adăugăm clasa CSS 'dragover' când fișierul e deasupra cutiei
+
             ['dragenter', 'dragover'].forEach(eventName => {
                 dropZone.addEventListener(eventName, () => dropZone.classList.add('dragover'), false);
             });
 
-            // 4. Scoatem clasa când pleci cu fișierul sau îi dai drumul
+
             ['dragleave', 'drop'].forEach(eventName => {
                 dropZone.addEventListener(eventName, () => dropZone.classList.remove('dragover'), false);
             });
 
-            // 5. Când utilizatorul dă DRUMUL (Drop) la fișier
+
             dropZone.addEventListener('drop', function (e) {
                 let dt = e.dataTransfer;
                 let files = dt.files;
 
-                fileInput.files = files; // Salvăm fișierul
-                updateFileText(files);   // Actualizăm textul și arătăm coșul
+                fileInput.files = files;
+                updateFileText(files);
             });
         }
     </script>

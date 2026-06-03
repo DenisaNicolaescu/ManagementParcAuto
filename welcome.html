@@ -86,9 +86,9 @@
         const btnManager = document.getElementById('btn-manager');
         const btnUser = document.getElementById('btn-user');
         const btnCreateAcc = document.getElementById('btn-create-acc');
-        const btnSignIn = document.getElementById('btnSignIn'); // Aici am adăugat butonul de Sign In
+        const btnSignIn = document.getElementById('btnSignIn'); 
 
-        // 1. Logica pentru selectarea rolului (rămâne exact a ta)
+       
         if (btnManager && btnUser) {
             btnManager.addEventListener('click', function() {
                 btnManager.classList.add('active');
@@ -101,7 +101,7 @@
             });
         }
 
-        // 2. Logica pentru Create Account (rămâne exact a ta)
+        
         if (btnCreateAcc) {
             btnCreateAcc.addEventListener('click', function(event) {
                 event.preventDefault(); 
@@ -114,7 +114,7 @@
             });
         }
 
-        // 3. Logica NOUĂ pentru Sign In
+     
         if (btnSignIn) {
             btnSignIn.addEventListener('click', function(event) {
                 event.preventDefault(); 

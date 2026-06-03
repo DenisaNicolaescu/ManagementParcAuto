@@ -27,7 +27,7 @@
             <li><a href="documents-m.html">Documents</a></li>
         </ul>
 
-        <!-- Containerul pentru Profil și Dropdown -->
+      
         <div class="profile-dropdown-container">
             <div class="profile-trigger" id="profileTrigger">
                 <div class="profile-avatar">AP</div>
@@ -194,7 +194,7 @@
         const btnCloseEvent = document.getElementById("closeEventModal");
         const btnCancelEvent = document.getElementById("btnCancelEvent");
 
-        // Funcții deschidere/închidere
+       
         btnOpenEvent.onclick = function () {
             eventModal.style.display = "flex";
         }
@@ -210,13 +210,13 @@
             }
         }
 
-        // Un mic bonus JS: Facem butoanele de "Event type" să poată fi selectate
+       
         const typeButtons = document.querySelectorAll('.event-type-btn');
         typeButtons.forEach(button => {
             button.addEventListener('click', function () {
-                // Scoatem clasa active de pe toate
+                
                 typeButtons.forEach(btn => btn.classList.remove('active'));
-                // O adăugăm doar pe cel apăsat
+                
                 this.classList.add('active');
             });
         });
