@@ -61,6 +61,7 @@
             </div>
         </div>
     </nav>
+    
     <main class="dashboard-container">
 
         <header class="page-header">
@@ -81,39 +82,76 @@
             </div>
 
             <div class="calendar-grid">
-
                 <div class="cal-day"><span class="day-number">1</span></div>
+                
                 <div class="cal-day">
                     <span class="day-number">2</span>
-                    <div class="event-pill event-green">SB 81 NQL: Service Done</div>
+                    <div class="cal-event event-green">
+                        <span class="event-text">SB 81 NQL: Service Done</span>
+                        <div class="event-actions">
+                            <span class="material-symbols-outlined action-icon edit-icon">edit</span>
+                            <span class="material-symbols-outlined action-icon delete-icon">delete</span>
+                        </div>
+                    </div>
                 </div>
+                
                 <div class="cal-day"><span class="day-number">3</span></div>
                 <div class="cal-day"><span class="day-number">4</span></div>
                 <div class="cal-day"><span class="day-number">5</span></div>
+                
                 <div class="cal-day">
                     <span class="day-number">6</span>
-                    <div class="event-pill event-grey">SB 07 DKY: Oil change (YONI)</div>
+                    <div class="cal-event event-grey">
+                        <span class="event-text">SB 07 DKY: Oil change (YONI)</span>
+                        <div class="event-actions">
+                            <span class="material-symbols-outlined action-icon edit-icon">edit</span>
+                            <span class="material-symbols-outlined action-icon delete-icon">delete</span>
+                        </div>
+                    </div>
                 </div>
+                
                 <div class="cal-day"><span class="day-number">7</span></div>
-
+                
                 <div class="cal-day">
                     <span class="day-number">8</span>
-                    <div class="event-pill event-yellow">CJ 92 CBL: Safety inspection</div>
+                    <div class="cal-event event-yellow">
+                        <span class="event-text">CJ 92 CBL: Safety inspection</span>
+                        <div class="event-actions">
+                            <span class="material-symbols-outlined action-icon edit-icon">edit</span>
+                            <span class="material-symbols-outlined action-icon delete-icon">delete</span>
+                        </div>
+                    </div>
                 </div>
+                
                 <div class="cal-day"><span class="day-number">9</span></div>
                 <div class="cal-day"><span class="day-number">10</span></div>
+                
                 <div class="cal-day">
                     <span class="day-number">11</span>
-                    <div class="event-pill event-yellow">SB 23 ALX: ITP (Autoservice)</div>
+                    <div class="cal-event event-yellow">
+                        <span class="event-text">SB 23 ALX: ITP (Autoservice)</span>
+                        <div class="event-actions">
+                            <span class="material-symbols-outlined action-icon edit-icon">edit</span>
+                            <span class="material-symbols-outlined action-icon delete-icon">delete</span>
+                        </div>
+                    </div>
                 </div>
+                
                 <div class="cal-day"><span class="day-number">12</span></div>
                 <div class="cal-day"><span class="day-number">13</span></div>
                 <div class="cal-day"><span class="day-number">14</span></div>
 
                 <div class="cal-day">
                     <span class="day-number">15</span>
-                    <div class="event-pill event-red">CRITICAL: SB 42 BDP RCA</div>
+                    <div class="cal-event event-red">
+                        <span class="event-text">CRITICAL: SB 42 BDP RCA</span>
+                        <div class="event-actions">
+                            <span class="material-symbols-outlined action-icon edit-icon">edit</span>
+                            <span class="material-symbols-outlined action-icon delete-icon">delete</span>
+                        </div>
+                    </div>
                 </div>
+                
                 <div class="cal-day"><span class="day-number">16</span></div>
                 <div class="cal-day"><span class="day-number">17</span></div>
                 <div class="cal-day"><span class="day-number">18</span></div>
@@ -141,6 +179,7 @@
         </div>
 
     </main>
+
     <div id="addEventModal" class="modal-overlay">
         <div class="modal-content">
             <span class="close-modal" id="closeEventModal">&times;</span>
@@ -188,54 +227,160 @@
         </div>
     </div>
 
+    <div id="editEventModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" id="closeEditEventModal">&times;</span>
+
+            <h2>EDIT EVENT</h2>
+
+            <form class="add-car-form">
+                <h3 class="section-title">Event Details</h3>
+                <div class="input-group full-width" style="margin-bottom: 15px;">
+                    <label>Event Title</label>
+                    <input type="text" value="ITP (Autoservice)">
+                </div>
+                
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>Vehicle</label>
+                        <select>
+                            <option>SB 81 NQL - Dacia Logan</option>
+                            <option selected>SB 23 ALX - Ford Focus</option>
+                            <option>SB 42 BDP - Dacia Jogger</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Date</label>
+                        <input type="date" value="2026-06-11">
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" id="btnCancelEditEvent">Cancel</button>
+                    <button type="submit" class="btn-submit">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="deleteModal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 420px; text-align: center;">
+            <span class="close-modal" id="closeDeleteModal">&times;</span>
+
+            <h2 style="color: var(--status-red); margin-bottom: 15px;">DELETE EVENT</h2>
+            
+            <p style="font-family: sans-serif; font-size: 15px; color: var(--text-gray-medium); margin-bottom: 30px; line-height: 1.5;">
+                Are you sure you want to delete this event from the calendar? <br>
+                <strong>This action cannot be undone.</strong>
+            </p>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" id="btnCancelDelete">Cancel</button>
+                <button type="button" class="btn-delete" id="btnConfirmDelete">Delete</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        const eventModal = document.getElementById("addEventModal");
-        const btnOpenEvent = document.getElementById("btnOpenEventModal");
-        const btnCloseEvent = document.getElementById("closeEventModal");
-        const btnCancelEvent = document.getElementById("btnCancelEvent");
+        document.addEventListener('DOMContentLoaded', () => {
 
-       
-        btnOpenEvent.onclick = function () {
-            eventModal.style.display = "flex";
-        }
-        btnCloseEvent.onclick = function () {
-            eventModal.style.display = "none";
-        }
-        btnCancelEvent.onclick = function () {
-            eventModal.style.display = "none";
-        }
-        window.onclick = function (event) {
-            if (event.target == eventModal) {
-                eventModal.style.display = "none";
+            // --- 1. Meniul Profil (Dreapta Sus) ---
+            const profileTrigger = document.getElementById('profileTrigger');
+            const profileMenu = document.getElementById('profileMenu');
+            
+            if (profileTrigger && profileMenu) {
+                profileTrigger.addEventListener('click', function(event) {
+                    profileMenu.classList.toggle('show');
+                    event.stopPropagation(); 
+                });
+                document.addEventListener('click', function(event) {
+                    if (!profileMenu.contains(event.target) && !profileTrigger.contains(event.target)) {
+                        profileMenu.classList.remove('show');
+                    }
+                });
             }
-        }
 
-       
-        const typeButtons = document.querySelectorAll('.event-type-btn');
-        typeButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                
-                typeButtons.forEach(btn => btn.classList.remove('active'));
-                
-                this.classList.add('active');
+            // --- 2. Butoanele tip eveniment din modal Add ---
+            const typeButtons = document.querySelectorAll('.event-type-btn');
+            typeButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    typeButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                });
             });
-        });
 
-      
-        const profileTrigger = document.getElementById('profileTrigger');
-        const profileMenu = document.getElementById('profileMenu');
+            // --- 3. Logica Modalelor (Add, Edit, Delete) ---
+            const eventModal = document.getElementById("addEventModal");
+            const btnOpenEvent = document.getElementById("btnOpenEventModal");
+            const btnCloseEvent = document.getElementById("closeEventModal");
+            const btnCancelEvent = document.getElementById("btnCancelEvent");
 
-        profileTrigger.addEventListener('click', function(event) {
-            profileMenu.classList.toggle('show');
-            event.stopPropagation(); 
-        });
+            const editEventModal = document.getElementById("editEventModal");
+            const closeEditEvent = document.getElementById("closeEditEventModal");
+            const cancelEditEvent = document.getElementById("btnCancelEditEvent");
 
-        document.addEventListener('click', function(event) {
-            if (!profileMenu.contains(event.target) && !profileTrigger.contains(event.target)) {
-                profileMenu.classList.remove('show');
+            const deleteModal = document.getElementById("deleteModal");
+            const closeDelete = document.getElementById("closeDeleteModal");
+            const cancelDelete = document.getElementById("btnCancelDelete");
+            const confirmDelete = document.getElementById("btnConfirmDelete");
+
+            // Deschidere ADD
+            if (btnOpenEvent) btnOpenEvent.onclick = () => eventModal.style.display = "flex";
+            
+            // Deschidere EDIT
+            const editIcons = document.querySelectorAll('.edit-icon');
+            editIcons.forEach(icon => {
+                icon.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (editEventModal) editEventModal.style.display = "flex";
+                });
+            });
+
+            // Deschidere DELETE
+            const deleteIcons = document.querySelectorAll('.delete-icon');
+            deleteIcons.forEach(icon => {
+                icon.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (deleteModal) deleteModal.style.display = "flex";
+                });
+            });
+
+            // Închidere (X și Cancel) pt toate
+            if (btnCloseEvent) btnCloseEvent.onclick = () => eventModal.style.display = "none";
+            if (btnCancelEvent) btnCancelEvent.onclick = () => eventModal.style.display = "none";
+
+            if (closeEditEvent) closeEditEvent.onclick = () => editEventModal.style.display = "none";
+            if (cancelEditEvent) cancelEditEvent.onclick = () => editEventModal.style.display = "none";
+
+            if (closeDelete) closeDelete.onclick = () => deleteModal.style.display = "none";
+            if (cancelDelete) cancelDelete.onclick = () => deleteModal.style.display = "none";
+
+            if (confirmDelete) {
+                confirmDelete.onclick = () => deleteModal.style.display = "none";
             }
+
+            // Închidere Modale pe fundal gri
+            window.onclick = (event) => {
+                if (event.target == eventModal) eventModal.style.display = "none";
+                if (event.target == editEventModal) editEventModal.style.display = "none";
+                if (event.target == deleteModal) deleteModal.style.display = "none";
+            };
+
+            // --- 4. Swipe Effect / Afișare Butoane (Pentru Ecrane Mici/Touch) ---
+            const calEvents = document.querySelectorAll('.cal-event');
+            calEvents.forEach(evt => {
+                evt.addEventListener('click', function(e) {
+                    if (e.target.closest('.action-icon')) return;
+                    calEvents.forEach(otherEvt => {
+                        if (otherEvt !== this) {
+                            otherEvt.classList.remove('show-actions');
+                        }
+                    });
+                    this.classList.toggle('show-actions');
+                });
+            });
+
         });
     </script>
 </body>
-
 </html>
