@@ -90,7 +90,7 @@
                         <th class="text-center">Assigned Driver</th>
                         <th class="text-center">Status</th>
                         <th class="text-center">Service (Last/Next)</th>
-                        <th></th> 
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -163,7 +163,10 @@
             </table>
         </div>
 
-        <h1 style="margin-top: 50px; margin-bottom: 20px;">Tires inventory</h1>
+        <div class="page-header" style="margin-top: 50px; margin-bottom: 20px;">
+            <h1 style="margin: 0;">Tires inventory</h1>
+            <button class="btn-add-car" id="btnOpenTireModal">+ Add new tires</button>
+        </div>
 
         <div class="panel inventory-panel">
             <table class="inventory-table">
@@ -326,7 +329,63 @@
             </form>
         </div>
     </div>
+    <div id="addTireModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" id="closeTireModal">&times;</span>
 
+            <h2>ADD NEW TIRES</h2>
+
+            <form class="add-car-form">
+
+                <h3 class="section-title">General information</h3>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>Brand & Dimension</label>
+                        <input type="text" placeholder="e.g. Michelin Alpin 6 - 205/60 R16">
+                    </div>
+                    <div class="input-group">
+                        <label>Tire Type</label>
+                        <select>
+                            <option>Winter Tires</option>
+                            <option>Summer Tires</option>
+                            <option>All-Season Tires</option>
+                        </select>
+                    </div>
+                </div>
+
+                <h3 class="section-title">Condition & Status</h3>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>Wear Level (%)</label>
+                        <input type="text" placeholder="e.g. 15%">
+                    </div>
+                    <div class="input-group">
+                        <label>Condition Status</label>
+                        <select>
+                            <option>Good Condition</option>
+                            <option>Normal Wear</option>
+                            <option>Needs Replacement</option>
+                        </select>
+                    </div>
+                </div>
+
+                <h3 class="section-title">Assignment</h3>
+                <div class="input-group">
+                    <label>Assign to Vehicle</label>
+                    <select>
+                        <option>Dacia Jogger (2023) - SB 42 BDP</option>
+                        <option>Volkswagen Golf (2021) - B 200 ADK</option>
+                        <option>Unassigned</option>
+                    </select>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" id="btnCancelTire">Cancel</button>
+                    <button type="submit" class="btn-submit">Add to fleet</button>
+                </div>
+            </form>
+        </div>
+    </div>
     <script>
 
         const modal = document.getElementById("addCarModal");
@@ -371,26 +430,58 @@
             }
         });
 
-        
+
         document.addEventListener('DOMContentLoaded', () => {
             const tableRows = document.querySelectorAll('.inventory-table tbody tr');
 
             tableRows.forEach(row => {
                 row.addEventListener('click', function (e) {
-                    
+
                     if (e.target.closest('.action-icon')) return;
 
-                   
+
                     tableRows.forEach(r => {
                         if (r !== this) {
                             r.classList.remove('show-actions');
                         }
                     });
 
-                   
+
                     this.classList.toggle('show-actions');
                 });
             });
+        });
+
+        const tireModal = document.getElementById("addTireModal");
+        const btnOpenTire = document.getElementById("btnOpenTireModal");
+        const btnCloseTire = document.getElementById("closeTireModal");
+        const btnCancelTire = document.getElementById("btnCancelTire");
+
+        if (btnOpenTire) {
+            btnOpenTire.onclick = function () {
+                tireModal.style.display = "flex";
+            }
+        }
+
+
+        if (btnCloseTire) {
+            btnCloseTire.onclick = function () {
+                tireModal.style.display = "none";
+            }
+        }
+
+
+        if (btnCancelTire) {
+            btnCancelTire.onclick = function () {
+                tireModal.style.display = "none";
+            }
+        }
+
+
+        window.addEventListener("click", function (event) {
+            if (event.target == tireModal) {
+                tireModal.style.display = "none";
+            }
         });
     </script>
 </body>
