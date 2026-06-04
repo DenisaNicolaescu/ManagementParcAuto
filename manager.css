@@ -588,15 +588,15 @@ body {
 }
 
 .text-green {
-    color: var(--status-green);
+    color: var(--status-green) !important;
 }
 
 .text-yellow {
-    color: var(--status-yellow);
+    color: var(--status-yellow) !important;
 }
 
 .text-red {
-    color: var(--status-red);
+    color: var(--status-red) !important;
 }
 
 .header-right {
@@ -1048,6 +1048,7 @@ body {
     margin-left: auto;
 }
 
+
 .profile-trigger {
     display: flex;
     align-items: center;
@@ -1225,7 +1226,18 @@ body {
     border-radius: 8px;
     overflow: hidden;
 }
+.doc-action-icon {
+    font-size: 18px;
+    color: var(--icon-gray);
+    cursor: pointer;
+    margin-right: 8px;
+    vertical-align: middle;
+    transition: color 0.2s ease;
+}
 
+.doc-action-icon:hover {
+    color: var(--text-black);
+}
 .acc-header-row {
     display: flex;
     background-color: var(--bg-gray-dark);
@@ -1286,14 +1298,18 @@ body {
 }
 
 .acc-details-row {
-    display: none;
-    padding: 20px 40px;
+    max-height: 0; 
+    padding: 0 40px; 
+    overflow: hidden; 
     background-color: var(--bg-light);
-    border-top: 1px solid var(--border-acc);
+    border-top: 1px solid transparent; 
+    transition: max-height 0.8s ease, padding 0.8s ease, border-color 0.8s ease;
 }
 
 .acc-item.active .acc-details-row {
-    display: block;
+    max-height: 800px; 
+    padding: 20px 40px; 
+    border-top: 1px solid var(--border-acc); 
 }
 
 .acc-item.active .expand-icon {
@@ -1304,19 +1320,25 @@ body {
     width: 100%;
     border-collapse: collapse;
     text-align: left;
-    font-size: 13px;
 }
+
 
 .nested-table th {
+    font-family: 'Calistoga', serif; 
     color: var(--text-gray-muted);
     font-weight: bold;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--border-acc);
+    font-size: 16px;
+    padding: 12px 10px;
+    border-bottom: 1px solid var(--border-acc); 
 }
 
+
 .nested-table td {
-    padding: 12px 0;
+    font-family: sans-serif; 
+    font-size: 14px;
+    padding: 12px 10px;
     color: var(--text-dark-gray);
+    border-bottom: none; 
 }
 
 .user-info-box {
