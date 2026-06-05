@@ -90,7 +90,7 @@
                         <th class="text-center">Assigned Driver</th>
                         <th class="text-center">Status</th>
                         <th class="text-center">Service (Last/Next)</th>
-                        <th></th>
+                        <th></th> 
                     </tr>
                 </thead>
                 <tbody>
@@ -163,10 +163,7 @@
             </table>
         </div>
 
-        <div class="page-header" style="margin-top: 50px; margin-bottom: 20px;">
-            <h1 style="margin: 0;">Tires inventory</h1>
-            <button class="btn-add-car" id="btnOpenTireModal">+ Add new tires</button>
-        </div>
+        <h1 style="margin-top: 50px; margin-bottom: 20px;">Tires inventory</h1>
 
         <div class="panel inventory-panel">
             <table class="inventory-table">
@@ -329,181 +326,7 @@
             </form>
         </div>
     </div>
-    <div id="addTireModal" class="modal-overlay">
-        <div class="modal-content">
-            <span class="close-modal" id="closeTireModal">&times;</span>
 
-            <h2>ADD NEW TIRES</h2>
-
-            <form class="add-car-form">
-
-                <h3 class="section-title">General information</h3>
-                <div class="form-grid">
-                    <div class="input-group">
-                        <label>Brand & Dimension</label>
-                        <input type="text" placeholder="e.g. Michelin Alpin 6 - 205/60 R16">
-                    </div>
-                    <div class="input-group">
-                        <label>Tire Type</label>
-                        <select>
-                            <option>Winter Tires</option>
-                            <option>Summer Tires</option>
-                            <option>All-Season Tires</option>
-                        </select>
-                    </div>
-                </div>
-
-                <h3 class="section-title">Condition & Status</h3>
-                <div class="form-grid">
-                    <div class="input-group">
-                        <label>Wear Level (%)</label>
-                        <input type="text" placeholder="e.g. 15%">
-                    </div>
-                    <div class="input-group">
-                        <label>Condition Status</label>
-                        <select>
-                            <option>Good Condition</option>
-                            <option>Normal Wear</option>
-                            <option>Needs Replacement</option>
-                        </select>
-                    </div>
-                </div>
-
-                <h3 class="section-title">Assignment</h3>
-                <div class="input-group">
-                    <label>Assign to Vehicle</label>
-                    <select>
-                        <option>Dacia Jogger (2023) - SB 42 BDP</option>
-                        <option>Volkswagen Golf (2021) - B 200 ADK</option>
-                        <option>Unassigned</option>
-                    </select>
-                </div>
-
-                <div class="modal-actions">
-                    <button type="button" class="btn-cancel" id="btnCancelTire">Cancel</button>
-                    <button type="submit" class="btn-submit">Add to fleet</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div id="editCarModal" class="modal-overlay">
-        <div class="modal-content">
-            <span class="close-modal" id="closeEditCarModal">&times;</span>
-
-            <h2>EDIT VEHICLE</h2>
-
-            <form class="add-car-form">
-                <h3 class="section-title">General information</h3>
-                <div class="form-grid">
-                    <div class="input-group">
-                        <label>Brand & Model</label>
-                        <input type="text" value="Dacia Logan">
-                    </div>
-                    <div class="input-group">
-                        <label>License Plate</label>
-                        <input type="text" value="SB 01 ABC">
-                    </div>
-                    <div class="input-group">
-                        <label>Year</label>
-                        <input type="text" value="2021">
-                    </div>
-                    <div class="input-group">
-                        <label>VIN (Chassis Number)</label>
-                        <input type="text" value="UU1Y...1234">
-                    </div>
-                </div>
-
-                <h3 class="section-title">Assignment</h3>
-                <div class="input-group full-width">
-                    <label>Assign Driver</label>
-                    <select>
-                        <option>Adrian Popescu</option>
-                        <option>Dan Adrian</option>
-                        <option selected>Unassigned</option>
-                    </select>
-                </div>
-
-                <div class="modal-actions">
-                    <button type="button" class="btn-cancel" id="btnCancelEditCar">Cancel</button>
-                    <button type="submit" class="btn-submit">Save changes</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div id="editTireModal" class="modal-overlay">
-        <div class="modal-content">
-            <span class="close-modal" id="closeEditTireModal">&times;</span>
-
-            <h2>EDIT TIRES</h2>
-
-            <form class="add-car-form">
-                <h3 class="section-title">General information</h3>
-                <div class="form-grid">
-                    <div class="input-group">
-                        <label>Brand & Dimension</label>
-                        <input type="text" value="Michelin Alpin 6 - 205/60 R16">
-                    </div>
-                    <div class="input-group">
-                        <label>Tire Type</label>
-                        <select>
-                            <option selected>Winter Tires</option>
-                            <option>Summer Tires</option>
-                            <option>All-Season Tires</option>
-                        </select>
-                    </div>
-                </div>
-
-                <h3 class="section-title">Condition & Status</h3>
-                <div class="form-grid">
-                    <div class="input-group">
-                        <label>Wear Level (%)</label>
-                        <input type="text" value="15%">
-                    </div>
-                    <div class="input-group">
-                        <label>Condition Status</label>
-                        <select>
-                            <option selected>Good Condition</option>
-                            <option>Normal Wear</option>
-                            <option>Needs Replacement</option>
-                        </select>
-                    </div>
-                </div>
-
-                <h3 class="section-title">Assignment</h3>
-                <div class="input-group full-width">
-                    <label>Assign to Vehicle</label>
-                    <select>
-                        <option selected>Dacia Jogger (2023) - SB 42 BDP</option>
-                        <option>Volkswagen Golf (2021) - B 200 ADK</option>
-                        <option>Unassigned</option>
-                    </select>
-                </div>
-
-                <div class="modal-actions">
-                    <button type="button" class="btn-cancel" id="btnCancelEditTire">Cancel</button>
-                    <button type="submit" class="btn-submit">Save changes</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div id="deleteModal" class="modal-overlay">
-        <div class="modal-content" style="max-width: 420px; text-align: center;">
-            <span class="close-modal" id="closeDeleteModal">&times;</span>
-
-            <h2 style="color: var(--status-red); margin-bottom: 15px;">DELETE RECORD</h2>
-            
-            <p style="font-family: sans-serif; font-size: 15px; color: var(--text-gray-medium); margin-bottom: 30px; line-height: 1.5;">
-                Are you sure you want to delete this item? <br>
-                <strong>This action cannot be undone.</strong>
-            </p>
-
-            <div class="modal-actions">
-                <button type="button" class="btn-cancel" id="btnCancelDelete">Cancel</button>
-               <button type="button" class="btn-delete" id="btnConfirmDelete">Delete</button>
-            </div>
-        </div>
-    </div>
     <script>
 
         const modal = document.getElementById("addCarModal");
@@ -548,145 +371,26 @@
             }
         });
 
-
+        
         document.addEventListener('DOMContentLoaded', () => {
             const tableRows = document.querySelectorAll('.inventory-table tbody tr');
 
             tableRows.forEach(row => {
                 row.addEventListener('click', function (e) {
-
+                    
                     if (e.target.closest('.action-icon')) return;
 
-
+                   
                     tableRows.forEach(r => {
                         if (r !== this) {
                             r.classList.remove('show-actions');
                         }
                     });
 
-
+                   
                     this.classList.toggle('show-actions');
                 });
             });
-        });
-
-        const tireModal = document.getElementById("addTireModal");
-        const btnOpenTire = document.getElementById("btnOpenTireModal");
-        const btnCloseTire = document.getElementById("closeTireModal");
-        const btnCancelTire = document.getElementById("btnCancelTire");
-
-        if (btnOpenTire) {
-            btnOpenTire.onclick = function () {
-                tireModal.style.display = "flex";
-            }
-        }
-
-
-        if (btnCloseTire) {
-            btnCloseTire.onclick = function () {
-                tireModal.style.display = "none";
-            }
-        }
-
-
-        if (btnCancelTire) {
-            btnCancelTire.onclick = function () {
-                tireModal.style.display = "none";
-            }
-        }
-
-
-        window.addEventListener("click", function (event) {
-            if (event.target == tireModal) {
-                tireModal.style.display = "none";
-            }
-        });
-        
-        const editCarModal = document.getElementById("editCarModal");
-        const closeEditCar = document.getElementById("closeEditCarModal");
-        const cancelEditCar = document.getElementById("btnCancelEditCar");
-
-        const editTireModal = document.getElementById("editTireModal");
-        const closeEditTire = document.getElementById("closeEditTireModal");
-        const cancelEditTire = document.getElementById("btnCancelEditTire");
-
-        
-        const inventoryTables = document.querySelectorAll('.inventory-table');
-
-       
-        if (inventoryTables.length > 0) {
-            const carEditIcons = inventoryTables[0].querySelectorAll('.edit-icon');
-            carEditIcons.forEach(icon => {
-                icon.addEventListener('click', function(e) {
-                    e.stopPropagation(); 
-                    editCarModal.style.display = "flex";
-                });
-            });
-        }
-
-       
-        if (inventoryTables.length > 1) {
-            const tireEditIcons = inventoryTables[1].querySelectorAll('.edit-icon');
-            tireEditIcons.forEach(icon => {
-                icon.addEventListener('click', function(e) {
-                    e.stopPropagation(); 
-                    editTireModal.style.display = "flex";
-                });
-            });
-        }
-
-        
-        if (closeEditCar) closeEditCar.onclick = () => editCarModal.style.display = "none";
-        if (cancelEditCar) cancelEditCar.onclick = () => editCarModal.style.display = "none";
-
-        
-        if (closeEditTire) closeEditTire.onclick = () => editTireModal.style.display = "none";
-        if (cancelEditTire) cancelEditTire.onclick = () => editTireModal.style.display = "none";
-
-        
-        window.addEventListener("click", function(event) {
-            if (event.target == editCarModal) {
-                editCarModal.style.display = "none";
-            }
-            if (event.target == editTireModal) {
-                editTireModal.style.display = "none";
-            }
-            
-        });
-       
-        const deleteModal = document.getElementById("deleteModal");
-        const closeDelete = document.getElementById("closeDeleteModal");
-        const cancelDelete = document.getElementById("btnCancelDelete");
-        const confirmDelete = document.getElementById("btnConfirmDelete");
-
-        
-        const deleteIcons = document.querySelectorAll('.delete-icon');
-
-       
-        deleteIcons.forEach(icon => {
-            icon.addEventListener('click', function(e) {
-                e.stopPropagation(); 
-                deleteModal.style.display = "flex";
-            });
-        });
-
-        
-        if (closeDelete) closeDelete.onclick = () => deleteModal.style.display = "none";
-        if (cancelDelete) cancelDelete.onclick = () => deleteModal.style.display = "none";
-
-     
-        if (confirmDelete) {
-            confirmDelete.onclick = () => {
-              
-                deleteModal.style.display = "none"; 
-            };
-        }
-
-        
-        window.addEventListener("click", function(event) {
-            if (event.target == deleteModal) {
-                deleteModal.style.display = "none";
-            }
         });
     </script>
 </body>

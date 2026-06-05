@@ -1,3 +1,18 @@
+<?php
+include 'conexiune.php';
+
+
+$query_cars = "SELECT id, brand, model, license_plate FROM cars";
+$result_cars = mysqli_query($conn, $query_cars);
+$query = "
+SELECT service_orders.*, cars.brand, cars.model, cars.license_plate
+FROM service_orders
+LEFT JOIN cars ON service_orders.car_id = cars.id
+";
+
+$result = mysqli_query($conn, $query);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,9 +35,9 @@
         </a>
         <ul class="dash-nav-links">
             <li><a href="dashboard-manager.html">Dashboard</a></li>
-            <li><a href="cars-m.html">Cars</a></li>
-            <li><a href="drivers.html">Drivers</a></li>
-            <li><a href="services.html" class="active">Service</a></li>
+            <li><a href="cars-m.php">Cars</a></li>
+            <li><a href="drivers.php">Drivers</a></li>
+            <li><a href="services.php" class="active">Service</a></li>
             <li><a href="calendar.html">Calendar</a></li>
             <li><a href="documents-m.html">Documents</a></li>
         </ul>
@@ -98,95 +113,35 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <?php while($service = mysqli_fetch_assoc($result)){ ?>
                     <tr>
                         <td>
-                            <strong>Dacia Jogger (2023)</strong><br>
-                            <span class="license-plate">SB 42 BDP</span>
+                            <strong><?php echo $service['brand']." ".$service['model']; ?></strong><br>
+                            <span class="license-plate">
+                                <?php echo $service['license_plate']; ?>
+                            </span>
                         </td>
-                        <td>Insurance Renewal &<br>Safety Check</td>
-                        <td>Autoservice Sibiu</td>
-                        <td class="text-red">Pending Approval</td>
-                        <td><strong>1,100 RON</strong></td>
-                        <td class="table-actions">
-                            <span class="material-symbols-outlined action-icon edit-icon" title="Edit">edit</span>
-                            <span class="material-symbols-outlined action-icon delete-icon" title="Delete">delete</span>
-                        </td>
-                    </tr>
 
-                    <tr>
-                        <td>
-                            <strong>Volkswagen Golf</strong><br>
-                            <span class="license-plate">B 200 ADK</span>
-                        </td>
-                        <td>Technical Inspection (ITP)</td>
-                        <td>Autoservice Sibiu</td>
-                        <td>Scheduled</td>
-                        <td><strong>200 RON</strong></td>
-                        <td class="table-actions">
-                            <span class="material-symbols-outlined action-icon edit-icon" title="Edit">edit</span>
-                            <span class="material-symbols-outlined action-icon delete-icon" title="Delete">delete</span>
-                        </td>
-                    </tr>
+                        <td><?php echo $service['intervention_type']; ?></td>
+                        <td><?php echo $service['service_center']; ?></td>
+                        <td><?php echo $service['status']; ?></td>
+                        <td><strong><?php echo $service['estimated_cost']; ?> RON</strong></td>
 
-                    <tr>
-                        <td>
-                            <strong>Ford Focus</strong><br>
-                            <span class="license-plate">SB 07 DKY</span>
-                        </td>
-                        <td>Oil & Filter Replacement</td>
-                        <td>YONI</td>
-                        <td class="text-yellow">In Progress</td>
-                        <td><strong>850 RON</strong></td>
                         <td class="table-actions">
-                            <span class="material-symbols-outlined action-icon edit-icon" title="Edit">edit</span>
-                            <span class="material-symbols-outlined action-icon delete-icon" title="Delete">delete</span>
+                            <a href="edit_service.php?id=<?php echo $service['id']; ?>">
+                                <span class="material-symbols-outlined action-icon edit-icon">
+                                    edit
+                                </span>
+                            </a>
+                            <a href="delete_service.php?id=<?php echo $service['id']; ?>"
+                            onclick="return confirm('Delete this intervention?');">
+                                <span class="material-symbols-outlined action-icon delete-icon">
+                                    delete
+                                </span>
+                            </a>
                         </td>
                     </tr>
-
-                    <tr>
-                        <td>
-                            <strong>Renault Megane</strong><br>
-                            <span class="license-plate">SB 01 TRN</span>
-                        </td>
-                        <td>Summer Tire Change</td>
-                        <td>Performance Garage</td>
-                        <td>Scheduled</td>
-                        <td><strong>150 RON</strong></td>
-                        <td class="table-actions">
-                            <span class="material-symbols-outlined action-icon edit-icon" title="Edit">edit</span>
-                            <span class="material-symbols-outlined action-icon delete-icon" title="Delete">delete</span>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <strong>Toyota Yaris</strong><br>
-                            <span class="license-plate">SB 10 CAR</span>
-                        </td>
-                        <td>Brake Pads Overhaul</td>
-                        <td>YONI</td>
-                        <td class="text-green">Completed</td>
-                        <td><strong>1.200 RON</strong></td>
-                        <td class="table-actions">
-                            <span class="material-symbols-outlined action-icon edit-icon" title="Edit">edit</span>
-                            <span class="material-symbols-outlined action-icon delete-icon" title="Delete">delete</span>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <strong>Hyundai Tucson</strong><br>
-                            <span class="license-plate">CJ 99 TNT</span>
-                        </td>
-                        <td>Engine Diagnostics (Check<br>Engine)</td>
-                        <td>YONI</td>
-                        <td class="text-yellow">In Progress</td>
-                        <td><strong>3.000 RON</strong></td>
-                        <td class="table-actions">
-                            <span class="material-symbols-outlined action-icon edit-icon" title="Edit">edit</span>
-                            <span class="material-symbols-outlined action-icon delete-icon" title="Delete">delete</span>
-                        </td>
-                    </tr>
+                    <?php } ?>
                 </tbody>
             </table>
         </div>
@@ -199,46 +154,50 @@
 
             <h2>ADD NEW INTERVENTION</h2>
 
-            <form class="add-car-form">
+            <form class="add-car-form" action="add_services.php" method="POST">
 
                 <h3 class="section-title">Vehicle & Schedule</h3>
                 <div class="form-grid">
                     <div class="input-group">
                         <label>Select Vehicle</label>
-                        <select>
-                            <option>SB 07 DKY - Ford Focus</option>
-                            <option>B 200 ADK - Volkswagen Golf</option>
+                        <select name="car_id">
+                        <?php while($car = mysqli_fetch_assoc($result_cars)){ ?>
+                            <option value="<?php echo $car['id']; ?>">
+                                <?php echo $car['license_plate']." - ".$car['brand']." ".$car['model']; ?>
+                            </option>
+                        <?php } ?>
                         </select>
                     </div>
                     <div class="input-group">
                         <label>Intervention Date</label>
-                        <input type="date" value="2026-09-06">
+                        <input type="date" name="appointment_date" value="2026-09-06">
                     </div>
                 </div>
 
                 <h3 class="section-title">Service Details</h3>
                 <div class="input-group full-width" style="margin-bottom: 15px;">
                     <label>Type of Intervention</label>
-                    <select>
-                        <option>Engine/Transmission</option>
-                        <option>Technical Inspection (ITP)</option>
-                        <option>Routine Maintenance</option>
+                    <select name="intervention_type">
+                        <option value="revision">Revision</option>
+                        <option value="repair">Repair</option>
+                        <option value="inspection">Inspection</option>
+                        <option value="other">Other</option>
                     </select>
                 </div>
                 <div class="form-grid">
                     <div class="input-group">
                         <label>Service name</label>
-                        <input type="text" placeholder="e.g. YONI">
+                        <input type="text" name="service_center" placeholder="e.g. YONI">
                     </div>
                     <div class="input-group">
                         <label>Estimated Cost</label>
-                        <input type="text" placeholder="e.g. 500 RON">
+                        <input type="text" step="0.01" name="estimated_cost" placeholder="e.g. 500 RON">
                     </div>
                 </div>
 
                 <h3 class="section-title">Description/Notes</h3>
                 <div class="input-group full-width">
-                    <textarea placeholder="Describe the maintenance or issue..." rows="3"></textarea>
+                    <textarea name="description" placeholder="Describe the maintenance or issue..." rows="3"></textarea>
                 </div>
 
                 <div class="modal-actions">
@@ -249,7 +208,7 @@
             </form>
         </div>
     </div>
-   <div id="editServiceModal" class="modal-overlay">
+    <div id="editServiceModal" class="modal-overlay">
         <div class="modal-content">
             <span class="close-modal" id="closeEditServiceModal">&times;</span>
 
@@ -352,40 +311,6 @@
 
         if (closeEditService) closeEditService.addEventListener('click', () => editServiceModal.style.display = "none");
         if (cancelEditService) cancelEditService.addEventListener('click', () => editServiceModal.style.display = "none");
-
-
-        
-        const deleteModal = document.getElementById("deleteModal");
-        const closeDelete = document.getElementById("closeDeleteModal");
-        const cancelDelete = document.getElementById("btnCancelDelete");
-        const confirmDelete = document.getElementById("btnConfirmDelete");
-
-       
-        const deleteIcons = document.querySelectorAll('.delete-icon');
-        deleteIcons.forEach(icon => {
-            icon.addEventListener('click', (e) => {
-                e.stopPropagation();
-                if (deleteModal) deleteModal.style.display = "flex";
-            });
-        });
-
-        if (closeDelete) closeDelete.addEventListener('click', () => deleteModal.style.display = "none");
-        if (cancelDelete) cancelDelete.addEventListener('click', () => deleteModal.style.display = "none");
-        
-        
-        if (confirmDelete) {
-            confirmDelete.addEventListener('click', () => {
-                deleteModal.style.display = "none";
-            });
-        }
-
-
-       
-        window.addEventListener("click", (event) => {
-            if (event.target == serviceModal) serviceModal.style.display = "none";
-            if (event.target == editServiceModal) editServiceModal.style.display = "none";
-            if (event.target == deleteModal) deleteModal.style.display = "none";
-        });
 
 
         

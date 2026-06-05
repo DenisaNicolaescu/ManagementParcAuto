@@ -8,18 +8,12 @@ CREATE DATABASE IF NOT EXISTS parc_auto
 USE parc_auto;
 CREATE TABLE drivers (
     id                  INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    first_name          VARCHAR(60)  NOT NULL,
-    last_name           VARCHAR(60)  NOT NULL,
-    cnp                 CHAR(13)     UNIQUE,
-    birth_date          DATE,
-    phone               VARCHAR(20)  NOT NULL,
+    first_name          VARCHAR(60) NOT NULL,
+    last_name           VARCHAR(60) NOT NULL,
+    phone               VARCHAR(20) NOT NULL,
     email               VARCHAR(100),
-    license_category    VARCHAR(20)  NOT NULL DEFAULT 'B',
-    license_expiry_date DATE         NOT NULL,
-    status              ENUM('active','suspended','inactive') NOT NULL DEFAULT 'active',
-    car_id              INT UNSIGNED NULL COMMENT 'Assigned car ID',
-    notes               TEXT
-
+    license_category    VARCHAR(20) NOT NULL DEFAULT 'B',
+    car_id              INT UNSIGNED NULL COMMENT 'Assigned car ID'
 ) ENGINE=InnoDB COMMENT='Driver management';
 
 
@@ -71,7 +65,6 @@ CREATE TABLE service_orders (
     status              ENUM('scheduled','in_progress','completed','canceled'),
     service_center      VARCHAR(100),
     estimated_cost      DECIMAL(10,2),
-    final_cost          DECIMAL(10,2),
 
     CONSTRAINT fk_order_car
         FOREIGN KEY(car_id) REFERENCES cars(id)
@@ -122,12 +115,16 @@ CREATE TABLE vignettes (
 
 CREATE TABLE tires (
     id                  INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    car_id              INT UNSIGNED NOT NULL,
     brand               VARCHAR(50),
     size                VARCHAR(20),
     tire_type           ENUM('summer','winter','all-season'),
-    tire_condition      ENUM('new','used','worn') NOT NULL DEFAULT 'new',
-    purchase_date       DATE,
-    usage_mileage       INT UNSIGNED
+    condition_status    VARCHAR(50),
+    wear_level       INT UNSIGNED
+
+    CONSTRAINT fk_tire_car
+        FOREIGN KEY(car_id) REFERENCES cars(id)
+        ON DELETE CASCADE
 ) ENGINE=InnoDB COMMENT='Tire inventory';
 
 CREATE TABLE tire_installations (
@@ -152,6 +149,14 @@ CREATE TABLE users(
     created_at          TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )ENGINE=InnoDB COMMENT='System users';
 
+CREATE TABLE calendar_events (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    car_id INT,
+    event_type VARCHAR(50),
+    event_date DATE,
+    description TEXT,
+    FOREIGN KEY (car_id) REFERENCES cars(id)
+);
 
 INSERT INTO users (username, email, password, role)
 VALUES ('admin', 'admin@autodock.com', MD5('admin123'), 'manager');

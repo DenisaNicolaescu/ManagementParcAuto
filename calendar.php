@@ -1,3 +1,17 @@
+<?php
+include 'conexiune.php';
+$query_cars = "SELECT id, brand, model, license_plate FROM cars";
+$result_cars = mysqli_query($conn, $query_cars);
+
+$query = "
+SELECT service_orders.*, cars.license_plate
+FROM service_orders
+LEFT JOIN cars ON service_orders.car_id = cars.id
+ORDER BY appointment_date
+";
+
+$result = mysqli_query($conn, $query);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,7 +27,6 @@
 </head>
 
 <body>
-
     <nav class="dash-navbar">
         <a href="index.html">
             <img src="images/logo.png" alt="Autodock Logo" class="dash-logo">
@@ -147,7 +160,7 @@
 
             <h2>ADD NEW EVENT</h2>
 
-            <form class="add-car-form">
+            <form class="add-car-form" action="add_services.php" method="POST">
 
                 <h3 class="section-title">Event type</h3>
                 <div class="event-type-options">
@@ -158,27 +171,31 @@
 
                 <h3 class="section-title">Select vehicle</h3>
                 <div class="input-group full-width">
-                    <select>
-                        <option>SB 07 DKY - Ford Focus</option>
-                        <option>CJ 92 CBL - Renault Megane</option>
+                    <select name="car_id">
+                    <?php while($car = mysqli_fetch_assoc($result_cars)){ ?>
+                        <option value="<?php echo $car['id']; ?>">
+                            <?php echo $car['license_plate']." - ".$car['brand']." ".$car['model']; ?>
+                        </option>
+                    <?php } ?>
                     </select>
                 </div>
 
                 <h3 class="section-title">Start date</h3>
                 <div class="form-grid">
                     <div class="input-group">
-                        <input type="date" value="2026-09-06">
+                        <input type="date" name="appointment_date">
                     </div>
                     <div class="input-group">
-                        <input type="text" placeholder="e.g. 500 RON">
+                        <input type="text" name="estimated_cost" placeholder="e.g. 500 RON">
                     </div>
                 </div>
 
                 <h3 class="section-title">Description/Notes</h3>
                 <div class="input-group full-width">
-                    <textarea placeholder="Describe the maintenance or issue..." rows="3"></textarea>
+                    <textarea name="description" rows="3"></textarea>
                 </div>
-
+                <input type="hidden" name="service_center" value="Calendar">
+                <input type="hidden" name="intervention_type" value="other">
                 <div class="modal-actions">
                     <button type="button" class="btn-cancel" id="btnCancelEvent">Cancel</button>
                     <button type="submit" class="btn-submit">Create event</button>

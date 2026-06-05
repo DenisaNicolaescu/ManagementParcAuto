@@ -1,3 +1,11 @@
+<?php
+    include 'conexiune.php';
+    $query="SELECT * FROM drivers";
+    $result=mysqli_query($conn,$query);
+    $query_cars = "SELECT id, brand, model FROM cars";
+    $result_cars = mysqli_query($conn, $query_cars);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -83,109 +91,50 @@
             </div>
 
 
+            <?php while($driver = mysqli_fetch_assoc($result)){ ?>
             <div class="drivers-grid driver-card">
                 <div class="driver-profile">
-                    <div class="avatar avatar-blue">DA</div>
-                    <div class="driver-info">
-                        <strong>Dan Adrian</strong>
-                        <span class="driver-email">dan.adrian@autodock.ro</span>
+                    <div class="avatar avatar-blue">
+                        <?php echo strtoupper(substr($driver['first_name'],0,1).substr($driver['last_name'],0,1)); ?>
                     </div>
-                </div>
-                <div class="vehicle-info">
-                    Ford Focus (2021)<br>
-                    <span class="license-plate">SB 07 DKY</span>
-                </div>
-                <div>B</div>
-                <div>+40 742 100 200</div>
-                <div class="table-actions"
-                    style="display: flex; gap: 12px; border: none; align-items: center; justify-content: flex-end;">
-                    <span class="material-symbols-outlined action-icon edit-icon" title="Edit">edit</span>
-                    <span class="material-symbols-outlined action-icon delete-icon" title="Delete">delete</span>
-                </div>
-            </div>
+                    <div class="driver-info">
+                        <strong>
+                            <?php echo $driver['first_name']." ".$driver['last_name']; ?>
+                        </strong>
 
-            <div class="drivers-grid driver-card">
-                <div class="driver-profile">
-                    <div class="avatar avatar-green">EV</div>
-                    <div class="driver-info">
-                        <strong>Enache Vlad</strong>
-                        <span class="driver-email">enache.vlad@autodock.ro</span>
+                        <span class="driver-email">
+                            <?php echo $driver['email']; ?>
+                        </span>
                     </div>
                 </div>
                 <div class="vehicle-info">
-                    Dacia Logan (2019)<br>
-                    <span class="license-plate">CJ 99 TNT</span>
+                    Car ID:
+                    <?php echo $driver['car_id'] ? $driver['car_id'] : 'Unassigned'; ?>
                 </div>
-                <div>B+C</div>
-                <div>+40 756 300 401</div>
+                <div>
+                    <?php echo $driver['license_category']; ?>
+                </div>
+                <div>
+                    <?php echo $driver['phone']; ?>
+                </div>
                 <div class="table-actions"
-                    style="display: flex; gap: 12px; border: none; align-items: center; justify-content: flex-end;">
-                    <span class="material-symbols-outlined action-icon edit-icon" title="Edit">edit</span>
-                    <span class="material-symbols-outlined action-icon delete-icon" title="Delete">delete</span>
-                </div>
-            </div>
+                    style="display:flex;gap:12px;border:none;align-items:center;justify-content:flex-end;">
 
-            <div class="drivers-grid driver-card">
-                <div class="driver-profile">
-                    <div class="avatar avatar-orange">PI</div>
-                    <div class="driver-info">
-                        <strong>Popa Ioan</strong>
-                        <span class="driver-email">popa.ioan@autodock.ro</span>
-                    </div>
-                </div>
-                <div class="vehicle-info">
-                    Renault Megane (2022)<br>
-                    <span class="license-plate">CJ 92 CBL</span>
-                </div>
-                <div>B</div>
-                <div>+40 765 150 700</div>
-                <div class="table-actions"
-                    style="display: flex; gap: 12px; border: none; align-items: center; justify-content: flex-end;">
-                    <span class="material-symbols-outlined action-icon edit-icon" title="Edit">edit</span>
-                    <span class="material-symbols-outlined action-icon delete-icon" title="Delete">delete</span>
+                    <a href="edit_driver.php?id=<?php echo $driver['id']; ?>">
+                        <span class="material-symbols-outlined action-icon edit-icon">
+                            edit
+                        </span>
+                    </a>
+                    <a href="delete_driver.php?id=<?php echo $driver['id']; ?>"
+                    onclick="return confirm('Delete this driver?');">
+                        <span class="material-symbols-outlined action-icon delete-icon">
+                            delete
+                        </span>
+                    </a>
                 </div>
             </div>
-
-            <div class="drivers-grid driver-card">
-                <div class="driver-profile">
-                    <div class="avatar avatar-teal">DA</div>
-                    <div class="driver-info">
-                        <strong>Dumitru Alin</strong>
-                        <span class="driver-email">dumitru.alin@autodock.ro</span>
-                    </div>
-                </div>
-                <div class="vehicle-info">
-                    Skoda Octavia (2020)<br>
-                    <span class="license-plate">SB 23 ALX</span>
-                </div>
-                <div>B+E</div>
-                <div>+40 743 900 112</div>
-                <div class="table-actions"
-                    style="display: flex; gap: 12px; border: none; align-items: center; justify-content: flex-end;">
-                    <span class="material-symbols-outlined action-icon edit-icon" title="Edit">edit</span>
-                    <span class="material-symbols-outlined action-icon delete-icon" title="Delete">delete</span>
-                </div>
-            </div>
-
-            <div class="drivers-grid driver-card">
-                <div class="driver-profile">
-                    <div class="avatar avatar-purple">PC</div>
-                    <div class="driver-info">
-                        <strong>Pop Cristina</strong>
-                        <span class="driver-email">pop.cristina@autodock.ro</span>
-                    </div>
-                </div>
-                <div class="vehicle-info">
-                    Unassigned
-                </div>
-                <div>B</div>
-                <div>+40 711 234 567</div>
-                <div class="table-actions"
-                    style="display: flex; gap: 12px; border: none; align-items: center; justify-content: flex-end;">
-                    <span class="material-symbols-outlined action-icon edit-icon" title="Edit">edit</span>
-                    <span class="material-symbols-outlined action-icon delete-icon" title="Delete">delete</span>
-                </div>
-            </div>
+            <?php } ?>
+        </div>
     </main>
     <div id="addDriverModal" class="modal-overlay">
         <div class="modal-content">
@@ -193,25 +142,21 @@
 
             <h2>ADD NEW DRIVER</h2>
 
-            <form class="add-car-form" action="add_driver.php" method="POST">
+            <form id="driverForm" class="add-car-form" action="add_driver.php" method="POST">
 
                 <h3 class="section-title">Personal information</h3>
                 <div class="form-grid">
                     <div class="input-group">
                         <label>Full name</label>
-                        <input type="text" name>
-                    </div>
-                    <div class="input-group">
-                        <label>ID</label>
-                        <input type="text">
+                        <input type="text" name="full_name">
                     </div>
                     <div class="input-group">
                         <label>Email</label>
-                        <input type="email">
+                        <input type="email" name="email">
                     </div>
                     <div class="input-group">
                         <label>Phone number</label>
-                        <input type="text">
+                        <input type="text" name="phone">
                     </div>
                 </div>
 
@@ -219,23 +164,26 @@
                 <div class="form-grid">
                     <div class="input-group">
                         <label>License Category</label>
-                        <input type="text">
-                    </div>
-                    <div class="input-group">
-                        <label>Expiration Date</label>
-                        <input type="date">
+                        <input type="text" name="license_category">
                     </div>
                 </div>
 
                 <h3 class="section-title">Vehicle Assignment</h3>
                 <div class="input-group full-width">
                     <label>Select Vehicle to Assign</label>
-                    <input type="text" placeholder="None (Standby)">
+                    <select name="car_id">
+                        <option value="">Unassigned</option>
+                        <?php while($car = mysqli_fetch_assoc($result_cars)){ ?>
+                            <option value="<?php echo $car['id']; ?>">
+                                <?php echo $car['brand']." ".$car['model']; ?>
+                            </option>
+                        <?php } ?>
+                    </select>
                 </div>
 
                 <div class="modal-actions">
                     <button type="button" class="btn-cancel" id="btnCancelDriver">Cancel</button>
-                    <button type="submit" class="btn-submit">Register Driver</button>
+                    <input type="submit" value="Register Driver" class="btn-submit">
                 </div>
 
             </form>
@@ -252,19 +200,19 @@
                 <div class="form-grid">
                     <div class="input-group">
                         <label>First Name</label>
-                        <input type="text" placeholder="">
+                        <input type="text" name="first_name" placeholder="">
                     </div>
                     <div class="input-group">
                         <label>Last Name</label>
-                        <input type="text" placeholder="">
+                        <input type="text" name="last_name" placeholder="">
                     </div>
                     <div class="input-group">
                         <label>Email</label>
-                        <input type="email" placeholder="">
+                        <input type="email" name="email" placeholder="">
                     </div>
                     <div class="input-group">
                         <label>Phone number</label>
-                        <input type="text" placeholder="">
+                        <input type="text" name="phone" placeholder="">
                     </div>
                 </div>
 
@@ -272,7 +220,7 @@
                 <div class="form-grid">
                     <div class="input-group">
                         <label>License Category</label>
-                        <input type="text" placeholder="">
+                        <input type="text" name="license_category" placeholder="">
                     </div>
                 </div>
 
@@ -281,6 +229,23 @@
                     <button type="submit" class="btn-submit">Save changes</button>
                 </div>
             </form>
+        </div>
+    </div>
+    <div id="deleteModal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 420px; text-align: center;">
+            <span class="close-modal" id="closeDeleteModal">&times;</span>
+
+            <h2 style="color: var(--status-red); margin-bottom: 15px;">DELETE RECORD</h2>
+            
+            <p style="font-family: sans-serif; font-size: 15px; color: var(--text-gray-medium); margin-bottom: 30px; line-height: 1.5;">
+                Are you sure you want to delete this driver? <br>
+                <strong>This action cannot be undone.</strong>
+            </p>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" id="btnCancelDelete">Cancel</button>
+                <button type="button" class="btn-delete" id="btnConfirmDelete">Delete</button>
+            </div>
         </div>
     </div>
     <script>
@@ -378,6 +343,7 @@
             });
         });
     });
+    
 </script>
 </body>
 

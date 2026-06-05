@@ -75,7 +75,7 @@
         <div class="accordion-list">
 
             <div class="acc-header-row">
-                <div class="acc-col-vehicle"></div>
+                <div class="acc-col-vehicle">Vehicle Details</div>
                 <div class="acc-col-status">Global Status</div>
                 <div class="acc-col-docs">Total Active Docs</div>
                 <div class="acc-col-arrow"></div>
@@ -84,7 +84,7 @@
             <div class="acc-item">
                 <div class="acc-main-row">
                     <div class="acc-col-vehicle">
-                        Dacia Jogger (2023) <span class="plate-text">SB 42 BDP</span>
+                        <strong>Dacia Jogger (2023)</strong> <span class="plate-text">SB 42 BDP</span>
                     </div>
                     <div class="acc-col-status text-red">1 Document expired</div>
                     <div class="acc-col-docs">3 Documents total</div>
@@ -96,50 +96,42 @@
                     <table class="nested-table">
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Document Type</th>
-                                <th>Issue Date</th>
-                                <th>Expiry Date</th>
+                                <th>Provider / Issuer</th>
+                                <th>Valid Until</th>
                                 <th>Status</th>
-                                <th>Driver ID</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>1</td>
                                 <td>RCA (Insurance)</td>
-                                <td>28 May 2025</td>
+                                <td>Groupama</td>
                                 <td>28 May 2026</td>
                                 <td class="text-red">EXPIRED</td>
-                                <td>D-042 (Adrian P.)</td>
                                 <td>
-                                    <span class="material-symbols-outlined doc-action-icon">edit_square</span>
-                                    <span class="material-symbols-outlined doc-action-icon">delete</span>
+                                    <span class="material-symbols-outlined action-icon">edit_square</span>
+                                    <span class="material-symbols-outlined action-icon">delete</span>
                                 </td>
                             </tr>
                             <tr>
-                                <td>2</td>
                                 <td>ITP (Technical)</td>
-                                <td>14 Dec 2025</td>
-                                <td>14 Dec 2026</td>
+                                <td>RAR Sibiu</td>
+                                <td>14 Dec 2027</td>
                                 <td class="text-green">VALID</td>
-                                <td>D-042 (Adrian P.)</td>
                                 <td>
-                                    <span class="material-symbols-outlined doc-action-icon">edit_square</span>
-                                    <span class="material-symbols-outlined doc-action-icon">delete</span>
+                                    <span class="material-symbols-outlined action-icon">edit_square</span>
+                                    <span class="material-symbols-outlined action-icon">delete</span>
                                 </td>
                             </tr>
                             <tr>
-                                <td>3</td>
                                 <td>Vinietă RO</td>
-                                <td>08 Mar 2026</td>
-                                <td>08 Mar 2027</td>
+                                <td>CNAIR</td>
+                                <td>30 Aug 2026</td>
                                 <td class="text-green">VALID</td>
-                                <td>D-007 (Dan A.)</td>
                                 <td>
-                                    <span class="material-symbols-outlined doc-action-icon">edit_square</span>
-                                    <span class="material-symbols-outlined doc-action-icon">delete</span>
+                                    <span class="material-symbols-outlined action-icon">edit_square</span>
+                                    <span class="material-symbols-outlined action-icon">delete</span>
                                 </td>
                             </tr>
                         </tbody>
@@ -150,7 +142,7 @@
             <div class="acc-item">
                 <div class="acc-main-row">
                     <div class="acc-col-vehicle">
-                        Volkswagen Golf (2021) <span class="plate-text">B 200 ADK</span>
+                        <strong>Volkswagen Golf (2021)</strong> <span class="plate-text">B 200 ADK</span>
                     </div>
                     <div class="acc-col-status text-yellow">ITP Expires Soon</div>
                     <div class="acc-col-docs">2 Documents total</div>
@@ -159,15 +151,14 @@
                     </div>
                 </div>
                 <div class="acc-details-row">
-                    <p style="padding: 10px; color: #666; font-family: sans-serif;">Document details for VW Golf will
-                        appear here...</p>
+                    <p style="padding: 10px; color: #666;">Document details for VW Golf will appear here...</p>
                 </div>
             </div>
 
             <div class="acc-item">
                 <div class="acc-main-row">
                     <div class="acc-col-vehicle">
-                        Ford Focus (2021) <span class="plate-text">SB 07 DKY</span>
+                        <strong>Ford Focus (2021)</strong> <span class="plate-text">SB 07 DKY</span>
                     </div>
                     <div class="acc-col-status text-green">All Valid</div>
                     <div class="acc-col-docs">2 Documents total</div>
@@ -176,14 +167,12 @@
                     </div>
                 </div>
                 <div class="acc-details-row">
-                    <p style="padding: 10px; color: #666; font-family: sans-serif;">Document details for Ford Focus will
-                        appear here...</p>
+                    <p style="padding: 10px; color: #666;">Document details for Ford Focus will appear here...</p>
                 </div>
             </div>
 
         </div>
     </main>
-
     <div id="addDocModal" class="modal-overlay">
         <div class="modal-content">
             <span class="close-modal" id="closeDocModal">&times;</span>
