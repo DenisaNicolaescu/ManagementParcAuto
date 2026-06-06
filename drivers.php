@@ -344,6 +344,39 @@
         });
     });
     
+    const deleteModal = document.getElementById("deleteModal");
+    const closeDelete = document.getElementById("closeDeleteModal");
+    const cancelDelete = document.getElementById("btnCancelDelete");
+    const confirmDelete = document.getElementById("btnConfirmDelete");
+
+    
+    const deleteIcons = document.querySelectorAll(".delete-icon");
+
+    deleteIcons.forEach(icon => {
+        icon.addEventListener("click", function(e) {
+            e.stopPropagation(); 
+            if (deleteModal) deleteModal.style.display = "flex";
+        });
+    });
+
+   
+    if (closeDelete) closeDelete.onclick = () => deleteModal.style.display = "none";
+    if (cancelDelete) cancelDelete.onclick = () => deleteModal.style.display = "none";
+    
+    
+    if (confirmDelete) {
+        confirmDelete.onclick = () => {
+           
+            deleteModal.style.display = "none";
+        };
+    }
+
+    
+    window.addEventListener("click", function(event) {
+        if (event.target == deleteModal) {
+            deleteModal.style.display = "none";
+        }
+    });
 </script>
 </body>
 

@@ -253,51 +253,39 @@
         <div class="modal-content">
             <span class="close-modal" id="closeEditServiceModal">&times;</span>
 
-            <h2>EDIT INTERVENTION</h2>
+            <h2>EDIT SERVICE</h2>
 
             <form class="add-car-form">
                 
-                <h3 class="section-title">Intervention Details</h3>
-                
-                <div class="input-group full-width" style="margin-bottom: 15px;">
-                    <label>Vehicle & ID</label>
-                    <select>
-                        <option selected>Dacia Jogger (2023) - SB 42 BDP</option>
-                        <option>Volkswagen Golf - B 200 ADK</option>
-                        <option>Ford Focus - SB 07 DKY</option>
-                    </select>
-                </div>
-
-                <div class="input-group full-width" style="margin-bottom: 20px;">
-                    <label>Intervention Type</label>
-                    <input type="text" value="Insurance Renewal & Safety Check">
-                </div>
-
-                <div class="form-grid">
+                <div class="form-grid" style="margin-bottom: 15px;">
                     <div class="input-group">
-                        <label>Service Station</label>
-                        <input type="text" value="Autoservice Sibiu">
+                        <label>Service Center</label>
+                        <input type="text">
                     </div>
                     <div class="input-group">
                         <label>Estimated Cost</label>
-                        <input type="text" value="1,100 RON">
+                        <input type="text">
                     </div>
                 </div>
 
-                <h3 class="section-title">Status</h3>
-                <div class="input-group full-width">
-                    <label>Progress</label>
+                <div class="input-group full-width" style="margin-bottom: 15px;">
+                    <label>Status</label>
                     <select>
-                        <option selected>Pending Approval</option>
-                        <option>Scheduled</option>
+                        <option>Pending</option>
+                        <option selected>Scheduled</option>
                         <option>In Progress</option>
                         <option>Completed</option>
                     </select>
                 </div>
 
+                <div class="input-group full-width">
+                    <label>Description</label>
+                    <textarea rows="3"></textarea>
+                </div>
+
                 <div class="modal-actions">
                     <button type="button" class="btn-cancel" id="btnCancelEditService">Cancel</button>
-                    <button type="submit" class="btn-submit">Save changes</button>
+                    <button type="submit" class="btn-submit">Save Changes</button>
                 </div>
             </form>
         </div>

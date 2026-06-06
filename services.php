@@ -279,7 +279,7 @@ $result = mysqli_query($conn, $query);
             </div>
         </div>
     </div>
-   <script>
+  <script>
    
     document.addEventListener('DOMContentLoaded', () => {
 
@@ -311,6 +311,40 @@ $result = mysqli_query($conn, $query);
 
         if (closeEditService) closeEditService.addEventListener('click', () => editServiceModal.style.display = "none");
         if (cancelEditService) cancelEditService.addEventListener('click', () => editServiceModal.style.display = "none");
+
+
+        
+        const deleteModal = document.getElementById("deleteModal");
+        const closeDelete = document.getElementById("closeDeleteModal");
+        const cancelDelete = document.getElementById("btnCancelDelete");
+        const confirmDelete = document.getElementById("btnConfirmDelete");
+
+       
+        const deleteIcons = document.querySelectorAll('.delete-icon');
+        deleteIcons.forEach(icon => {
+            icon.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (deleteModal) deleteModal.style.display = "flex";
+            });
+        });
+
+        if (closeDelete) closeDelete.addEventListener('click', () => deleteModal.style.display = "none");
+        if (cancelDelete) cancelDelete.addEventListener('click', () => deleteModal.style.display = "none");
+        
+        
+        if (confirmDelete) {
+            confirmDelete.addEventListener('click', () => {
+                deleteModal.style.display = "none";
+            });
+        }
+
+
+       
+        window.addEventListener("click", (event) => {
+            if (event.target == serviceModal) serviceModal.style.display = "none";
+            if (event.target == editServiceModal) editServiceModal.style.display = "none";
+            if (event.target == deleteModal) deleteModal.style.display = "none";
+        });
 
 
         

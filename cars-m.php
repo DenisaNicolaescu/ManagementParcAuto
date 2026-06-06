@@ -381,95 +381,346 @@ $resultCars = mysqli_query($conn, $queryCars);
             </form>
         </div>
     </div>
+
+     <div id="editCarModal" class="modal-overlay">
+
+        <div class="modal-content" style="max-width: 550px;">
+            <span class="close-modal" id="closeEditCarModal">&times;</span>
+
+
+            <div style="margin-bottom: 20px;">
+                <h2 style="margin-bottom: 5px;">EDIT VEHICLE</h2>
+                <p style="color: var(--text-gray-medium); font-family: sans-serif; font-size: 15px; margin: 0;">SB 42
+                    BDP</p>
+            </div>
+
+            <form class="add-car-form">
+
+
+                <h3 class="section-title">Vehicle identity</h3>
+                <div class="form-grid grid-3-cols" style="margin-bottom: 15px;">
+                    <div class="input-group">
+                        <label>Make</label>
+                        <input type="text" value="Dacia">
+                    </div>
+                    <div class="input-group">
+                        <label>Model</label>
+                        <input type="text" value="Jogger">
+                    </div>
+                    <div class="input-group">
+                        <label>Year</label>
+                        <input type="text" value="2023">
+                    </div>
+                </div>
+                <div class="input-group full-width" style="margin-bottom: 25px;">
+                    <label>License plate</label>
+                    <input type="text" value="SB 42 BDP">
+                </div>
+
+
+                <h3 class="section-title">Engine & performance</h3>
+                <div class="form-grid grid-3-cols" style="margin-bottom: 15px;">
+                    <div class="input-group">
+                        <label>Fuel type</label>
+                        <select>
+                            <option selected>Gasoline</option>
+                            <option>Diesel</option>
+                            <option>Hybrid</option>
+                            <option>Electric</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Engine size</label>
+                        <div class="input-with-unit unit-short">
+                            <input type="number" step="0.1" value="1.5">
+                            <span class="unit">L</span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Horsepower</label>
+                        <div class="input-with-unit unit-medium">
+                            <input type="number" value="95">
+                            <span class="unit">hp</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-grid" style="margin-bottom: 25px;">
+                    <div class="input-group">
+                        <label>Fuel consumption</label>
+                        <div class="input-with-unit unit-long">
+                            <input type="number" step="0.1" value="1.5">
+                            <span class="unit">L/100km</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <h3 class="section-title">Status & mileage</h3>
+                <div class="form-grid" style="margin-bottom: 15px;">
+                    <div class="input-group">
+                        <label>Mileage</label>
+                        <div class="input-with-unit unit-medium">
+                            <input type="text" value="50.000">
+                            <span class="unit">km</span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Next service date</label>
+                        <input type="date" value="2026-09-06">
+                    </div>
+                </div>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>Status</label>
+                        <select>
+                            <option selected>Active</option>
+                            <option>In Service</option>
+                            <option>Inactive</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" id="btnCancelEditCar">Cancel</button>
+                    <button type="submit" class="btn-submit">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="editTireModal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 450px;">
+            <span class="close-modal" id="closeEditTireModal">&times;</span>
+
+          
+            <div style="margin-bottom: 20px;">
+                <h2 style="margin-bottom: 5px;">EDIT TIRES</h2>
+                <p style="color: var(--text-gray-medium); font-family: sans-serif; font-size: 15px; margin: 0;">SB 42
+                    BDP</p>
+            </div>
+
+            <form class="add-car-form" action="update_tire.php" method="POST">
+
+                <h3 class="section-title">Tires information</h3>
+
+             
+                <div class="form-grid" style="margin-bottom: 15px;">
+                    <div class="input-group">
+                        <label>Brand</label>
+                        <input type="text" name="brand" value="Michelin Alpin 6">
+                    </div>
+                    <div class="input-group">
+                        <label>Size</label>
+                        <input type="text" name="size" value="205/60 R16">
+                    </div>
+                </div>
+
+               
+                <div class="input-group full-width" style="margin-bottom: 15px;">
+                    <label>Tire type</label>
+                    <select name="tire_type">
+                        <option selected>Winter</option>
+                        <option>Summer</option>
+                        <option>All-Season</option>
+                    </select>
+                </div>
+
+                
+                <div class="input-group full-width" style="margin-bottom: 15px;">
+                    <label>Wear level (%)</label>
+                    <div class="input-with-unit unit-short">
+                       
+                        <input type="number" name="wear_level" value="15" id="wearInput"
+                            style="background: linear-gradient(to right, var(--status-green) 15%, transparent 15%); font-weight: bold;">
+                        <span class="unit">%</span>
+                    </div>
+                </div>
+
+               
+                <div class="input-group full-width" style="margin-bottom: 25px;">
+                    <label>Condition status</label>
+                    <select name="condition_status">
+                        <option selected>Good</option>
+                        <option>Normal Wear</option>
+                        <option>Needs Replacement</option>
+                    </select>
+                </div>
+
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" id="btnCancelEditTire">Cancel</button>
+                    <button type="submit" class="btn-submit">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+     <div id="deleteModal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 420px; text-align: center;">
+            <span class="close-modal" id="closeDeleteModal">&times;</span>
+
+            <h2 style="color: var(--status-red); margin-bottom: 15px;">DELETE RECORD</h2>
+            
+            <p style="font-family: sans-serif; font-size: 15px; color: var(--text-gray-medium); margin-bottom: 30px; line-height: 1.5;">
+                Are you sure you want to delete this driver? <br>
+                <strong>This action cannot be undone.</strong>
+            </p>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" id="btnCancelDelete">Cancel</button>
+                <button type="button" class="btn-delete" id="btnConfirmDelete">Delete</button>
+            </div>
+        </div>
+    </div>
+
+     <script>
+        
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) modal.style.display = "flex";
+        }
+
+        // Funcție ajutătoare pentru a închide un modal
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) modal.style.display = "none";
+        }
+
     
-    <script>
+        const btnOpenAddCar = document.getElementById("btnOpenModal");
+        if (btnOpenAddCar) btnOpenAddCar.onclick = () => openModal("addCarModal");
+        
+        const closeAddCar = document.getElementById("closeModal");
+        if (closeAddCar) closeAddCar.onclick = () => closeModal("addCarModal");
+        
+        const cancelAddCar = document.getElementById("btnCancel");
+        if (cancelAddCar) cancelAddCar.onclick = () => closeModal("addCarModal");
 
-        const modal = document.getElementById("addCarModal");
-        const btnOpen = document.getElementById("btnOpenModal");
-        const btnClose = document.getElementById("closeModal");
-        const btnCancel = document.getElementById("btnCancel");
+    
+        const btnOpenAddTire = document.getElementById("btnOpenTireModal");
+        if (btnOpenAddTire) btnOpenAddTire.onclick = () => openModal("addTireModal");
 
+        const closeAddTire = document.getElementById("closeTireModal");
+        if (closeAddTire) closeAddTire.onclick = () => closeModal("addTireModal");
 
-        btnOpen.onclick = function () {
-            modal.style.display = "flex";
+        const cancelAddTire = document.getElementById("btnCancelTire");
+        if (cancelAddTire) cancelAddTire.onclick = () => closeModal("addTireModal");
+
+    
+        const inventoryTables = document.querySelectorAll('.inventory-table');
+        
+        if (inventoryTables.length > 0) {
+            const carEditIcons = inventoryTables[0].querySelectorAll('.edit-icon');
+            carEditIcons.forEach(icon => {
+                icon.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    openModal("editCarModal");
+                });
+            });
+        }
+        
+        const closeEditCar = document.getElementById("closeEditCarModal");
+        if (closeEditCar) closeEditCar.onclick = () => closeModal("editCarModal");
+        
+        const cancelEditCar = document.getElementById("btnCancelEditCar");
+        if (cancelEditCar) cancelEditCar.onclick = () => closeModal("editCarModal");
+
+    
+        if (inventoryTables.length > 1) {
+            const tireEditIcons = inventoryTables[1].querySelectorAll('.edit-icon');
+            tireEditIcons.forEach(icon => {
+                icon.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    openModal("editTireModal");
+                });
+            });
         }
 
+        const closeEditTire = document.getElementById("closeEditTireModal");
+        if (closeEditTire) closeEditTire.onclick = () => closeModal("editTireModal");
 
-        btnClose.onclick = function () {
-            modal.style.display = "none";
-        }
+        const cancelEditTire = document.getElementById("btnCancelEditTire");
+        if (cancelEditTire) cancelEditTire.onclick = () => closeModal("editTireModal");
 
-
-        btnCancel.onclick = function () {
-            modal.style.display = "none";
-        }
-
-        const tireModal = document.getElementById("addTireModal");
-        const btnOpenTire = document.getElementById("btnOpenTireModal");
-        const btnCloseTire = document.getElementById("closeTireModal");
-        const btnCancelTire = document.getElementById("btnCancelTire");
-
-        btnOpenTire.onclick = function () {
-            tireModal.style.display = "flex";
-        }
-
-        btnCloseTire.onclick = function () {
-            tireModal.style.display = "none";
-        }
-
-        btnCancelTire.onclick = function () {
-            tireModal.style.display = "none";
-        }
-
-        window.onclick = function (event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-
-            if (event.target == tireModal) {
-                tireModal.style.display = "none";
-            }
-        }
-
-
-        const profileTrigger = document.getElementById('profileTrigger');
-        const profileMenu = document.getElementById('profileMenu');
-
-        profileTrigger.addEventListener('click', function (event) {
-            profileMenu.classList.toggle('show');
-            event.stopPropagation();
+      
+        let rowToDelete = null; 
+        
+        const deleteIcons = document.querySelectorAll('.delete-icon');
+        deleteIcons.forEach(icon => {
+            icon.addEventListener('click', function (e) {
+                e.stopPropagation(); 
+                rowToDelete = this.closest('tr'); 
+                openModal("deleteModal"); 
+            });
         });
 
-        document.addEventListener('click', function (event) {
-            if (!profileMenu.contains(event.target) && !profileTrigger.contains(event.target)) {
-                profileMenu.classList.remove('show');
-            }
-        });
+        const closeDelete = document.getElementById("closeDeleteModal");
+        if (closeDelete) closeDelete.onclick = () => closeModal("deleteModal");
+
+        const cancelDelete = document.getElementById("btnCancelDelete");
+        if (cancelDelete) cancelDelete.onclick = () => closeModal("deleteModal");
+
+        const confirmDelete = document.getElementById("btnConfirmDelete");
+        if (confirmDelete) {
+            confirmDelete.onclick = () => {
+                if (rowToDelete) {
+                    rowToDelete.remove(); 
+                    rowToDelete = null; 
+                }
+                closeModal("deleteModal"); 
+            };
+        }
 
         
+        window.addEventListener("click", function (event) {
+            if (event.target.classList.contains("modal-overlay")) {
+                event.target.style.display = "none";
+            }
+        });
+
+       
+        const wearInput = document.getElementById('wearInput');
+        if(wearInput) {
+            wearInput.addEventListener('input', function() {
+                let val = this.value || 0;
+                if(val > 100) val = 100;
+                if(val < 0) val = 0;
+                this.style.background = `linear-gradient(to right, var(--status-green) ${val}%, transparent ${val}%)`;
+            });
+        }
+
+       
+        const profileTrigger = document.getElementById('profileTrigger');
+        const profileMenu = document.getElementById('profileMenu');
+        if (profileTrigger && profileMenu) {
+            profileTrigger.addEventListener('click', function (event) {
+                profileMenu.classList.toggle('show');
+                event.stopPropagation();
+            });
+            document.addEventListener('click', function (event) {
+                if (!profileMenu.contains(event.target) && !profileTrigger.contains(event.target)) {
+                    profileMenu.classList.remove('show');
+                }
+            });
+        }
+
+       
         document.addEventListener('DOMContentLoaded', () => {
             const tableRows = document.querySelectorAll('.inventory-table tbody tr');
-
             tableRows.forEach(row => {
                 row.addEventListener('click', function (e) {
+                    if (e.target.closest('.action-icon')) return; 
                     
-                    if (e.target.closest('.action-icon')) return;
-
-                   
                     tableRows.forEach(r => {
                         if (r !== this) {
                             r.classList.remove('show-actions');
                         }
                     });
-
-                   
                     this.classList.toggle('show-actions');
                 });
             });
         });
-
-        
-
     </script>
 </body>
 
