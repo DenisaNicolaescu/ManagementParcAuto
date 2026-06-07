@@ -28,12 +28,12 @@
             <img src="images/logo.png" alt="Autodock Logo" class="dash-logo">
         </a>
         <ul class="dash-nav-links">
-            <li><a href="dashboard-manager.html">Dashboard</a></li>
-            <li><a href="cars-m.html">Cars</a></li>
-            <li><a href="drivers.html" class="active">Drivers</a></li>
-            <li><a href="services.html">Service</a></li>
-            <li><a href="calendar.html">Calendar</a></li>
-            <li><a href="documents-m.html">Documents</a></li>
+            <li><a href="dashboard-manager.php">Dashboard</a></li>
+            <li><a href="cars-m.php">Cars</a></li>
+            <li><a href="drivers.php" class="active">Drivers</a></li>
+            <li><a href="services.php">Service</a></li>
+            <li><a href="calendar.php">Calendar</a></li>
+            <li><a href="documents-m.php">Documents</a></li>
         </ul>
 
 
@@ -120,10 +120,20 @@
                 <div class="table-actions"
                     style="display:flex;gap:12px;border:none;align-items:center;justify-content:flex-end;">
 
-                    <a href="edit_driver.php?id=<?php echo $driver['id']; ?>">
+                    <a href="#"
+                    class="btnEditDriver"
+
+                    data-id="<?php echo $driver['id']; ?>"
+                    data-firstname="<?php echo $driver['first_name']; ?>"
+                    data-lastname="<?php echo $driver['last_name']; ?>"
+                    data-phone="<?php echo $driver['phone']; ?>"
+                    data-email="<?php echo $driver['email']; ?>"
+                    data-license="<?php echo $driver['license_category']; ?>">
+
                         <span class="material-symbols-outlined action-icon edit-icon">
                             edit
                         </span>
+
                     </a>
                     <a href="delete_driver.php?id=<?php echo $driver['id']; ?>"
                     onclick="return confirm('Delete this driver?');">
@@ -190,29 +200,29 @@
         </div>
     </div>
     <div id="editDriverModal" class="modal-overlay">
-        <div class="modal-content">
+        <div class="modal-content" >
             <span class="close-modal" id="closeEditModal">&times;</span>
 
             <h2>EDIT DRIVER</h2>
 
-            <form class="edit-driver-form">
+            <form action="update_driver.php" method="POST">
+                <input type="hidden" name="id" id="edit_driver_id">
                 <h3 class="section-title">Personal information</h3>
                 <div class="form-grid">
                     <div class="input-group">
                         <label>First Name</label>
-                        <input type="text" name="first_name" placeholder="">
+                        <input type="text" name="first_name" id="edit_first_name">
                     </div>
                     <div class="input-group">
                         <label>Last Name</label>
-                        <input type="text" name="last_name" placeholder="">
-                    </div>
+                        <input type="text" name="last_name" id="edit_last_name">
                     <div class="input-group">
                         <label>Email</label>
-                        <input type="email" name="email" placeholder="">
+                       <input type="email" name="email" id="edit_email">
                     </div>
                     <div class="input-group">
                         <label>Phone number</label>
-                        <input type="text" name="phone" placeholder="">
+                        <input type="text" name="phone" id="edit_phone">
                     </div>
                 </div>
 
@@ -220,7 +230,9 @@
                 <div class="form-grid">
                     <div class="input-group">
                         <label>License Category</label>
-                        <input type="text" name="license_category" placeholder="">
+                        <input type="text"
+                            name="license_category"
+                            id="edit_license_category">
                     </div>
                 </div>
 
@@ -275,13 +287,36 @@
     const editModal = document.getElementById("editDriverModal");
     const closeEditBtn = document.getElementById("closeEditModal");
     const cancelEditBtn = document.getElementById("btnCancelEdit");
-    const editIcons = document.querySelectorAll(".edit-icon");
+    document.querySelectorAll(".btnEditDriver")
+      .forEach(button => {
 
-    editIcons.forEach(icon => {
-        icon.addEventListener("click", function(e) {
-            e.stopPropagation(); 
-            if (editModal) editModal.style.display = "flex";
+         button.addEventListener("click", function(e){
+
+             e.preventDefault();
+             e.stopPropagation();
+
+            document.getElementById("edit_driver_id").value =
+                this.dataset.id;
+
+            document.getElementById("edit_first_name").value =
+                this.dataset.firstname;
+
+            document.getElementById("edit_last_name").value =
+                this.dataset.lastname;
+
+            document.getElementById("edit_phone").value =
+                this.dataset.phone;
+
+            document.getElementById("edit_email").value =
+                this.dataset.email;
+
+            document.getElementById("edit_license_category").value =
+                this.dataset.license;
+
+            editModal.style.display = "flex";
+
         });
+
     });
 
     if (closeEditBtn) {
@@ -344,39 +379,6 @@
         });
     });
     
-    const deleteModal = document.getElementById("deleteModal");
-    const closeDelete = document.getElementById("closeDeleteModal");
-    const cancelDelete = document.getElementById("btnCancelDelete");
-    const confirmDelete = document.getElementById("btnConfirmDelete");
-
-    
-    const deleteIcons = document.querySelectorAll(".delete-icon");
-
-    deleteIcons.forEach(icon => {
-        icon.addEventListener("click", function(e) {
-            e.stopPropagation(); 
-            if (deleteModal) deleteModal.style.display = "flex";
-        });
-    });
-
-   
-    if (closeDelete) closeDelete.onclick = () => deleteModal.style.display = "none";
-    if (cancelDelete) cancelDelete.onclick = () => deleteModal.style.display = "none";
-    
-    
-    if (confirmDelete) {
-        confirmDelete.onclick = () => {
-           
-            deleteModal.style.display = "none";
-        };
-    }
-
-    
-    window.addEventListener("click", function(event) {
-        if (event.target == deleteModal) {
-            deleteModal.style.display = "none";
-        }
-    });
 </script>
 </body>
 

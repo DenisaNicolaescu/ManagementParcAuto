@@ -1,4 +1,11 @@
 <?php
+session_start();
+
+if(!isset($_SESSION['user_id'])){
+    header("Location: welcome.html");
+    exit();
+}
+
 include 'conexiune.php';
 
 $query="SELECT * FROM cars";
@@ -11,10 +18,10 @@ LEFT JOIN cars ON tires.car_id = cars.id
 ";
 
 $result_tires = mysqli_query($conn, $query_tires);
+
 $queryCars = "SELECT id, brand, model, license_plate, year FROM cars";
 $resultCars = mysqli_query($conn, $queryCars);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,12 +44,12 @@ $resultCars = mysqli_query($conn, $queryCars);
             <img src="images/logo.png" alt="Autodock Logo" class="dash-logo">
         </a>
         <ul class="dash-nav-links">
-            <li><a href="dashboard-manager.html">Dashboard</a></li>
-            <li><a href="cars-m.html" class="active">Cars</a></li>
-            <li><a href="drivers.html">Drivers</a></li>
-            <li><a href="services.html">Service</a></li>
-            <li><a href="calendar.html">Calendar</a></li>
-            <li><a href="documents-m.html">Documents</a></li>
+            <li><a href="dashboard_manager.php">Dashboard</a></li>
+            <li><a href="cars-m.php" class="active">Cars</a></li>
+            <li><a href="drivers.php">Drivers</a></li>
+            <li><a href="services.php">Service</a></li>
+            <li><a href="calendar.php">Calendar</a></li>
+            <li><a href="documents-m.php">Documents</a></li>
         </ul>
 
 
@@ -50,7 +57,9 @@ $resultCars = mysqli_query($conn, $queryCars);
             <div class="profile-trigger" id="profileTrigger">
                 <div class="profile-avatar">AP</div>
                 <div class="profile-info">
-                    <span class="profile-name">Adrian Popescu</span>
+                    <span class="profile-name">
+                        <?php echo $_SESSION['username']; ?>
+                    </span>
                     <span class="profile-role">Manager</span>
                 </div>
                 <span class="material-symbols-outlined arrow-icon">expand_more</span>
@@ -73,7 +82,7 @@ $resultCars = mysqli_query($conn, $queryCars);
 
                 <hr class="dropdown-divider">
 
-                <a href="index.html" class="profile-menu-item sign-out">
+                <a href="logout.php" class="profile-menu-item sign-out">
                     <span class="material-symbols-outlined">logout</span> Sign Out
                 </a>
             </div>
@@ -158,8 +167,27 @@ $resultCars = mysqli_query($conn, $queryCars);
 
                 <td class="table-actions">
 
-                    <a href="edit_car.php?id=<?php echo $car['id']; ?>">
-                        <span class="material-symbols-outlined action-icon edit-icon">edit</span>
+                   <a href="#"
+                        class="btnEditCar"
+
+                        data-id="<?php echo $car['id']; ?>"
+                        data-brand="<?php echo $car['brand']; ?>"
+                        data-model="<?php echo $car['model']; ?>"
+                        data-year="<?php echo $car['year']; ?>"
+                        data-license="<?php echo $car['license_plate']; ?>"
+                        data-fuel="<?php echo $car['fuel_type']; ?>"
+                        data-capacity="<?php echo $car['capacity']; ?>"
+                        data-power="<?php echo $car['power']; ?>"
+                        data-consumption="<?php echo $car['consumption']; ?>"
+                        data-mileage="<?php echo $car['mileage']; ?>"
+                        data-status="<?php echo $car['status']; ?>"
+                        data-lastservice="<?php echo $car['last_service_date']; ?>"
+                        data-nextservice="<?php echo $car['next_service_date']; ?>">
+
+                        <span class="material-symbols-outlined action-icon edit-icon">
+                            edit
+                        </span>
+
                     </a>
 
                     <a href="delete_car.php?id=<?php echo $car['id']; ?>"
@@ -218,17 +246,28 @@ $resultCars = mysqli_query($conn, $queryCars);
                             <?php echo $tire['condition_status']; ?>
                         </td>
                         <td class="table-actions">
-                            <a href="edit_tire.php?id=<?php echo $tire['id']; ?>">
-                                <span class="material-symbols-outlined action-icon edit-icon">
-                                    edit
-                                </span>
-                            </a>
-                            <a href="delete_tire.php?id=<?php echo $tire['id']; ?>"
-                            onclick="return confirm('Delete this tire?');">
-                                <span class="material-symbols-outlined action-icon delete-icon">
-                                    delete
-                                </span>
-                            </a>
+
+                                <a href="#"
+                                class="btnEditTire"
+
+                                data-id="<?php echo $tire['id']; ?>"
+                                data-brand="<?php echo $tire['brand']; ?>"
+                                data-size="<?php echo $tire['size']; ?>"
+                                data-type="<?php echo $tire['tire_type']; ?>"
+                                data-wear="<?php echo $tire['wear_level']; ?>"
+                                data-condition="<?php echo $tire['condition_status']; ?>">
+                                    <span class="material-symbols-outlined action-icon edit-icon">
+                                        edit
+                                    </span>
+
+                                </a>
+                                <a href="delete_tire.php?id=<?php echo $tire['id']; ?>"
+                                onclick="return confirm('Delete this tire?');">
+
+                                    <span class="material-symbols-outlined action-icon delete-icon">
+                                        delete
+                                    </span>
+                                </a>
                         </td>
                     </tr>
                     <?php } ?>
@@ -320,6 +359,92 @@ $resultCars = mysqli_query($conn, $queryCars);
             </form>
         </div>
     </div>
+    <div id="editCarModal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-modal" id="closeEditCarModal">&times;</span>
+        <h2>EDIT VEHICLE</h2>
+        <form action="update_car.php" method="POST">
+            <input type="hidden" name="id" id="edit_id">
+            <div class="form-grid">
+                <div class="input-group">
+                    <label>Brand</label>
+                    <input type="text" name="brand" id="edit_brand">
+                </div>
+                <div class="input-group">
+                    <label>Model</label>
+                    <input type="text" name="model" id="edit_model">
+                </div>
+                <div class="input-group">
+                    <label>Year</label>
+                    <input type="number" name="year" id="edit_year">
+                </div>
+                <div class="input-group">
+                    <label>License Plate</label>
+                    <input type="text" name="license_plate" id="edit_license">
+                </div>
+                <div class="input-group">
+                    <label>Fuel Type</label>
+                    <input type="text" name="fuel_type" id="edit_fuel">
+                </div>
+                <div class="input-group">
+                    <label>Capacity</label>
+                    <input type="number" step="0.1"
+                           name="capacity"
+                           id="edit_capacity">
+                </div>
+                <div class="input-group">
+                    <label>Power</label>
+                    <input type="number" name="power" id="edit_power">
+                </div>
+                <div class="input-group">
+                    <label>Consumption</label>
+                    <input type="number"
+                           step="0.1"
+                           name="consumption"
+                           id="edit_consumption">
+                </div>
+                <div class="input-group">
+                    <label>Mileage</label>
+                    <input type="number"
+                           name="mileage"
+                           id="edit_mileage">
+                </div>
+                <div class="input-group">
+                    <label>Status</label>
+                    <select name="status" id="edit_status">
+                        <option value="active">Active</option>
+                        <option value="in_service">In Service</option>
+                        <option value="reserve">Reserve</option>
+                        <option value="decommissioned">Decommissioned</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Last Service</label>
+                    <input type="date"
+                           name="last_service_date"
+                           id="edit_lastservice">
+                </div>
+                <div class="input-group">
+                    <label>Next Service</label>
+                    <input type="date"
+                           name="next_service_date"
+                           id="edit_nextservice">
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button type="button"
+                        class="btn-cancel"
+                        id="cancelEditCar">
+                    Cancel
+                </button>
+                <button type="submit"
+                        class="btn-submit">
+                    Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
     <div id="addTireModal" class="modal-overlay">
         <div class="modal-content">
             <span class="close-modal" id="closeTireModal">&times;</span>
@@ -381,346 +506,267 @@ $resultCars = mysqli_query($conn, $queryCars);
             </form>
         </div>
     </div>
-
-     <div id="editCarModal" class="modal-overlay">
-
-        <div class="modal-content" style="max-width: 550px;">
-            <span class="close-modal" id="closeEditCarModal">&times;</span>
-
-
-            <div style="margin-bottom: 20px;">
-                <h2 style="margin-bottom: 5px;">EDIT VEHICLE</h2>
-                <p style="color: var(--text-gray-medium); font-family: sans-serif; font-size: 15px; margin: 0;">SB 42
-                    BDP</p>
-            </div>
-
-            <form class="add-car-form">
-
-
-                <h3 class="section-title">Vehicle identity</h3>
-                <div class="form-grid grid-3-cols" style="margin-bottom: 15px;">
-                    <div class="input-group">
-                        <label>Make</label>
-                        <input type="text" value="Dacia">
-                    </div>
-                    <div class="input-group">
-                        <label>Model</label>
-                        <input type="text" value="Jogger">
-                    </div>
-                    <div class="input-group">
-                        <label>Year</label>
-                        <input type="text" value="2023">
-                    </div>
-                </div>
-                <div class="input-group full-width" style="margin-bottom: 25px;">
-                    <label>License plate</label>
-                    <input type="text" value="SB 42 BDP">
-                </div>
-
-
-                <h3 class="section-title">Engine & performance</h3>
-                <div class="form-grid grid-3-cols" style="margin-bottom: 15px;">
-                    <div class="input-group">
-                        <label>Fuel type</label>
-                        <select>
-                            <option selected>Gasoline</option>
-                            <option>Diesel</option>
-                            <option>Hybrid</option>
-                            <option>Electric</option>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <label>Engine size</label>
-                        <div class="input-with-unit unit-short">
-                            <input type="number" step="0.1" value="1.5">
-                            <span class="unit">L</span>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <label>Horsepower</label>
-                        <div class="input-with-unit unit-medium">
-                            <input type="number" value="95">
-                            <span class="unit">hp</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-grid" style="margin-bottom: 25px;">
-                    <div class="input-group">
-                        <label>Fuel consumption</label>
-                        <div class="input-with-unit unit-long">
-                            <input type="number" step="0.1" value="1.5">
-                            <span class="unit">L/100km</span>
-                        </div>
-                    </div>
-                </div>
-
-
-                <h3 class="section-title">Status & mileage</h3>
-                <div class="form-grid" style="margin-bottom: 15px;">
-                    <div class="input-group">
-                        <label>Mileage</label>
-                        <div class="input-with-unit unit-medium">
-                            <input type="text" value="50.000">
-                            <span class="unit">km</span>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <label>Next service date</label>
-                        <input type="date" value="2026-09-06">
-                    </div>
-                </div>
-                <div class="form-grid">
-                    <div class="input-group">
-                        <label>Status</label>
-                        <select>
-                            <option selected>Active</option>
-                            <option>In Service</option>
-                            <option>Inactive</option>
-                        </select>
-                    </div>
-                </div>
-
-
-                <div class="modal-actions">
-                    <button type="button" class="btn-cancel" id="btnCancelEditCar">Cancel</button>
-                    <button type="submit" class="btn-submit">Save changes</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <div id="editTireModal" class="modal-overlay">
-        <div class="modal-content" style="max-width: 450px;">
+        <div class="modal-content">
+
             <span class="close-modal" id="closeEditTireModal">&times;</span>
 
-          
-            <div style="margin-bottom: 20px;">
-                <h2 style="margin-bottom: 5px;">EDIT TIRES</h2>
-                <p style="color: var(--text-gray-medium); font-family: sans-serif; font-size: 15px; margin: 0;">SB 42
-                    BDP</p>
-            </div>
+            <h2>EDIT TIRE</h2>
 
-            <form class="add-car-form" action="update_tire.php" method="POST">
+            <form action="update_tire.php" method="POST">
 
-                <h3 class="section-title">Tires information</h3>
+                <input type="hidden" name="id" id="edit_tire_id">
 
-             
-                <div class="form-grid" style="margin-bottom: 15px;">
+                <div class="form-grid">
+
                     <div class="input-group">
                         <label>Brand</label>
-                        <input type="text" name="brand" value="Michelin Alpin 6">
+                        <input type="text" name="brand" id="edit_tire_brand">
                     </div>
+
                     <div class="input-group">
                         <label>Size</label>
-                        <input type="text" name="size" value="205/60 R16">
+                        <input type="text" name="size" id="edit_tire_size">
                     </div>
-                </div>
 
-               
-                <div class="input-group full-width" style="margin-bottom: 15px;">
-                    <label>Tire type</label>
-                    <select name="tire_type">
-                        <option selected>Winter</option>
-                        <option>Summer</option>
-                        <option>All-Season</option>
-                    </select>
-                </div>
+                    <div class="input-group">
+                        <label>Tire Type</label>
 
-                
-                <div class="input-group full-width" style="margin-bottom: 15px;">
-                    <label>Wear level (%)</label>
-                    <div class="input-with-unit unit-short">
-                       
-                        <input type="number" name="wear_level" value="15" id="wearInput"
-                            style="background: linear-gradient(to right, var(--status-green) 15%, transparent 15%); font-weight: bold;">
-                        <span class="unit">%</span>
+                        <select name="tire_type" id="edit_tire_type">
+                            <option value="winter">Winter</option>
+                            <option value="summer">Summer</option>
+                            <option value="all-season">All Season</option>
+                        </select>
                     </div>
+
+                    <div class="input-group">
+                        <label>Wear Level</label>
+                        <input type="number" name="wear_level" id="edit_tire_wear">
+                    </div>
+
+                    <div class="input-group">
+                        <label>Condition</label>
+
+                        <select name="condition_status" id="edit_tire_condition">
+                            <option value="new">Good Condition</option>
+                            <option value="used">Normal Wear</option>
+                            <option value="worn">Needs Replacement</option>
+                        </select>
+                    </div>
+
                 </div>
 
-               
-                <div class="input-group full-width" style="margin-bottom: 25px;">
-                    <label>Condition status</label>
-                    <select name="condition_status">
-                        <option selected>Good</option>
-                        <option>Normal Wear</option>
-                        <option>Needs Replacement</option>
-                    </select>
-                </div>
-
-                
                 <div class="modal-actions">
-                    <button type="button" class="btn-cancel" id="btnCancelEditTire">Cancel</button>
-                    <button type="submit" class="btn-submit">Save changes</button>
+                    <button type="button"
+                            class="btn-cancel"
+                            id="cancelEditTire">
+                        Cancel
+                    </button>
+
+                    <button type="submit"
+                            class="btn-submit">
+                        Save Changes
+                    </button>
                 </div>
+
             </form>
+
         </div>
     </div>
-
-     <div id="deleteModal" class="modal-overlay">
-        <div class="modal-content" style="max-width: 420px; text-align: center;">
-            <span class="close-modal" id="closeDeleteModal">&times;</span>
-
-            <h2 style="color: var(--status-red); margin-bottom: 15px;">DELETE RECORD</h2>
-            
-            <p style="font-family: sans-serif; font-size: 15px; color: var(--text-gray-medium); margin-bottom: 30px; line-height: 1.5;">
-                Are you sure you want to delete this driver? <br>
-                <strong>This action cannot be undone.</strong>
-            </p>
-
-            <div class="modal-actions">
-                <button type="button" class="btn-cancel" id="btnCancelDelete">Cancel</button>
-                <button type="button" class="btn-delete" id="btnConfirmDelete">Delete</button>
-            </div>
-        </div>
-    </div>
-
-     <script>
         
-        function openModal(modalId) {
-            const modal = document.getElementById(modalId);
-            if (modal) modal.style.display = "flex";
+    <script>
+
+        const modal = document.getElementById("addCarModal");
+        const btnOpen = document.getElementById("btnOpenModal");
+        const btnClose = document.getElementById("closeModal");
+        const btnCancel = document.getElementById("btnCancel");
+
+
+        btnOpen.onclick = function () {
+            modal.style.display = "flex";
         }
 
-        // Funcție ajutătoare pentru a închide un modal
-        function closeModal(modalId) {
-            const modal = document.getElementById(modalId);
-            if (modal) modal.style.display = "none";
+
+        btnClose.onclick = function () {
+            modal.style.display = "none";
         }
 
-    
-        const btnOpenAddCar = document.getElementById("btnOpenModal");
-        if (btnOpenAddCar) btnOpenAddCar.onclick = () => openModal("addCarModal");
-        
-        const closeAddCar = document.getElementById("closeModal");
-        if (closeAddCar) closeAddCar.onclick = () => closeModal("addCarModal");
-        
-        const cancelAddCar = document.getElementById("btnCancel");
-        if (cancelAddCar) cancelAddCar.onclick = () => closeModal("addCarModal");
 
-    
-        const btnOpenAddTire = document.getElementById("btnOpenTireModal");
-        if (btnOpenAddTire) btnOpenAddTire.onclick = () => openModal("addTireModal");
-
-        const closeAddTire = document.getElementById("closeTireModal");
-        if (closeAddTire) closeAddTire.onclick = () => closeModal("addTireModal");
-
-        const cancelAddTire = document.getElementById("btnCancelTire");
-        if (cancelAddTire) cancelAddTire.onclick = () => closeModal("addTireModal");
-
-    
-        const inventoryTables = document.querySelectorAll('.inventory-table');
-        
-        if (inventoryTables.length > 0) {
-            const carEditIcons = inventoryTables[0].querySelectorAll('.edit-icon');
-            carEditIcons.forEach(icon => {
-                icon.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                    openModal("editCarModal");
-                });
-            });
-        }
-        
-        const closeEditCar = document.getElementById("closeEditCarModal");
-        if (closeEditCar) closeEditCar.onclick = () => closeModal("editCarModal");
-        
-        const cancelEditCar = document.getElementById("btnCancelEditCar");
-        if (cancelEditCar) cancelEditCar.onclick = () => closeModal("editCarModal");
-
-    
-        if (inventoryTables.length > 1) {
-            const tireEditIcons = inventoryTables[1].querySelectorAll('.edit-icon');
-            tireEditIcons.forEach(icon => {
-                icon.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                    openModal("editTireModal");
-                });
-            });
+        btnCancel.onclick = function () {
+            modal.style.display = "none";
         }
 
-        const closeEditTire = document.getElementById("closeEditTireModal");
-        if (closeEditTire) closeEditTire.onclick = () => closeModal("editTireModal");
+        const tireModal = document.getElementById("addTireModal");
+        const btnOpenTire = document.getElementById("btnOpenTireModal");
+        const btnCloseTire = document.getElementById("closeTireModal");
+        const btnCancelTire = document.getElementById("btnCancelTire");
 
-        const cancelEditTire = document.getElementById("btnCancelEditTire");
-        if (cancelEditTire) cancelEditTire.onclick = () => closeModal("editTireModal");
+        btnOpenTire.onclick = function () {
+            tireModal.style.display = "flex";
+        }
 
-      
-        let rowToDelete = null; 
-        
-        const deleteIcons = document.querySelectorAll('.delete-icon');
-        deleteIcons.forEach(icon => {
-            icon.addEventListener('click', function (e) {
-                e.stopPropagation(); 
-                rowToDelete = this.closest('tr'); 
-                openModal("deleteModal"); 
-            });
+        btnCloseTire.onclick = function () {
+            tireModal.style.display = "none";
+        }
+
+        btnCancelTire.onclick = function () {
+            tireModal.style.display = "none";
+        }
+
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+
+            if (event.target == tireModal) {
+                tireModal.style.display = "none";
+            }
+             if (event.target == editCarModal) {
+                editCarModal.style.display = "none";
+            }
+            if (event.target == editTireModal) {
+                editTireModal.style.display = "none";
+            }
+        }
+
+        const profileTrigger = document.getElementById('profileTrigger');
+        const profileMenu = document.getElementById('profileMenu');
+
+        profileTrigger.addEventListener('click', function (event) {
+            profileMenu.classList.toggle('show');
+            event.stopPropagation();
         });
 
-        const closeDelete = document.getElementById("closeDeleteModal");
-        if (closeDelete) closeDelete.onclick = () => closeModal("deleteModal");
-
-        const cancelDelete = document.getElementById("btnCancelDelete");
-        if (cancelDelete) cancelDelete.onclick = () => closeModal("deleteModal");
-
-        const confirmDelete = document.getElementById("btnConfirmDelete");
-        if (confirmDelete) {
-            confirmDelete.onclick = () => {
-                if (rowToDelete) {
-                    rowToDelete.remove(); 
-                    rowToDelete = null; 
-                }
-                closeModal("deleteModal"); 
-            };
-        }
-
-        
-        window.addEventListener("click", function (event) {
-            if (event.target.classList.contains("modal-overlay")) {
-                event.target.style.display = "none";
+        document.addEventListener('click', function (event) {
+            if (!profileMenu.contains(event.target) && !profileTrigger.contains(event.target)) {
+                profileMenu.classList.remove('show');
             }
         });
 
-       
-        const wearInput = document.getElementById('wearInput');
-        if(wearInput) {
-            wearInput.addEventListener('input', function() {
-                let val = this.value || 0;
-                if(val > 100) val = 100;
-                if(val < 0) val = 0;
-                this.style.background = `linear-gradient(to right, var(--status-green) ${val}%, transparent ${val}%)`;
-            });
-        }
-
-       
-        const profileTrigger = document.getElementById('profileTrigger');
-        const profileMenu = document.getElementById('profileMenu');
-        if (profileTrigger && profileMenu) {
-            profileTrigger.addEventListener('click', function (event) {
-                profileMenu.classList.toggle('show');
-                event.stopPropagation();
-            });
-            document.addEventListener('click', function (event) {
-                if (!profileMenu.contains(event.target) && !profileTrigger.contains(event.target)) {
-                    profileMenu.classList.remove('show');
-                }
-            });
-        }
-
-       
+        
         document.addEventListener('DOMContentLoaded', () => {
             const tableRows = document.querySelectorAll('.inventory-table tbody tr');
+
             tableRows.forEach(row => {
                 row.addEventListener('click', function (e) {
-                    if (e.target.closest('.action-icon')) return; 
                     
+                    if (e.target.closest('.action-icon')) return;
+
+                   
                     tableRows.forEach(r => {
                         if (r !== this) {
                             r.classList.remove('show-actions');
                         }
                     });
+
+                   
                     this.classList.toggle('show-actions');
                 });
             });
         });
+
+        const editCarModal =
+        document.getElementById("editCarModal");
+
+        document.querySelectorAll(".btnEditCar")
+        .forEach(button => {
+
+            button.addEventListener("click", function(e){
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                document.getElementById("edit_id").value =
+                    this.dataset.id;
+
+                document.getElementById("edit_brand").value =
+                    this.dataset.brand;
+
+                document.getElementById("edit_model").value =
+                    this.dataset.model;
+
+                document.getElementById("edit_year").value =
+                    this.dataset.year;
+
+                document.getElementById("edit_license").value =
+                    this.dataset.license;
+
+                document.getElementById("edit_fuel").value =
+                    this.dataset.fuel;
+
+                document.getElementById("edit_capacity").value =
+                    this.dataset.capacity;
+
+                document.getElementById("edit_power").value =
+                    this.dataset.power;
+
+                document.getElementById("edit_consumption").value =
+                    this.dataset.consumption;
+
+                document.getElementById("edit_mileage").value =
+                    this.dataset.mileage;
+
+                document.getElementById("edit_status").value =
+                    this.dataset.status;
+
+                document.getElementById("edit_lastservice").value =
+                    this.dataset.lastservice;
+
+                document.getElementById("edit_nextservice").value =
+                    this.dataset.nextservice;
+
+                editCarModal.style.display = "flex";
+
+            });
+
+        });
+
+        document.getElementById("closeEditCarModal")
+        .onclick = () => editCarModal.style.display = "none";
+
+        document.getElementById("cancelEditCar")
+        .onclick = () => editCarModal.style.display = "none";
+
+        const editTireModal =
+        document.getElementById("editTireModal");
+
+        document.querySelectorAll(".btnEditTire")
+        .forEach(button => {
+
+            button.addEventListener("click", function(e){
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                document.getElementById("edit_tire_id").value =
+                    this.dataset.id;
+
+                document.getElementById("edit_tire_brand").value =
+                    this.dataset.brand;
+
+                document.getElementById("edit_tire_size").value =
+                    this.dataset.size;
+
+                document.getElementById("edit_tire_type").value =
+                    this.dataset.type;
+
+                document.getElementById("edit_tire_wear").value =
+                    this.dataset.wear;
+
+                document.getElementById("edit_tire_condition").value =
+                    this.dataset.condition;
+
+                editTireModal.style.display = "flex";
+
+            });
+
+        });
+
+        document.getElementById("closeEditTireModal")
+        .onclick = () => editTireModal.style.display = "none";
+
+        document.getElementById("cancelEditTire")
+        .onclick = () => editTireModal.style.display = "none";
     </script>
 </body>
 

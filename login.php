@@ -1,7 +1,6 @@
 <?php
 session_start();
 include'conexiune.php';
-
 if($_SERVER['REQUEST_METHOD']=='POST'){
     $email=$_POST['email'];
     $password=MD5($_POST['password']);
@@ -32,6 +31,3 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 ?>
 
 
-<?php
-echo "Serverul functioneaza!";
-?>

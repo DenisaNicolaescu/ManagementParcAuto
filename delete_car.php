@@ -5,3 +5,4 @@
     mysqli_query($conn,$query);
     header("Location: cars-m.php");
     exit();
+?>

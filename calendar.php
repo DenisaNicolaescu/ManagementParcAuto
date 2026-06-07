@@ -1,4 +1,5 @@
 <?php
+session_start();
 include 'conexiune.php';
 $query_cars = "SELECT id, brand, model, license_plate FROM cars";
 $result_cars = mysqli_query($conn, $query_cars);
@@ -11,6 +12,12 @@ ORDER BY appointment_date
 ";
 
 $result = mysqli_query($conn, $query);
+$events = [];
+
+while($row = mysqli_fetch_assoc($result)){
+    $day = date('j', strtotime($row['appointment_date']));
+    $events[$day][] = $row;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,12 +39,12 @@ $result = mysqli_query($conn, $query);
             <img src="images/logo.png" alt="Autodock Logo" class="dash-logo">
         </a>
         <ul class="dash-nav-links">
-            <li><a href="dashboard-manager.html">Dashboard</a></li>
-            <li><a href="cars-m.html">Cars</a></li>
-            <li><a href="drivers.html">Drivers</a></li>
-            <li><a href="services.html">Service</a></li>
-            <li><a href="calendar.html" class="active">Calendar</a></li>
-            <li><a href="documents-m.html">Documents</a></li>
+            <li><a href="dashboard_manager.php">Dashboard</a></li>
+            <li><a href="cars-m.php">Cars</a></li>
+            <li><a href="drivers.php">Drivers</a></li>
+            <li><a href="services.php">Service</a></li>
+            <li><a href="calendar.php" class="active">Calendar</a></li>
+            <li><a href="documents-m.php">Documents</a></li>
         </ul>
 
       
@@ -45,7 +52,7 @@ $result = mysqli_query($conn, $query);
             <div class="profile-trigger" id="profileTrigger">
                 <div class="profile-avatar">AP</div>
                 <div class="profile-info">
-                    <span class="profile-name">Adrian Popescu</span>
+                    <span class="profile-name"><?php echo $_SESSION['username']; ?></span>
                     <span class="profile-role">Manager</span>
                 </div>
                 <span class="material-symbols-outlined arrow-icon">expand_more</span>
@@ -68,7 +75,7 @@ $result = mysqli_query($conn, $query);
                 
                 <hr class="dropdown-divider">
                 
-                <a href="index.html" class="profile-menu-item sign-out">
+                <a href="logout.php" class="profile-menu-item sign-out">
                     <span class="material-symbols-outlined">logout</span> Sign Out
                 </a>
             </div>
@@ -92,58 +99,64 @@ $result = mysqli_query($conn, $query);
                 <div>SAT</div>
                 <div>SUN</div>
             </div>
-
             <div class="calendar-grid">
 
-                <div class="cal-day"><span class="day-number">1</span></div>
-                <div class="cal-day">
-                    <span class="day-number">2</span>
-                    <div class="event-pill event-green">SB 81 NQL: Service Done</div>
-                </div>
-                <div class="cal-day"><span class="day-number">3</span></div>
-                <div class="cal-day"><span class="day-number">4</span></div>
-                <div class="cal-day"><span class="day-number">5</span></div>
-                <div class="cal-day">
-                    <span class="day-number">6</span>
-                    <div class="event-pill event-grey">SB 07 DKY: Oil change (YONI)</div>
-                </div>
-                <div class="cal-day"><span class="day-number">7</span></div>
+                <?php for($day=1; $day<=30; $day++){ ?>
 
                 <div class="cal-day">
-                    <span class="day-number">8</span>
-                    <div class="event-pill event-yellow">CJ 92 CBL: Safety inspection</div>
-                </div>
-                <div class="cal-day"><span class="day-number">9</span></div>
-                <div class="cal-day"><span class="day-number">10</span></div>
-                <div class="cal-day">
-                    <span class="day-number">11</span>
-                    <div class="event-pill event-yellow">SB 23 ALX: ITP (Autoservice)</div>
-                </div>
-                <div class="cal-day"><span class="day-number">12</span></div>
-                <div class="cal-day"><span class="day-number">13</span></div>
-                <div class="cal-day"><span class="day-number">14</span></div>
+                    <span class="day-number"><?php echo $day; ?></span>
 
-                <div class="cal-day">
-                    <span class="day-number">15</span>
-                    <div class="event-pill event-red">CRITICAL: SB 42 BDP RCA</div>
+                    <?php
+                    if(isset($events[$day])){
+                        foreach($events[$day] as $event){
+
+                            $class = "event-grey";
+
+                            if($event['intervention_type'] == "revision"){
+                                $class = "event-green";
+                            }
+
+                            if($event['intervention_type'] == "repair"){
+                                $class = "event-red";
+                            }
+
+                            if($event['intervention_type'] == "inspection"){
+                                $class = "event-yellow";
+                            }
+
+                            echo "<div class='event-pill ".$class."'>";
+                            echo "<div class='event-content'>";
+                            echo "<strong>".$event['license_plate']."</strong><br>";
+                            echo ucfirst($event['intervention_type']);
+                            echo "</div>";
+                            echo "<div class='event-actions'>";
+                            echo "<a href='#'
+                                    class='btnEditEvent'
+                                    data-id='".$event['id']."'
+                                    data-date='".$event['appointment_date']."'
+                                    data-type='".$event['intervention_type']."'
+                                    data-cost='".$event['estimated_cost']."'
+                                    data-description='".$event['description']."'
+                                    data-center='".$event['service_center']."'>
+                                    <span class='material-symbols-outlined action-icon edit-icon'>
+                                        edit
+                                    </span>
+                                </a>";
+                            echo "<a href='delete_event.php?id=".$event['id']."'
+                                    onclick=\"return confirm('Delete this event?');\">
+                                    <span class='material-symbols-outlined action-icon delete-icon'>
+                                        delete
+                                    </span>
+                                </a>";
+                            echo "</div>";
+                            echo "</div>";
+                        }
+                    }
+                    ?>
                 </div>
-                <div class="cal-day"><span class="day-number">16</span></div>
-                <div class="cal-day"><span class="day-number">17</span></div>
-                <div class="cal-day"><span class="day-number">18</span></div>
-                <div class="cal-day"><span class="day-number">19</span></div>
-                <div class="cal-day"><span class="day-number">20</span></div>
-                <div class="cal-day"><span class="day-number">21</span></div>
 
-                <div class="cal-day"><span class="day-number">22</span></div>
-                <div class="cal-day"><span class="day-number">23</span></div>
-                <div class="cal-day"><span class="day-number">24</span></div>
-                <div class="cal-day"><span class="day-number">25</span></div>
-                <div class="cal-day"><span class="day-number">26</span></div>
-                <div class="cal-day"><span class="day-number">27</span></div>
-                <div class="cal-day"><span class="day-number">28</span></div>
+                <?php } ?>
 
-                <div class="cal-day"><span class="day-number">29</span></div>
-                <div class="cal-day"><span class="day-number">30</span></div>
                 <div class="cal-day"><span class="day-number inactive">1</span></div>
                 <div class="cal-day"><span class="day-number inactive">2</span></div>
                 <div class="cal-day"><span class="day-number inactive">3</span></div>
@@ -152,7 +165,6 @@ $result = mysqli_query($conn, $query);
 
             </div>
         </div>
-
     </main>
     <div id="addEventModal" class="modal-overlay">
         <div class="modal-content">
@@ -194,8 +206,15 @@ $result = mysqli_query($conn, $query);
                 <div class="input-group full-width">
                     <textarea name="description" rows="3"></textarea>
                 </div>
-                <input type="hidden" name="service_center" value="Calendar">
-                <input type="hidden" name="intervention_type" value="other">
+                <input type="text"
+                       name="service_center"
+                       placeholder="Service center">
+                <select name="intervention_type">
+                    <option value="revision">Revision</option>
+                    <option value="repair">Repair</option>
+                    <option value="inspection">Inspection</option>
+                    <option value="other">Other</option>
+                </select>
                 <div class="modal-actions">
                     <button type="button" class="btn-cancel" id="btnCancelEvent">Cancel</button>
                     <button type="submit" class="btn-submit">Create event</button>
@@ -204,160 +223,140 @@ $result = mysqli_query($conn, $query);
             </form>
         </div>
     </div>
-
     <div id="editEventModal" class="modal-overlay">
         <div class="modal-content">
-            <span class="close-modal" id="closeEditEventModal">&times;</span>
+
+            <span class="close-modal" id="closeEditModal">&times;</span>
 
             <h2>EDIT EVENT</h2>
 
-            <form class="add-car-form">
-                <h3 class="section-title">Event Details</h3>
-                <div class="input-group full-width" style="margin-bottom: 15px;">
-                    <label>Event Title</label>
-                    <input type="text" value="ITP (Autoservice)">
+            <form action="update_event.php" method="POST">
+
+                <input type="hidden" name="id" id="edit_id">
+
+                <div class="input-group">
+                    <label>Date</label>
+                    <input type="date" name="appointment_date" id="edit_date">
                 </div>
-                
-                <div class="form-grid">
-                    <div class="input-group">
-                        <label>Vehicle</label>
-                        <select>
-                            <option>SB 81 NQL - Dacia Logan</option>
-                            <option selected>SB 23 ALX - Ford Focus</option>
-                            <option>SB 42 BDP - Dacia Jogger</option>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <label>Date</label>
-                        <input type="date" value="2026-06-11">
-                    </div>
+
+                <div class="input-group">
+                    <label>Cost</label>
+                    <input type="text" name="estimated_cost" id="edit_cost">
+                </div>
+
+                <div class="input-group">
+                    <label>Service Center</label>
+                    <input type="text" name="service_center" id="edit_center">
+                </div>
+
+                <div class="input-group">
+                    <label>Type</label>
+                    <select name="intervention_type" id="edit_type">
+                        <option value="revision">Revision</option>
+                        <option value="repair">Repair</option>
+                        <option value="inspection">Inspection</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Description</label>
+                    <textarea name="description"
+                            id="edit_description"
+                            rows="4"></textarea>
                 </div>
 
                 <div class="modal-actions">
-                    <button type="button" class="btn-cancel" id="btnCancelEditEvent">Cancel</button>
-                    <button type="submit" class="btn-submit">Save changes</button>
+                    <button type="submit" class="btn-submit">
+                        Save Changes
+                    </button>
                 </div>
+
             </form>
         </div>
     </div>
 
-    <div id="deleteModal" class="modal-overlay">
-        <div class="modal-content" style="max-width: 420px; text-align: center;">
-            <span class="close-modal" id="closeDeleteModal">&times;</span>
-
-            <h2 style="color: var(--status-red); margin-bottom: 15px;">DELETE EVENT</h2>
-            
-            <p style="font-family: sans-serif; font-size: 15px; color: var(--text-gray-medium); margin-bottom: 30px; line-height: 1.5;">
-                Are you sure you want to delete this event from the calendar? <br>
-                <strong>This action cannot be undone.</strong>
-            </p>
-
-            <div class="modal-actions">
-                <button type="button" class="btn-cancel" id="btnCancelDelete">Cancel</button>
-                <button type="button" class="btn-delete" id="btnConfirmDelete">Delete</button>
-            </div>
-        </div>
-    </div>
-
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        const eventModal = document.getElementById("addEventModal");
+        const btnOpenEvent = document.getElementById("btnOpenEventModal");
+        const btnCloseEvent = document.getElementById("closeEventModal");
+        const btnCancelEvent = document.getElementById("btnCancelEvent");
 
-           
-            const profileTrigger = document.getElementById('profileTrigger');
-            const profileMenu = document.getElementById('profileMenu');
-            
-            if (profileTrigger && profileMenu) {
-                profileTrigger.addEventListener('click', function(event) {
-                    profileMenu.classList.toggle('show');
-                    event.stopPropagation(); 
-                });
-                document.addEventListener('click', function(event) {
-                    if (!profileMenu.contains(event.target) && !profileTrigger.contains(event.target)) {
-                        profileMenu.classList.remove('show');
-                    }
-                });
+       
+        btnOpenEvent.onclick = function () {
+            eventModal.style.display = "flex";
+        }
+        btnCloseEvent.onclick = function () {
+            eventModal.style.display = "none";
+        }
+        btnCancelEvent.onclick = function () {
+            eventModal.style.display = "none";
+        }
+        window.onclick = function (event) {
+            if (event.target == eventModal) {
+                eventModal.style.display = "none";
             }
+        }
 
-          
-            const typeButtons = document.querySelectorAll('.event-type-btn');
-            typeButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    typeButtons.forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-                });
+       
+        const typeButtons = document.querySelectorAll('.event-type-btn');
+        typeButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                
+                typeButtons.forEach(btn => btn.classList.remove('active'));
+                
+                this.classList.add('active');
             });
+        });
 
-          
-            const eventModal = document.getElementById("addEventModal");
-            const btnOpenEvent = document.getElementById("btnOpenEventModal");
-            const btnCloseEvent = document.getElementById("closeEventModal");
-            const btnCancelEvent = document.getElementById("btnCancelEvent");
+      
+        const profileTrigger = document.getElementById('profileTrigger');
+        const profileMenu = document.getElementById('profileMenu');
 
-            const editEventModal = document.getElementById("editEventModal");
-            const closeEditEvent = document.getElementById("closeEditEventModal");
-            const cancelEditEvent = document.getElementById("btnCancelEditEvent");
+        profileTrigger.addEventListener('click', function(event) {
+            profileMenu.classList.toggle('show');
+            event.stopPropagation(); 
+        });
 
-            const deleteModal = document.getElementById("deleteModal");
-            const closeDelete = document.getElementById("closeDeleteModal");
-            const cancelDelete = document.getElementById("btnCancelDelete");
-            const confirmDelete = document.getElementById("btnConfirmDelete");
-
-           
-            if (btnOpenEvent) btnOpenEvent.onclick = () => eventModal.style.display = "flex";
-            
-           
-            const editIcons = document.querySelectorAll('.edit-icon');
-            editIcons.forEach(icon => {
-                icon.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    if (editEventModal) editEventModal.style.display = "flex";
-                });
-            });
-
-          
-            const deleteIcons = document.querySelectorAll('.delete-icon');
-            deleteIcons.forEach(icon => {
-                icon.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    if (deleteModal) deleteModal.style.display = "flex";
-                });
-            });
-
-           
-            if (btnCloseEvent) btnCloseEvent.onclick = () => eventModal.style.display = "none";
-            if (btnCancelEvent) btnCancelEvent.onclick = () => eventModal.style.display = "none";
-
-            if (closeEditEvent) closeEditEvent.onclick = () => editEventModal.style.display = "none";
-            if (cancelEditEvent) cancelEditEvent.onclick = () => editEventModal.style.display = "none";
-
-            if (closeDelete) closeDelete.onclick = () => deleteModal.style.display = "none";
-            if (cancelDelete) cancelDelete.onclick = () => deleteModal.style.display = "none";
-
-            if (confirmDelete) {
-                confirmDelete.onclick = () => deleteModal.style.display = "none";
+        document.addEventListener('click', function(event) {
+            if (!profileMenu.contains(event.target) && !profileTrigger.contains(event.target)) {
+                profileMenu.classList.remove('show');
             }
+        });
+        const editModal = document.getElementById('editEventModal');
 
-            window.onclick = (event) => {
-                if (event.target == eventModal) eventModal.style.display = "none";
-                if (event.target == editEventModal) editEventModal.style.display = "none";
-                if (event.target == deleteModal) deleteModal.style.display = "none";
-            };
+        document.querySelectorAll('.btnEditEvent').forEach(btn => {
 
-           
-            const calEvents = document.querySelectorAll('.cal-event');
-            calEvents.forEach(evt => {
-                evt.addEventListener('click', function(e) {
-                    if (e.target.closest('.action-icon')) return;
-                    calEvents.forEach(otherEvt => {
-                        if (otherEvt !== this) {
-                            otherEvt.classList.remove('show-actions');
-                        }
-                    });
-                    this.classList.toggle('show-actions');
-                });
+            btn.addEventListener('click', function(e){
+
+                e.preventDefault();
+
+                document.getElementById('edit_id').value =
+                    this.dataset.id;
+
+                document.getElementById('edit_date').value =
+                    this.dataset.date;
+
+                document.getElementById('edit_cost').value =
+                    this.dataset.cost;
+
+                document.getElementById('edit_center').value =
+                    this.dataset.center;
+
+                document.getElementById('edit_type').value =
+                    this.dataset.type;
+
+                document.getElementById('edit_description').value =
+                    this.dataset.description;
+
+                editModal.style.display = "flex";
             });
 
         });
+
+        document.getElementById('closeEditModal').onclick = function(){
+            editModal.style.display = "none";
+        };
     </script>
 </body>
 

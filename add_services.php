@@ -10,12 +10,27 @@ $estimated_cost = $_POST['estimated_cost'];
 $description = $_POST['description'];
 
 $query = "INSERT INTO service_orders
-(car_id, appointment_date, intervention_type, service_center, estimated_cost, description, status)
+(
+    car_id,
+    appointment_date,
+    intervention_type,
+    service_center,
+    estimated_cost,
+    description,
+    status
+)
 VALUES
-('$car_id','$appointment_date','$intervention_type','$service_center','$estimated_cost','$description','scheduled')";
+(
+    '$car_id',
+    '$appointment_date',
+    '$intervention_type',
+    '$service_center',
+    '$estimated_cost',
+    '$description',
+    'scheduled'
+)";
 
 mysqli_query($conn, $query);
 
-header("Location: services.php");
+header('Location: calendar.php');
 exit();
-?>

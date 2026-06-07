@@ -1,7 +1,12 @@
 <?php
+session_start();
 include 'conexiune.php';
 
 
+if(!isset($_SESSION['user_id'])){
+    header("Location: welcome.html");
+    exit();
+}
 $query_cars = "SELECT id, brand, model, license_plate FROM cars";
 $result_cars = mysqli_query($conn, $query_cars);
 $query = "
@@ -34,12 +39,12 @@ $result = mysqli_query($conn, $query);
             <img src="images/logo.png" alt="Autodock Logo" class="dash-logo">
         </a>
         <ul class="dash-nav-links">
-            <li><a href="dashboard-manager.html">Dashboard</a></li>
+            <li><a href="dashboard_manager.php">Dashboard</a></li>
             <li><a href="cars-m.php">Cars</a></li>
             <li><a href="drivers.php">Drivers</a></li>
             <li><a href="services.php" class="active">Service</a></li>
-            <li><a href="calendar.html">Calendar</a></li>
-            <li><a href="documents-m.html">Documents</a></li>
+            <li><a href="calendar.php">Calendar</a></li>
+            <li><a href="documents-m.php">Documents</a></li>
         </ul>
 
 
@@ -47,7 +52,7 @@ $result = mysqli_query($conn, $query);
             <div class="profile-trigger" id="profileTrigger">
                 <div class="profile-avatar">AP</div>
                 <div class="profile-info">
-                    <span class="profile-name">Adrian Popescu</span>
+                    <span class="profile-name"><?php echo $_SESSION['username']; ?></span>
                     <span class="profile-role">Manager</span>
                 </div>
                 <span class="material-symbols-outlined arrow-icon">expand_more</span>
@@ -70,7 +75,7 @@ $result = mysqli_query($conn, $query);
 
                 <hr class="dropdown-divider">
 
-                <a href="index.html" class="profile-menu-item sign-out">
+                <a href="logout.php" class="profile-menu-item sign-out">
                     <span class="material-symbols-outlined">logout</span> Sign Out
                 </a>
             </div>
@@ -128,7 +133,13 @@ $result = mysqli_query($conn, $query);
                         <td><strong><?php echo $service['estimated_cost']; ?> RON</strong></td>
 
                         <td class="table-actions">
-                            <a href="edit_service.php?id=<?php echo $service['id']; ?>">
+                           <a href="#"
+                                class="btnEditService"
+                                data-id="<?php echo $service['id']; ?>"
+                                data-type="<?php echo $service['intervention_type']; ?>"
+                                data-center="<?php echo $service['service_center']; ?>"
+                                data-cost="<?php echo $service['estimated_cost']; ?>"
+                                data-status="<?php echo $service['status']; ?>">
                                 <span class="material-symbols-outlined action-icon edit-icon">
                                     edit
                                 </span>
@@ -214,7 +225,8 @@ $result = mysqli_query($conn, $query);
 
             <h2>EDIT INTERVENTION</h2>
 
-            <form class="add-car-form">
+            <form class="add-car-form" action="update_service.php" method="POST">
+            <input type="hidden" name="id" id="edit_id">
                 
                 <h3 class="section-title">Intervention Details</h3>
                 
@@ -229,28 +241,37 @@ $result = mysqli_query($conn, $query);
 
                 <div class="input-group full-width" style="margin-bottom: 20px;">
                     <label>Intervention Type</label>
-                    <input type="text" value="Insurance Renewal & Safety Check">
+                    <select name="intervention_type" id="edit_type">
+                        <option value="revision">Revision</option>
+                        <option value="repair">Repair</option>
+                        <option value="inspection">Inspection</option>
+                        <option value="other">Other</option>
+                    </select>
                 </div>
 
                 <div class="form-grid">
                     <div class="input-group">
                         <label>Service Station</label>
-                        <input type="text" value="Autoservice Sibiu">
+                        <input type="text"
+                                name="service_center"
+                                id="edit_center">
                     </div>
                     <div class="input-group">
                         <label>Estimated Cost</label>
-                        <input type="text" value="1,100 RON">
+                        <input type="text"
+                                name="estimated_cost"
+                                id="edit_cost">
                     </div>
                 </div>
 
                 <h3 class="section-title">Status</h3>
                 <div class="input-group full-width">
                     <label>Progress</label>
-                    <select>
-                        <option selected>Pending Approval</option>
-                        <option>Scheduled</option>
-                        <option>In Progress</option>
-                        <option>Completed</option>
+                    <select name="status" id="edit_status">
+                        <option value="pending">Pending</option>
+                        <option value="scheduled">Scheduled</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="completed">Completed</option>
                     </select>
                 </div>
 
@@ -279,7 +300,7 @@ $result = mysqli_query($conn, $query);
             </div>
         </div>
     </div>
-  <script>
+   <script>
    
     document.addEventListener('DOMContentLoaded', () => {
 
@@ -301,50 +322,30 @@ $result = mysqli_query($conn, $query);
         const cancelEditService = document.getElementById("btnCancelEditService");
         
        
-        const editIcons = document.querySelectorAll('.edit-icon');
-        editIcons.forEach(icon => {
-            icon.addEventListener('click', (e) => {
-                e.stopPropagation(); 
-                if (editServiceModal) editServiceModal.style.display = "flex";
+       document.querySelectorAll('.btnEditService').forEach(btn => {
+            btn.addEventListener('click', function(e){
+                e.preventDefault();
+                e.stopPropagation();
+                document.getElementById('edit_id').value =
+                    this.dataset.id;
+
+                document.getElementById('edit_type').value =
+                    this.dataset.type;
+
+                document.getElementById('edit_center').value =
+                    this.dataset.center;
+
+                document.getElementById('edit_cost').value =
+                    this.dataset.cost;
+
+                document.getElementById('edit_status').value =
+                    this.dataset.status;
+                editServiceModal.style.display = "flex";
             });
         });
 
         if (closeEditService) closeEditService.addEventListener('click', () => editServiceModal.style.display = "none");
         if (cancelEditService) cancelEditService.addEventListener('click', () => editServiceModal.style.display = "none");
-
-
-        
-        const deleteModal = document.getElementById("deleteModal");
-        const closeDelete = document.getElementById("closeDeleteModal");
-        const cancelDelete = document.getElementById("btnCancelDelete");
-        const confirmDelete = document.getElementById("btnConfirmDelete");
-
-       
-        const deleteIcons = document.querySelectorAll('.delete-icon');
-        deleteIcons.forEach(icon => {
-            icon.addEventListener('click', (e) => {
-                e.stopPropagation();
-                if (deleteModal) deleteModal.style.display = "flex";
-            });
-        });
-
-        if (closeDelete) closeDelete.addEventListener('click', () => deleteModal.style.display = "none");
-        if (cancelDelete) cancelDelete.addEventListener('click', () => deleteModal.style.display = "none");
-        
-        
-        if (confirmDelete) {
-            confirmDelete.addEventListener('click', () => {
-                deleteModal.style.display = "none";
-            });
-        }
-
-
-       
-        window.addEventListener("click", (event) => {
-            if (event.target == serviceModal) serviceModal.style.display = "none";
-            if (event.target == editServiceModal) editServiceModal.style.display = "none";
-            if (event.target == deleteModal) deleteModal.style.display = "none";
-        });
 
 
         

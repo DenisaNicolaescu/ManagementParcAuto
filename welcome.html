@@ -58,14 +58,14 @@
             </div>
 
 
-            <form class="login-form" action="dashboard-manager.html">
+            <form class="login-form" action="login.php" method="POST">
                 <div class="input-group">
                     <label>Username or Email:</label>
-                    <input type="text">
+                    <input type="text" name="email">
                 </div>
                 <div class="input-group">
                     <label>Password:</label>
-                    <input type="password">
+                    <input type="password" name="password">
                 </div>
 
                 <div class="form-options">
@@ -115,7 +115,7 @@
         }
 
      
-        if (btnSignIn) {
+        /*if (btnSignIn) {
             btnSignIn.addEventListener('click', function(event) {
                 event.preventDefault(); 
                 
@@ -125,7 +125,7 @@
                     window.location.href = 'cars-u.html';
                 }
             });
-        }
+        }*/
     </script>
 </body>
 </body>

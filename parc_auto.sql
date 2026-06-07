@@ -44,17 +44,17 @@ CREATE TABLE cars (
 ) ENGINE=InnoDB COMMENT='Fleet vehicle management';
 
 CREATE TABLE documents (
-    id                  INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    doc_type            ENUM('identity','license','other'),
-    issue_date          DATE,
-    expiry_date         DATE,
-    status              ENUM('valid','expired','pending'),
-    driver_id           INT UNSIGNED NULL,
-
-    CONSTRAINT fk_document_driver
-        FOREIGN KEY (driver_id) REFERENCES drivers(id)
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    car_id INT UNSIGNED NOT NULL,
+    doc_type VARCHAR(50) NOT NULL,
+    provider VARCHAR(100),
+    issue_date DATE,
+    expiry_date DATE,
+    file_path VARCHAR(255),
+    FOREIGN KEY (car_id)
+        REFERENCES cars(id)
         ON DELETE CASCADE
-) ENGINE=InnoDB COMMENT='Driver personal documents';
+);
 
 CREATE TABLE service_orders (
     id                  INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -156,7 +156,7 @@ CREATE TABLE calendar_events (
     event_date DATE,
     description TEXT,
     FOREIGN KEY (car_id) REFERENCES cars(id)
-);
+)ENGINE=InnoDB COMMENT='Calendar';
 
 INSERT INTO users (username, email, password, role)
 VALUES ('admin', 'admin@autodock.com', MD5('admin123'), 'manager');
