@@ -7,6 +7,8 @@ if(!isset($_SESSION['user_id'])){
 }
 
 include 'conexiune.php';
+$queryUsers = "SELECT id, username FROM users WHERE role='user'";
+$resultUsers = mysqli_query($conn, $queryUsers);
 
 $query="SELECT * FROM cars";
 $result=mysqli_query($conn, $query);
@@ -320,8 +322,16 @@ $resultCars = mysqli_query($conn, $queryCars);
 
                 <h3 class="section-title">Assignment</h3>
                 <div class="input-group full-width">
-                    <label>Assign Driver</label>
-                    <input type="text" name="assign_driver" placeholder="Unassigned">
+                    
+                    <label>Assign User</label>
+                    <select name="assigned_user_id">
+                        <option value="">Unassigned</option>
+                        <?php while($user = mysqli_fetch_assoc($resultUsers)){ ?>
+                            <option value="<?php echo $user['id']; ?>">
+                                <?php echo $user['username']; ?>
+                            </option>
+                        <?php } ?>
+                    </select>
                 </div>
                 <div class="input-group">
                     <label>Engine Capacity (L)</label>

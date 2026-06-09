@@ -71,47 +71,7 @@ CREATE TABLE service_orders (
         ON DELETE CASCADE
 ) ENGINE=InnoDB COMMENT='Maintenance and repair orders';
 
-CREATE TABLE service_history (
-    id                  INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    service_date        DATE,
-    description         TEXT,
-    cost                DECIMAL(10,2),
-    mileage             INT UNSIGNED,
-    order_id            INT UNSIGNED NULL,
 
-    CONSTRAINT fk_history_order
-        FOREIGN KEY(order_id) REFERENCES service_orders(id)
-        ON DELETE SET NULL
-) ENGINE=InnoDB COMMENT='Service intervention logs';
-
-CREATE TABLE insurances (
-    id                  INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    insurance_type      ENUM('liability','comprehensive','both'),
-    company             VARCHAR(100),
-    issue_date          DATE,
-    expiry_date         DATE,
-    policy_number       VARCHAR(50),
-    car_id              INT UNSIGNED NULL,
-    cost                DECIMAL(10,2),
-
-    CONSTRAINT fk_insurances_car
-        FOREIGN KEY(car_id) REFERENCES cars(id)
-        ON DELETE CASCADE
-) ENGINE=InnoDB COMMENT='Insurance policies';
-
-CREATE TABLE vignettes (
-    id                  INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    vignette_type       ENUM('7_days','30_days','90_days','annual'),
-    vignette_days       INT,
-    expiry_date         DATE,
-    country             VARCHAR(50),
-    vignette_number     VARCHAR(50),
-    car_id              INT UNSIGNED NULL,
-
-    CONSTRAINT fk_vignette_car
-        FOREIGN KEY(car_id) REFERENCES cars(id)
-        ON DELETE CASCADE
-) ENGINE=InnoDB COMMENT='Road tax management';
 
 CREATE TABLE tires (
     id                  INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -127,36 +87,19 @@ CREATE TABLE tires (
         ON DELETE CASCADE
 ) ENGINE=InnoDB COMMENT='Tire inventory';
 
-CREATE TABLE tire_installations (
-    id                  INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    car_id              INT UNSIGNED,
-    tire_id             INT UNSIGNED,
-    install_date        DATE,
-    wheel_position      ENUM('front-left','front-right','rear-right','rear-left','spare'),
-    mileage_at_install  INT UNSIGNED,
 
-    CONSTRAINT fk_install_car
-        FOREIGN KEY(car_id) REFERENCES cars(id) ON DELETE CASCADE,
-    CONSTRAINT fk_install_tire
-        FOREIGN KEY(tire_id) REFERENCES tires(id) ON DELETE CASCADE
-) ENGINE=InnoDB COMMENT='Vehicle tire installation logs';
 CREATE TABLE users(
-    id                  INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    username            VARCHAR(100)    NOT NULL UNIQUE,
-    email               VARCHAR(100)    NOT NULL UNIQUE,
-    password            VARCHAR(255)    NOT NULL,
-    role                ENUM('manager','user') NOT NULL DEFAULT 'user',
-    created_at          TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)ENGINE=InnoDB COMMENT='System users';
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    company_name VARCHAR(150),
+    password VARCHAR(255) NOT NULL,
+    role ENUM('manager','user') NOT NULL DEFAULT 'user',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
-CREATE TABLE calendar_events (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    car_id INT,
-    event_type VARCHAR(50),
-    event_date DATE,
-    description TEXT,
-    FOREIGN KEY (car_id) REFERENCES cars(id)
-)ENGINE=InnoDB COMMENT='Calendar';
 
 INSERT INTO users (username, email, password, role)
 VALUES ('admin', 'admin@autodock.com', MD5('admin123'), 'manager');

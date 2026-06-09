@@ -1,9 +1,14 @@
 <?php
-session_start();
-include 'conexiune.php';
+    session_start();
+    if(!isset($_SESSION['user_id'])){
+        header("Location: welcome.html");
+        exit();
+    }
 
-$queryCars = "SELECT * FROM cars";
-$resultCars = mysqli_query($conn, $queryCars);
+    include 'conexiune.php';
+
+    $queryCars = "SELECT * FROM cars";
+    $resultCars = mysqli_query($conn, $queryCars);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,7 +44,7 @@ $resultCars = mysqli_query($conn, $queryCars);
             <div class="profile-trigger" id="profileTrigger">
                 <div class="profile-avatar">AP</div>
                 <div class="profile-info">
-                    <span class="profile-name">Adrian Popescu</span>
+                    <?php echo $_SESSION['username']; ?>
                     <span class="profile-role">Manager</span>
                 </div>
                 <span class="material-symbols-outlined arrow-icon">expand_more</span>

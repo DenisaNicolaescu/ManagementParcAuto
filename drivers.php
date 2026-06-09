@@ -1,4 +1,10 @@
 <?php
+    session_start();
+    if(!isset($_SESSION['user_id'])){
+    header("Location: welcome.html");
+    exit();
+    }
+
     include 'conexiune.php';
     $query="SELECT * FROM drivers";
     $result=mysqli_query($conn,$query);
@@ -41,7 +47,9 @@
             <div class="profile-trigger" id="profileTrigger">
                 <div class="profile-avatar">AP</div>
                 <div class="profile-info">
-                    <span class="profile-name">Adrian Popescu</span>
+                    <span class="profile-name">
+                        <?php echo $_SESSION['username']; ?>
+                    </span>
                     <span class="profile-role">Manager</span>
                 </div>
                 <span class="material-symbols-outlined arrow-icon">expand_more</span>
