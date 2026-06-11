@@ -87,6 +87,15 @@ else{
     ";
 
 }
+$docsAlertQuery = "
+SELECT documents.*, cars.license_plate
+FROM documents
+LEFT JOIN cars ON documents.car_id = cars.id
+ORDER BY expiry_date ASC
+LIMIT 5
+";
+
+$docsAlertResult = mysqli_query($conn, $docsAlertQuery);
 
 $fleetResult = mysqli_query($conn, $fleetQuery);
 
@@ -204,33 +213,43 @@ $fleetResult = mysqli_query($conn, $fleetQuery);
                         <h2>Document Expiration Alerts</h2>
                         <a href="documents-m.php" class="link-view-all">View all →</a>
                     </div>
-
-                    <div class="alert-box alert-red">
-                        <div class="alert-info">
-                            <span class="material-symbols-outlined alert-icon-red">warning</span>
-                            <div>
-                                <h4>Insurance Expired - SB 42 BDP</h4>
-                                <p>Expired 2 days ago</p>
+                        <?php
+                        while($doc = mysqli_fetch_assoc($docsAlertResult)){
+                            $daysLeft = floor(
+                                (strtotime($doc['expiry_date']) - time()) / 86400
+                            );
+                            $isExpired = $daysLeft < 0;
+                        ?>
+                        <div class="alert-box <?php echo $isExpired ? 'alert-red' : 'alert-yellow'; ?>">
+                            <div class="alert-info">
+                                <span class="material-symbols-outlined <?php echo $isExpired ? 'alert-icon-red' : 'alert-icon-yellow'; ?>">
+                                    <?php echo $isExpired ? 'warning' : 'assignment'; ?>
+                                </span>
+                                <div>
+                                    <h4>
+                                        <?php echo $doc['doc_type']; ?>
+                                        -
+                                        <?php echo $doc['license_plate']; ?>
+                                    </h4>
+                                    <p>
+                                    <?php
+                                    if($isExpired){
+                                        echo "Expired ".abs($daysLeft)." days ago";
+                                    }else{
+                                        echo "Expires in ".$daysLeft." days";
+                                    }
+                                    ?>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                        <a href="documents-m.php" class="btn-alert btn-red">
-                            Renew now
-                        </a>
-                    </div>
+                            <a href="documents-m.php"
+                            class="btn-alert <?php echo $isExpired ? 'btn-red' : 'btn-yellow'; ?>">
 
-                    <div class="alert-box alert-yellow">
-                        <div class="alert-info">
-                            <span class="material-symbols-outlined alert-icon-yellow">assignment</span>
-                            <div>
-                                <h4>Technical Inspection - SB 18 AMX</h4>
-                                <p>Expires in 5 days (May 30, 2026)</p>
-                            </div>
+                                <?php echo $isExpired ? 'Renew now' : 'View'; ?>
+                            </a>
                         </div>
-                        <a href="services.php" class="btn-alert btn-yellow">
-                            Schedule
-                        </a>
+                        <?php } ?>
                     </div>
-                </div>
 
                 <div class="panel">
                     <div class="panel-header">

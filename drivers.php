@@ -100,6 +100,15 @@
 
 
             <?php while($driver = mysqli_fetch_assoc($result)){ ?>
+            <?php
+                $driverId = $driver['id'];
+                $carsQuery = "
+                SELECT brand, model
+                FROM cars
+                WHERE assigned_user_id = $driverId
+                ";
+                $carsResult = mysqli_query($conn, $carsQuery);
+            ?>
             <div class="drivers-grid driver-card">
                 <div class="driver-profile">
                     <div class="avatar avatar-blue">
@@ -115,13 +124,21 @@
                         </span>
                     </div>
                 </div>
-                <div class="vehicle-info">
-                    Car ID:
-                    <?php echo $driver['car_id'] ? $driver['car_id'] : 'Unassigned'; ?>
+               <div class="vehicle-info">
+                    <?php
+                    if(mysqli_num_rows($carsResult) > 0){
+                        while($car = mysqli_fetch_assoc($carsResult)){
+                            echo $car['brand']." ".$car['model']."<br>";
+                        }
+                    } else {
+                        echo "Unassigned";
+                    }
+                    ?>
                 </div>
                 <div>
                     <?php echo $driver['license_category']; ?>
                 </div>
+
                 <div>
                     <?php echo $driver['phone']; ?>
                 </div>
@@ -174,7 +191,11 @@
                     </div>
                     <div class="input-group">
                         <label>Phone number</label>
-                        <input type="text" name="phone">
+                        <input type="tel"
+                            name="phone"
+                            pattern="[0-9]+"
+                            title="Introduceți doar cifre"
+                            required>
                     </div>
                 </div>
 
@@ -182,7 +203,10 @@
                 <div class="form-grid">
                     <div class="input-group">
                         <label>License Category</label>
-                        <input type="text" name="license_category">
+                        <select name="license_category">
+                            <option value="B">B</option>
+                            <option value="BE">BE</option>
+                        </select>
                     </div>
                 </div>
 
@@ -224,6 +248,7 @@
                     <div class="input-group">
                         <label>Last Name</label>
                         <input type="text" name="last_name" id="edit_last_name">
+                    </div>
                     <div class="input-group">
                         <label>Email</label>
                        <input type="email" name="email" id="edit_email">
@@ -238,9 +263,10 @@
                 <div class="form-grid">
                     <div class="input-group">
                         <label>License Category</label>
-                        <input type="text"
-                            name="license_category"
-                            id="edit_license_category">
+                        <select name="license_category" id="edit_license_category">
+                            <option value="B">B</option>
+                            <option value="BE">BE</option>
+                        </select>
                     </div>
                 </div>
 

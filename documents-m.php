@@ -142,6 +142,7 @@
                                 <th>Provider</th>
                                 <th>Valid Until</th>
                                 <th>Status</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -160,8 +161,25 @@
                                     <?php echo $doc['expiry_date']; ?>
                                 </td>
                                 <td class="<?php echo $expired ? 'text-red' : 'text-green'; ?>">
-                                    <?php echo $expired ? 'EXPIRED' : 'VALID'; ?>
-                                </td>
+                                <?php echo $expired ? 'EXPIRED' : 'VALID'; ?>
+                            </td>
+
+                            <td class="table-actions">
+
+                                <a href="#">
+                                    <span class="material-symbols-outlined action-icon edit-icon">
+                                        edit
+                                    </span>
+                                </a>
+
+                                <a href="delete_document.php?id=<?php echo $doc['id']; ?>"
+                                onclick="return confirm('Delete this document?');">
+
+                                    <span class="material-symbols-outlined action-icon delete-icon">
+                                        delete
+                                    </span>
+                                </a>
+                            </td>
                             </tr>
                         <?php } ?>
                         </tbody>
@@ -177,32 +195,39 @@
 
             <h2>ADD NEW DOCUMENT</h2>
 
-            <form class="add-car-form">
+            <form class="add-car-form" action="add_document.php" method="POST" enctype="multipart/form-data">
 
                 <h3 class="section-title">Document Details</h3>
                 <div class="form-grid">
                     <div class="input-group">
                         <label>Select Vehicle</label>
-                        <select>
-                            <option>SB 07 DKY - Ford Focus</option>
-                            <option>CJ 92 CBL - Renault Megane</option>
+                        <select name="car_id">
+                            <?php
+                            mysqli_data_seek($resultCars, 0);
+
+                            while($car = mysqli_fetch_assoc($resultCars)){
+                            ?>
+                                <option value="<?php echo $car['id']; ?>">
+                                    <?php echo $car['license_plate']." - ".$car['brand']." ".$car['model']; ?>
+                                </option>
+                            <?php } ?>
                         </select>
                     </div>
                     <div class="input-group">
                         <label>Expiration Date</label>
-                        <input type="date" value="2026-09-06">
+                        <input type="date" name="expiry_date" value="2026-09-06">
                     </div>
                     <div class="input-group">
                         <label>Document Type</label>
-                        <select>
-                            <option>ITP</option>
-                            <option>RCA</option>
-                            <option>Vinietă RO</option>
+                        <select name="doc_type">
+                            <option value="ITP">ITP</option>
+                            <option value="RCA">RCA</option>
+                            <option value="Vinieta">Vinietă RO</option>
                         </select>
                     </div>
                     <div class="input-group">
                         <label>Provider / Issuer</label>
-                        <input type="text" placeholder="e.g. Groupama">
+                        <input type="text" name="provider" placeholder="e.g. Groupama">
                     </div>
                 </div>
 
@@ -211,7 +236,11 @@
                     <span class="material-symbols-outlined" id="removeFileBtn" style="display: none;"
                         title="Remove file">delete</span>
 
-                    <input type="file" id="docUploadInput" accept=".pdf, image/png, image/jpeg" hidden>
+                    <input type="file"
+                        name="document_file"
+                        id="docUploadInput"
+                        accept=".pdf,image/png,image/jpeg"
+                        hidden>
 
                     <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none"
                         stroke="#9C6D9D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

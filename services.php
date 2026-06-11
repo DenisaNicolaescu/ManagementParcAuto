@@ -2,11 +2,30 @@
 session_start();
 include 'conexiune.php';
 
-
 if(!isset($_SESSION['user_id'])){
     header("Location: welcome.html");
     exit();
 }
+
+
+$budgetQuery = "
+SELECT SUM(estimated_cost) AS total_budget
+FROM service_orders
+WHERE MONTH(appointment_date) = MONTH(CURDATE())
+AND YEAR(appointment_date) = YEAR(CURDATE())
+";
+$budgetResult = mysqli_query($conn, $budgetQuery);
+$budget = mysqli_fetch_assoc($budgetResult);
+
+
+$activeQuery = "
+SELECT COUNT(*) AS active_repairs
+FROM service_orders
+WHERE status IN ('pending','scheduled','in_progress')
+";
+$activeResult = mysqli_query($conn, $activeQuery);
+$active = mysqli_fetch_assoc($activeResult);
+
 $query_cars = "SELECT id, brand, model, license_plate FROM cars";
 $result_cars = mysqli_query($conn, $query_cars);
 $query = "
@@ -17,7 +36,6 @@ LEFT JOIN cars ON service_orders.car_id = cars.id
 
 $result = mysqli_query($conn, $query);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -94,15 +112,21 @@ $result = mysqli_query($conn, $query);
         <section class="kpi-row kpi-3-cols">
             <div class="kpi-card">
                 <h3>Monthly Budget</h3>
-                <p class="kpi-number black">6.500 RON</p>
+                <p class="kpi-number black">
+                    <?php echo number_format($budget['total_budget'] ?? 0, 0, ',', '.'); ?> RON
+                </p>
             </div>
             <div class="kpi-card">
                 <h3>Active Repairs</h3>
-                <p class="kpi-number black">3 Vehicles</p>
+                <p class="kpi-number black">
+                    <?php echo $active['active_repairs']; ?> Vehicles
+                </p>
             </div>
             <div class="kpi-card">
                 <h3>Avg. Downtime</h3>
-                <p class="kpi-number black">1.2 Days</p>
+                <p class="kpi-number black">
+                    <?php echo round($downtime['avg_days'] ?? 0, 1); ?> Days
+                </p>
             </div>
         </section>
 

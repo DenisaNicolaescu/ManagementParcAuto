@@ -23,6 +23,7 @@ CREATE TABLE cars (
     model               VARCHAR(80)  NOT NULL,
     year                YEAR         NOT NULL,
     license_plate       VARCHAR(15)  NOT NULL UNIQUE,
+    vin                 VARCHAR(17) NOT NULL,
     fuel_type           ENUM('gasoline','diesel','hybrid','electrical','lpg','other') NOT NULL DEFAULT 'gasoline',
     mileage             INT UNSIGNED NOT NULL DEFAULT 0,
     status              ENUM('active','in_service','reserve','decommissioned') NOT NULL DEFAULT 'active',

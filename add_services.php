@@ -32,5 +32,13 @@ VALUES
 
 mysqli_query($conn, $query);
 
+/* actualizează și mașina */
+mysqli_query($conn,"
+UPDATE cars
+SET status='in_service'
+WHERE id='$car_id'
+");
+
 header('Location: calendar.php');
 exit();
+?>

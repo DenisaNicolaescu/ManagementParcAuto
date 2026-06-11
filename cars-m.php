@@ -9,9 +9,14 @@ if(!isset($_SESSION['user_id'])){
 include 'conexiune.php';
 $queryUsers = "SELECT id, username FROM users WHERE role='user'";
 $resultUsers = mysqli_query($conn, $queryUsers);
+$query = "
+SELECT cars.*, users.username
+FROM cars
+LEFT JOIN users
+ON cars.assigned_user_id = users.id
+";
 
-$query="SELECT * FROM cars";
-$result=mysqli_query($conn, $query);
+$result = mysqli_query($conn, $query);
 
 $query_tires = "
 SELECT tires.*, cars.brand AS car_brand, cars.model AS car_model
@@ -99,8 +104,11 @@ $resultCars = mysqli_query($conn, $queryCars);
         </header>
 
         <div class="filters-row">
-            <input type="text" placeholder="Search by ID, brand or driver...." class="search-wide">
-            <select class="status-dropdown">
+            <input type="text"
+                id="searchInput"
+                placeholder="Search by ID, brand or driver...."
+                class="search-wide">
+            <select class="status-dropdown" id="statusFilter">
                 <option value="all">All statuses</option>
                 <option value="active">Active</option>
                 <option value="warning">Warning</option>
@@ -178,6 +186,7 @@ $resultCars = mysqli_query($conn, $queryCars);
                         data-year="<?php echo $car['year']; ?>"
                         data-license="<?php echo $car['license_plate']; ?>"
                         data-fuel="<?php echo $car['fuel_type']; ?>"
+                        data-driver="<?php echo $car['assigned_user_id']; ?>"
                         data-capacity="<?php echo $car['capacity']; ?>"
                         data-power="<?php echo $car['power']; ?>"
                         data-consumption="<?php echo $car['consumption']; ?>"
@@ -291,20 +300,37 @@ $resultCars = mysqli_query($conn, $queryCars);
                 <div class="form-grid">
                     <div class="input-group">
                         <label>Brand & Model</label>
-                        <input type="text" name="brand" placeholder="e.g. Dacia">
-                        <input type="text" name="model" placeholder="e.g. Logan">
+                        <input type="text" name="brand" placeholder="e.g. Dacia" required>
+                        <input type="text" name="model" placeholder="e.g. Logan"required>
                     </div>
                     <div class="input-group">
                         <label>License Plate</label>
-                        <input type="text" name="license_plate" placeholder="e.g. SB 12 AAA">
+                        <input
+                        type="text"
+                        name="license_plate"
+                        placeholder="SB 23 CDE"
+                        pattern="^[A-Z]{1,2}\s\d{2,3}\s[A-Z]{3}$"
+                        title="Ex: SB 23 CDE"
+                        required>
                     </div>
                     <div class="input-group">
                         <label>Year</label>
-                        <input type="number" name="year" value="2026">
+                        <input type="number" name="year" value="2026" required>
                     </div>
                     <div class="input-group">
                         <label>VIN (Chassis Number)</label>
-                        <input type="text" name="vin" placeholder="17 characters">
+                        <input type="text" name="vin" placeholder="17 characters"  minlength="17" maxlength="17" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Fuel Type</label>
+                        <select name="fuel_type" required>
+                            <option value="">Select fuel type</option>
+                            <option value="Gasoline">Gasoline</option>
+                            <option value="Diesel">Diesel</option>
+                            <option value="Hybrid">Hybrid</option>
+                            <option value="Electric">Electric</option>
+                            <option value="LPG">LPG</option>
+                        </select>
                     </div>
                 </div>
 
@@ -312,11 +338,11 @@ $resultCars = mysqli_query($conn, $queryCars);
                 <div class="form-grid">
                     <div class="input-group">
                         <label>RCA Expiration Date</label>
-                        <input type="date" name="rca_expiry_date">
+                        <input type="date" name="rca_expiry_date" required>
                     </div>
                     <div class="input-group">
                         <label>ITP Expiration Date</label>
-                        <input type="date" name="itp_expiry_date">
+                        <input type="date" name="itp_expiry_date" required>
                     </div>
                 </div>
 
@@ -335,31 +361,31 @@ $resultCars = mysqli_query($conn, $queryCars);
                 </div>
                 <div class="input-group">
                     <label>Engine Capacity (L)</label>
-                    <input type="number" step="0.1" name="capacity">
+                    <input type="number" step="0.1" name="capacity" required>
                 </div>
 
                 <div class="input-group">
                     <label>Power (HP)</label>
-                    <input type="number" name="power">
+                    <input type="number" name="power"required>
                 </div>
 
                 <div class="input-group">
                     <label>Consumption (L/100km)</label>
-                    <input type="number" step="0.1" name="consumption">
+                    <input type="number" step="0.1" name="consumption" required>
                 </div>
 
                 <div class="input-group">
                     <label>Mileage</label>
-                    <input type="number" name="mileage">
+                    <input type="number" name="mileage" required>
                 </div>
                 <div class="input-group">
                     <label>Last Service Date</label>
-                    <input type="date" name="last_service_date">
+                    <input type="date" name="last_service_date" required>
                 </div>
 
                 <div class="input-group">
                     <label>Next Service Date</label>
-                    <input type="date" name="next_service_date">
+                    <input type="date" name="next_service_date" required>
                 </div>
                 <div class="modal-actions">
                     <button type="button" class="btn-cancel" id="btnCancel">Cancel</button>
@@ -386,7 +412,7 @@ $resultCars = mysqli_query($conn, $queryCars);
                 </div>
                 <div class="input-group">
                     <label>Year</label>
-                    <input type="number" name="year" id="edit_year">
+                    <input type="number" name="year" id="edit_year" >
                 </div>
                 <div class="input-group">
                     <label>License Plate</label>
@@ -394,8 +420,15 @@ $resultCars = mysqli_query($conn, $queryCars);
                 </div>
                 <div class="input-group">
                     <label>Fuel Type</label>
-                    <input type="text" name="fuel_type" id="edit_fuel">
+                <select name="fuel_type" id="edit_fuel">
+                    <option value="gasoline">Gasoline</option>
+                    <option value="diesel">Diesel</option>
+                    <option value="hybrid">Hybrid</option>
+                    <option value="electric">Electric</option>
+                    <option value="LPG">LPG</option>
+                </select>
                 </div>
+            
                 <div class="input-group">
                     <label>Capacity</label>
                     <input type="number" step="0.1"
@@ -421,11 +454,9 @@ $resultCars = mysqli_query($conn, $queryCars);
                 </div>
                 <div class="input-group">
                     <label>Status</label>
-                    <select name="status" id="edit_status">
+                   <select name="status" id="edit_status">
                         <option value="active">Active</option>
                         <option value="in_service">In Service</option>
-                        <option value="reserve">Reserve</option>
-                        <option value="decommissioned">Decommissioned</option>
                     </select>
                 </div>
                 <div class="input-group">
@@ -439,6 +470,23 @@ $resultCars = mysqli_query($conn, $queryCars);
                     <input type="date"
                            name="next_service_date"
                            id="edit_nextservice">
+                </div>
+                <div class="input-group">
+                    <label>Assigned Driver</label>
+
+                    <select name="assigned_user_id" id="edit_driver">
+                        <option value="">Unassigned</option>
+
+                        <?php
+                        mysqli_data_seek($resultUsers, 0);
+
+                        while($user = mysqli_fetch_assoc($resultUsers)){
+                        ?>
+                            <option value="<?php echo $user['id']; ?>">
+                                <?php echo $user['username']; ?>
+                            </option>
+                        <?php } ?>
+                    </select>
                 </div>
             </div>
             <div class="modal-actions">
@@ -703,6 +751,9 @@ $resultCars = mysqli_query($conn, $queryCars);
 
                 document.getElementById("edit_fuel").value =
                     this.dataset.fuel;
+                    
+                 document.getElementById("edit_driver").value =
+                    this.dataset.driver;
 
                 document.getElementById("edit_capacity").value =
                     this.dataset.capacity;
@@ -777,6 +828,44 @@ $resultCars = mysqli_query($conn, $queryCars);
 
         document.getElementById("cancelEditTire")
         .onclick = () => editTireModal.style.display = "none";
+
+        const searchInput = document.getElementById("searchInput");
+        const statusFilter = document.getElementById("statusFilter");
+
+        function filterCars() {
+
+            const searchValue = searchInput.value.toLowerCase();
+            const selectedStatus = statusFilter.value.toLowerCase();
+
+            const rows = document.querySelectorAll(".inventory-table tbody tr");
+
+            rows.forEach(row => {
+
+                const rowText = row.innerText.toLowerCase();
+
+                let matchesSearch =
+                    rowText.includes(searchValue);
+
+                let matchesStatus = true;
+
+                if(selectedStatus !== "all"){
+
+                    matchesStatus =
+                        rowText.includes(selectedStatus);
+                }
+
+                if(matchesSearch && matchesStatus){
+                    row.style.display = "";
+                }
+                else{
+                    row.style.display = "none";
+                }
+
+            });
+        }
+
+        searchInput.addEventListener("keyup", filterCars);
+        statusFilter.addEventListener("change", filterCars);
     </script>
 </body>
 

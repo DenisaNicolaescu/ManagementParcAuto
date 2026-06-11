@@ -47,7 +47,7 @@
 
             <div class="role-selector">
 
-                <div id="btn-manager" class="role-btn">
+                <div id="btn-manager" class="role-btn active">
                     <span>Manager</span>
                 </div>
 
@@ -72,7 +72,9 @@
                     <label class="remember-me">
                         <input type="checkbox"> Remember me
                     </label>
-                    <a href="#" class="forgot-pwd">Forgot password?</a>
+                    <a href="forgot_password.php" class="forgot-pwd">
+                        Forgot password?
+                    </a>
                 </div>
 
                <button type="submit" class="sign-in-btn" id="btnSignIn">Sign in</button>
@@ -107,25 +109,13 @@
                 event.preventDefault(); 
                 
                 if (btnManager.classList.contains('active')) {
-                    window.location.href = 'create-acc-manager.html';
+                    window.location.href = 'create-acc-manager.php';
                 } else if (btnUser.classList.contains('active')) {
-                    window.location.href = 'create-acc-user.html';
+                    window.location.href = 'create-acc-user.php';
                 }
             });
         }
 
-     
-        /*if (btnSignIn) {
-            btnSignIn.addEventListener('click', function(event) {
-                event.preventDefault(); 
-                
-                if (btnManager.classList.contains('active')) {
-                    window.location.href = 'dashboard-manager.html';
-                } else if (btnUser.classList.contains('active')) {
-                    window.location.href = 'cars-u.html';
-                }
-            });
-        }*/
     </script>
 </body>
 </body>

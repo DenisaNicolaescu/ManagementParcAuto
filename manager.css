@@ -1615,3 +1615,9 @@ body {
     min-height: 24px;
     font-size: 14px;
 }
+.nested-table .table-actions{
+    position: relative;
+    right: 0;
+    width: auto;
+    height: auto;
+}
